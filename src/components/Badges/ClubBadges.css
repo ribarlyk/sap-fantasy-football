@@ -31,8 +31,6 @@ ul {
     display: flex;
     align-items: center;
     margin-top: 10px;
-    margin-left: 250px;
-    min-height: 70px;
     border-bottom: 1px solid black;
 }
 

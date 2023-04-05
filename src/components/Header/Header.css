@@ -1,8 +1,9 @@
 .header{
-    position: relative;
+    /* position: relative; */
+    display: flex;
 }
 
 .pl-logo{
-    position: absolute;
+    /* position: absolute; */
     top:0
 }
