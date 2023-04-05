@@ -24,7 +24,7 @@ import wolves from "../../assets/images/t39.png"
 export default function ClubBadges() {
     return (
         <nav className="club-navigation">
-            <div className="clubSites"><h5>CLUB SITES <img width="15px" height="15px" src={link} alt="" /></h5></div>
+            <div className="clubSites"><h5>CLUB SITES <img width="10px" height="10px" src={link} alt="" /></h5></div>
             <ul className="club-list">                                                                                                                          
                 <Badge teamSite={"https://www.liverpoolfc.com/?utm_source=premier-league-website&utm_campaign=website&utm_medium=link"} bagdeSrc={liverpool} />
                 <Badge teamSite={"https://www.afcb.co.uk/?utm_source=premier-league-website&utm_campaign=website&utm_medium=link"} bagdeSrc={afcb} />

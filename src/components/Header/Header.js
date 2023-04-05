@@ -16,8 +16,8 @@ export default function Header() {
             >
                 <img
                     src={logo}
-                    width="250px"
-                    height="200px"
+                    width="230px"
+                    height="180px"
                     alt=""
                     className="pl-logo"
                 />

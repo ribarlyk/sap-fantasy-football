@@ -1,3 +1,9 @@
+import "./Standings.css";
+
 export default function Standings() {
-    return <h1>STANDINGS TABLE</h1>;
+    return (
+        <div className="standings-container">
+            <h1>STANDINGS TABLE</h1>
+        </div>
+    );
 }

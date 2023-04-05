@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    let isSigned = false; //TODO Проверка дали има юзър за да смени вюто на навигацията
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -32,8 +33,7 @@ function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
-    return (
+    const userNavigation = (
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
@@ -125,17 +125,15 @@ function ResponsiveAppBar() {
                                         console.log("Profile");
                                     }}
                                 >
-                                   <Link
-                                to="/profile"
-                                style={{
-                                    color: "black",
-                                    textDecoration: "none",
-                                }}
-                            >
-                                Profile
-                            </Link>
-
-                                    
+                                    <Link
+                                        to="/profile"
+                                        style={{
+                                            color: "black",
+                                            textDecoration: "none",
+                                        }}
+                                    >
+                                        Profile
+                                    </Link>
                                 </Typography>
                             </MenuItem>
                             <MenuItem
@@ -157,5 +155,123 @@ function ResponsiveAppBar() {
             </Container>
         </AppBar>
     );
+    const guestNavigation = (
+        <AppBar position="static">
+            <Container maxWidth="xl">
+                <Toolbar disableGutters>
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            display: { xs: "none", md: "flex" },
+                        }}
+                    >
+                        <Button
+                            key="My Team"
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                            <Link
+                                to="/news"
+                                style={{
+                                    color: "white",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                News
+                            </Link>
+                        </Button>
+                        <Button
+                            key="Table"
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                            <Link
+                                to="/rules"
+                                style={{
+                                    color: "white",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                Rules
+                            </Link>
+                        </Button>
+                    </Box>
+
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Open settings">
+                            <IconButton
+                                onClick={handleOpenUserMenu}
+                                sx={{ p: 0 }}
+                            >
+                                <Avatar alt="Remy Sharp" src={avatar} />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: "45px" }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            <MenuItem
+                                key="Login"
+                                onClick={handleCloseUserMenu}
+                            >
+                                <Typography
+                                    textAlign="center"
+                                    onClick={(e) => {
+                                        console.log("login");
+                                    }}
+                                >
+                                    <Link
+                                        to="/login"
+                                        style={{
+                                            color: "black",
+                                            textDecoration: "none",
+                                        }}
+                                    >
+                                        Sign In
+                                    </Link>
+                                </Typography>
+                            </MenuItem>
+                            <MenuItem
+                                key="register"
+                                onClick={handleCloseUserMenu}
+                            >
+                                <Typography
+                                    textAlign="center"
+                                    onClick={(e) => {
+                                        console.log("register");
+                                    }}
+                                >
+                                    <Link
+                                        to="/register"
+                                        style={{
+                                            color: "black",
+                                            textDecoration: "none",
+                                        }}
+                                    >
+                                        Sign Up
+                                    </Link>
+                                    
+                                </Typography>
+                            </MenuItem>
+                        </Menu>
+                    </Box>
+                </Toolbar>
+            </Container>
+        </AppBar>
+    );
+
+    return isSigned ? userNavigation : guestNavigation;
 }
 export default ResponsiveAppBar;
