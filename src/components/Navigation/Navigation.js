@@ -5,17 +5,13 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import avatar from "../../assets/images/avatar.jpg";
-
-const pages = ["Мy Team", "Table", "Match Day"];
-const settings = ["Profile", "Logout"];
+import { Link } from "react-router-dom";
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -23,16 +19,16 @@ function ResponsiveAppBar() {
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
-        console.log('asd')
+        console.log("asd");
     };
     const handleOpenUserMenu = (event) => {
-      setAnchorElUser(event.currentTarget);
+        setAnchorElUser(event.currentTarget);
     };
-    
+
     const handleCloseNavMenu = () => {
-      setAnchorElNav(null);
+        setAnchorElNav(null);
     };
-    
+
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
@@ -41,43 +37,57 @@ function ResponsiveAppBar() {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon
-                        sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-                    />
-                
-                   <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href=""
-                        sx={{
-                            mr: 2,
-                            display: { xs: "flex", md: "none" },
-                            flexGrow: 1,
-                            fontFamily: "monospace",
-                            fontWeight: 700,
-                            letterSpacing: ".3rem",
-                            color: "inherit",
-                            textDecoration: "none",
-                        }}
-                    >
-                        LOGO
-                    </Typography>
                     <Box
                         sx={{
                             flexGrow: 1,
                             display: { xs: "none", md: "flex" },
                         }}
                     >
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: "white", display: "block" }}
+                        <Button
+                            key="My Team"
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                            <Link
+                                to="/my-team"
+                                style={{
+                                    color: "white",
+                                    textDecoration: "none",
+                                }}
                             >
-                                {page}
-                            </Button>
-                        ))}
+                                My Team
+                            </Link>
+                        </Button>
+                        <Button
+                            key="Table"
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                            <Link
+                                to="/standings"
+                                style={{
+                                    color: "white",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                Standings
+                            </Link>
+                        </Button>
+                        <Button
+                            key="Match Day"
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                            <Link
+                                to="/match-day"
+                                style={{
+                                    color: "white",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                Match Day
+                            </Link>
+                        </Button>
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
@@ -115,7 +125,17 @@ function ResponsiveAppBar() {
                                         console.log("Profile");
                                     }}
                                 >
-                                    Profile
+                                   <Link
+                                to="/profile"
+                                style={{
+                                    color: "black",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                Profile
+                            </Link>
+
+                                    
                                 </Typography>
                             </MenuItem>
                             <MenuItem
