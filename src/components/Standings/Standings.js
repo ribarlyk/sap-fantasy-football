@@ -1,9 +1,13 @@
 import "./Standings.css";
+import { motion } from "framer-motion"
 
 export default function Standings() {
     return (
-        <div className="standings-container">
+        <motion.div className="standings-container"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}>
             <h1>STANDINGS TABLE</h1>
-        </div>
+        </motion.div>
     );
 }

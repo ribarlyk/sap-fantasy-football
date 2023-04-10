@@ -16,7 +16,8 @@ import { Link } from "react-router-dom";
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    let isSigned = false; //TODO Проверка дали има юзър за да смени вюто на навигацията
+    let isSigned = false
+    ; //TODO Проверка дали има юзър за да смени вюто на навигацията
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);

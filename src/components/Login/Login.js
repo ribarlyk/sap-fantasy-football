@@ -1,8 +1,14 @@
 import "./Login.css";
+import { motion } from "framer-motion"
+
 export default function Login() {
     return (
-        <div className="login-container">
+        <motion.div className="login-container"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+        >
             <h1>LOGIN</h1>
-        </div>
+        </motion.div>
     );
 }
