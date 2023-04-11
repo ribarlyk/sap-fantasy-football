@@ -1,0 +1,42 @@
+@import "/src/components/Pitch/mixins";
+@import "/src/components/Pitch/variables";
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    border-radius: $borderRadius;
+    button {
+        height: 75px;
+        width: 600px;
+        margin: 5px;
+        font-size: 18px;
+        background-image: linear-gradient(
+            to right,
+            rgb(0, 255, 135),
+            rgb(2, 239, 255)
+        );
+        border: 1px solid grey;
+    }
+
+    button:hover {
+        cursor: pointer;
+    }
+
+    .modal-name{
+        margin: 20px auto;
+        font-size: 2em;
+        width: 600px;
+        text-align: center;
+    }
+}
+
+.switch-button {
+    border-radius: $borderRadius;
+}
+
+.info-button {
+    border-radius: $borderRadius;
+}
