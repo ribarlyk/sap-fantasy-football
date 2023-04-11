@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-
+import swapPlayersImage from "../../../assets/images/jerseys/swapplayers.png"
 const style = {
     position: "relative",
     top: "50%",
@@ -40,7 +40,7 @@ export default function BasicModal({ name, onPlayerChangeHandler }) {
                     width="30"
                     height="30"
                     position="absolute"
-                    src="assets\swapplayers.png"
+                    src = {swapPlayersImage}
                 />
             </Button>
             <div>

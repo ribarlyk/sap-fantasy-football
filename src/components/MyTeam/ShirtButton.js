@@ -48,8 +48,8 @@ export default function ShirtButton({
                     alt=""
                 />
             )}
-            ;<div className="player-name-container">{name}</div>;
-            <div className="player-position-container">{position}</div>;
+            <div className="player-name-container">{name}</div>
+            <div className="player-position-container">{position}</div>
         </button>
     );
 }

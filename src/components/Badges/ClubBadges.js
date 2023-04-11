@@ -21,6 +21,7 @@ import southamptonfc from "../../assets/images/t20.png"
 import tottenhamhotspur from "../../assets/images/t6.png"
 import whufc from "../../assets/images/t21.png"
 import wolves from "../../assets/images/t39.png"
+
 export default function ClubBadges() {
     return (
         <nav className="club-navigation">

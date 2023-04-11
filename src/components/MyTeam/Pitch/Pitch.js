@@ -5,7 +5,13 @@ import uniqid from "uniqid"
 import ShirtButton from "../ShirtButton"
 import PaginationOutline from "../Pagination/Pagination"
 import BasicModal from "../Modal/Modal"
-import PopUpSuccess from "./PopupSuccess"
+import PopUpSuccess from "../PopUpSuccess"
+import levski from "../../../assets/images/jerseys/levski.webp"
+import goalkeeperJersey from "../../../assets/images/jerseys/long-sleeve -goalkeeper.png=z-0,0_f-webp"
+import defenderJersey from "../../../assets/images/jerseys/juventus.png=z-0,0_f-webp"
+import midfielderJersey from "../../../assets/images/jerseys/arsenal;.png=z-0,0_f-webp"
+import attackerJersey from "../../../assets/images/jerseys/brasilyellow.png=z-0,0_f-webp"
+import dummyJersey from "../../../assets/images/jerseys/no-player.png=z-0,0_f-webp"
 
 export default function Pitch() {
     const [players, setPlayers] = useState('');
@@ -38,7 +44,7 @@ export default function Pitch() {
         fetch(`https://api-football-v1.p.rapidapi.com/v3/players?league=39&season=2022&page=${page}`, {
             headers: {
                 'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com',
-                'X-RapidAPI-Key': "api key here",
+                'X-RapidAPI-Key': "add api key",
             }
         }).then(res => {
             if (res.ok) {
@@ -92,25 +98,25 @@ export default function Pitch() {
 
         if (position === 'Goalkeeper') {
             if (goalkeeper.length < 1) {
-                player.jersey = "assets/long-sleeve -goalkeeper.png=z-0,0_f-webp"
+                player.jersey = goalkeeperJersey
                 setGoalkeeper((prev) => [...prev, player])
             }
         } else if (position === 'Defender') {
             if (defender.length < 4 && !defender.includes(player.player.name)) {
                 setDefender((prev) => [...prev, player])
-                player.jersey = "assets/juventus.png=z-0,0_f-webp"
+                player.jersey = defenderJersey
 
             }
         } else if (position === 'Midfielder') {
             if (midfielder.length < 4) {
                 setMidfielder((prev) => [...prev, player])
-                player.jersey = "assets/arsenal;.png=z-0,0_f-webp"
-
+                player.jersey = midfielderJersey
+                
             }
         } else if (position === 'Attacker') {
             if (attacker.length < 2) {
                 setAttacker((prev) => [...prev, player])
-                player.jersey = "assets/brasilyellow.png=z-0,0_f-webp"
+                player.jersey = attackerJersey
 
             }
 
@@ -118,7 +124,7 @@ export default function Pitch() {
 
         if (goalkeeper.length >= 1 && defender.length >= 4 && midfielder.length >= 4 && attacker.length >= 2) {
             setSubstitute((prev) => [...prev, player])
-            player.jersey = "assets/levski.webp"
+            player.jersey = levski
         }
 
         if (substitute.length === 4) {
@@ -164,8 +170,8 @@ export default function Pitch() {
                     ? <BasicModal name={localStorageTeam[localIndex]?.player?.name ? localStorageTeam[localIndex]?.player?.name : pos[stateIndex]?.player?.name} onPlayerChangeHandler={onPlayerChangeHandler} />
                     : null}
                 {localStorageTeam
-                    ? <ShirtButton isChange={isChange} setIsChange={setIsChange} onPlayerChangeHandler={onPlayerChangeHandler} localStorageTeam={localStorageTeam} position={localStorageTeam[localIndex]?.statistics[0].games.position} name={localStorageTeam[localIndex]?.player?.name} jersey={localStorageTeam[localIndex] ? localStorageTeam[localIndex].jersey : "assets/no-player.png=z-0,0_f-webp"} />
-                    : <ShirtButton position={pos[stateIndex]?.statistics[0].games.position} name={pos[stateIndex]?.player?.name} jersey={pos[stateIndex] ? pos[stateIndex].jersey : "assets/no-player.png=z-0,0_f-webp"} />}
+                    ? <ShirtButton isChange={isChange} setIsChange={setIsChange} onPlayerChangeHandler={onPlayerChangeHandler} localStorageTeam={localStorageTeam} position={localStorageTeam[localIndex]?.statistics[0].games.position} name={localStorageTeam[localIndex]?.player?.name} jersey={localStorageTeam[localIndex] ? localStorageTeam[localIndex].jersey : dummyJersey} />
+                    : <ShirtButton position={pos[stateIndex]?.statistics[0].games.position} name={pos[stateIndex]?.player?.name} jersey={pos[stateIndex] ? pos[stateIndex].jersey : dummyJersey} />}
 
             </div>
         )
@@ -186,9 +192,9 @@ export default function Pitch() {
 
                         <div className={!nameClass ? "row-two" : "row-two-change"}>
                             {rowGenerator(defender, "defender", 1, 0)}
-                            {rowGenerator(defender, "defender", 3, 1)}
-                            {rowGenerator(defender, "defender", 4, 2)}
-                            {rowGenerator(defender, "defender", 5, 3)}
+                            {rowGenerator(defender, "defender", 2, 1)}
+                            {rowGenerator(defender, "defender", 3, 2)}
+                            {rowGenerator(defender, "defender", 4, 3)}
                         </div>
 
                         <div className={!nameClass ? "row-three" : "row-three-change"}>
