@@ -1,4 +1,4 @@
-import "./News.css";
+import "./News.scss";
 import { motion } from "framer-motion"
 
 export default function News() {

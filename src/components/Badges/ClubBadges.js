@@ -1,4 +1,4 @@
-import "./ClubBadges.css"
+import "./ClubBadges.scss"
 import Badge from "./Badge"
 import link from "../../assets/images/link.png"
 import liverpool from "../../assets/images/t14.png"

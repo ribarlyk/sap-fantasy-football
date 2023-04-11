@@ -1,4 +1,4 @@
-import "./Profile.css";
+import "./Profile.scss";
 import { motion } from "framer-motion"
 
 export default function Profile() {

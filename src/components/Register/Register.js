@@ -1,4 +1,4 @@
-import "./Register.css";
+import "./Register.scss";
 import { motion } from "framer-motion"
 
 export default function Register() {

@@ -1,4 +1,4 @@
-import "./Match.css";
+import "./Match.scss";
 import { motion } from "framer-motion"
 export default function Match() {
     return (

@@ -1,4 +1,4 @@
-import "./Rules.css";
+import "./Rules.scss";
 import { motion } from "framer-motion"
 
 export default function Rules() {

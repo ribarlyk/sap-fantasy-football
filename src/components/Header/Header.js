@@ -2,7 +2,7 @@ import ClubBadges from "../Badges/ClubBadges";
 import ResponsiveAppBar from "../Navigation/Navigation";
 import logo from "../../assets/images/premier-league-logo.jpg";
 import { Link } from "react-router-dom";
-import "./Header.css";
+import "./Header.scss";
 
 export default function Header() {
     return (

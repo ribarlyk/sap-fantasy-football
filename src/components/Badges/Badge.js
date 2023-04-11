@@ -1,4 +1,4 @@
-import "./ClubBadges.css"
+import "./ClubBadges.scss"
 
 export default function Badge({ teamSite, bagdeSrc }) {
 
