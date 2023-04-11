@@ -1,4 +1,4 @@
-import "./Standings.css";
+import "./Standings.scss";
 import { motion } from "framer-motion"
 
 export default function Standings() {

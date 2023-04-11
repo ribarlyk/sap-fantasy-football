@@ -68,7 +68,7 @@
     @include row(
         $width: 500px,
         $height: 100px,
-        $left: 160px,
+        $left: 157px,
         $top: 20px,
         $gap: 0
     );
@@ -268,17 +268,24 @@ table {
 .save-team-button {
     width: 400px;
     height: 2rem;
-    background-image: linear-gradient(
-        to right,
-        rgb(0, 255, 135),
-        rgb(2, 239, 255)
-    );
+    // background-image: linear-gradient(
+    //     to right,
+    //     rgb(0, 255, 135),
+    //     rgb(2, 239, 255)
+    // );
+    background-color: #1976d2;
     font-size: 19px;
     border: 1px solid #37003c;
     margin: 20px;
     border-radius: $borderRadius;
+    color: #ffffff;
+
+    &:hover {
+        cursor: pointer;
+    }
+    &:disabled{
+        background-color: #1976d2b4;
+        cursor:not-allowed;
+    }
 }
 
-.save-team-button:hover {
-    cursor: pointer;
-}
