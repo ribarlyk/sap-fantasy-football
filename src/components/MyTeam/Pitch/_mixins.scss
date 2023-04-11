@@ -1,0 +1,16 @@
+@mixin card {
+    width: 70px;
+    height: 99px;
+    background-color: transparent;
+}
+
+@mixin row($width, $height, $left, $top, $gap) {
+    width: $width;
+    height: $height;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    left:  $left;
+    top: $top;
+    gap: $gap;
+}
