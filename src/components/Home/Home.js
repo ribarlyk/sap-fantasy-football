@@ -1,14 +1,16 @@
 import "./Home.scss";
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import BasicGrid from "./Grid";
 
 export default function Home() {
     return (
-        <motion.div className="home-container"
+        <motion.div
+            className="home-container"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-            <h1>HOME PAGE</h1>
+            <BasicGrid />
         </motion.div>
     );
 }
