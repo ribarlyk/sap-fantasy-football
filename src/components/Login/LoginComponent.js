@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import userManager from '../Models/LoginAndRegisterModel/UserManager';
+import useUseUserManager from '../Models/LoginAndRegisterModel/UserManager';
 import { useUserContext } from "../LiftingStates/UserContext";
 
 
@@ -37,6 +37,7 @@ const theme = createTheme();
 
 export default function SignInSide() {
 
+    const userManager = useUseUserManager();
     const navigate = useNavigate();
     const [ isSigned, setIsSigned ] = useUserContext();
     const [showPassword, setShowPassword] = useState(false);
