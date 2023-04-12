@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import userManager from '../Models/LoginAndRegisterModel/UserManager';
+import useUserManager from '../Models/LoginAndRegisterModel/UserManager';
 
 function Copyright(props) {
     return (
@@ -32,7 +32,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUpSide() {
-
+    const userManager = useUserManager();
     const navigate = useNavigate();
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');

@@ -17,6 +17,8 @@ import TeamName from "../TeamName/TeamName";
 import { useUserContext } from "../../LiftingStates/UserContext";
 
 export default function Pitch() {
+    const [loggedUser, setLoggedUser] = useState(JSON.parse(localStorage.getItem('loggedUser')) || {});
+
     const [players, setPlayers] = useState("");
     const [searchPlayers, setSearchPlayers] = useState("");
     const [loading, setLoading] = useState(false);
@@ -31,14 +33,14 @@ export default function Pitch() {
     const [substitute, setSubstitute] = useState([]);
     const [myTeam, setMyTeam] = useState("");
     const [isTeamChoosen, setIsTeamChoosen] = useState(
-        !!JSON.parse(localStorage.getItem("team"))
+        !!JSON.parse(localStorage.getItem("loggedUser")).team
     );
-    const [localStorageTeam, setLocalStorageTeam] = useState("");
+    // const [localStorageTeam, setLocalStorageTeam] = useState("");
     const [nameClass, setNameClass] = useState(false);
     const [playerIn, setPlayerIn] = useState(null);
     const [isChange, setIsChange] = useState(false);
     const [isTeamSaved, setIsTeamSaved] = useState(
-        !!JSON.parse(localStorage.getItem("team")) || false
+        !!JSON.parse(localStorage.getItem("loggedUser")).team || false
     );
     const [input, setInput] = useState("");
     const [teamName, setTeamName] = useState("");
@@ -60,10 +62,12 @@ export default function Pitch() {
         );
     }, [isTeamSaved]);
 
-    useEffect(() => {
-        const team = JSON.parse(localStorage.getItem("team"));
-        setLocalStorageTeam(team);
-    }, [isChange]);
+
+    // useEffect(() => {
+    //     const team = JSON.parse(localStorage.getItem("team"));
+
+    //     setLocalStorageTeam(team);
+    // }, [isChange]);
 
     useEffect(() => {
         fetch(
@@ -116,6 +120,22 @@ export default function Pitch() {
                 setLoading(!loading);
             });
     }, [page, input]); // да се изкара в папкa service и да се ползва axios
+
+    const updateUserTeam = (user, team) => {
+        // Update the user's team in the users array
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex((u) => u.username === user.username);
+        if (userIndex !== -1) {
+          users[userIndex].team = team;
+          localStorage.setItem('users', JSON.stringify(users));
+        }
+      
+        // Update the loggedUser's team in local storage
+        const updatedLoggedUser = { ...user, team };
+        localStorage.setItem('loggedUser', JSON.stringify(updatedLoggedUser));
+        setLoggedUser(updatedLoggedUser);
+      };
+      
 
     const createPlayerSection = (containerClass, heading, role) => {
         let dataCheck = input ? searchPlayers : "";
@@ -220,26 +240,47 @@ export default function Pitch() {
         localStorage.setItem("budget", JSON.stringify(budget));
     };
 
-    const saveTeamHandler = () => {
-        setMyTeam([
-            ...goalkeeper,
-            ...defender,
-            ...midfielder,
-            ...attacker,
-            ...substitute,
-        ]);
-        setLocalStorageTeam(
-            JSON.parse(localStorage.getItem("team")) || [
-                ...goalkeeper,
-                ...defender,
-                ...midfielder,
-                ...attacker,
-                ...substitute,
-            ]
-        );
+    // const saveTeamHandler = () => {
+    //     setMyTeam([
+    //         ...goalkeeper,
+    //         ...defender,
+    //         ...midfielder,
+    //         ...attacker,
+    //         ...substitute,
+    //     ]);
+    //     setLocalStorageTeam(
+    //         JSON.parse(localStorage.getItem("team")) || [
+    //             ...goalkeeper,
+    //             ...defender,
+    //             ...midfielder,
+    //             ...attacker,
+    //             ...substitute,
+    //         ]
+    //     );
+    //     setIsTeamSaved(!isTeamSaved);
+    // };
 
+    const saveTeamHandler = () => {
+        const currentTeam = [
+          ...goalkeeper,
+          ...defender,
+          ...midfielder,
+          ...attacker,
+          ...substitute,
+        ];
+      
+        setMyTeam(currentTeam);
+      
+        // setLocalStorageTeam(
+        //   JSON.parse(localStorage.getItem('team')) || currentTeam
+        // );
+      
+        // Update the user's team
+        updateUserTeam(loggedUser, currentTeam);
+      
         setIsTeamSaved(!isTeamSaved);
-    };
+      };
+      
 
     if (myTeam.length > 0) {
         let team = JSON.parse(localStorage.getItem("team")) || [
@@ -260,50 +301,96 @@ export default function Pitch() {
         return playerIn;
     };
 
+    // const rowGenerator = (pos, styleClass, localIndex, stateIndex) => {
+    //     return (
+    //         <div className={styleClass}>
+    //             {isTeamSaved ? (
+    //                 <BasicModal
+    //                     name={
+    //                         localStorageTeam[localIndex]?.player?.name
+    //                             ? localStorageTeam[localIndex]?.player?.name
+    //                             : pos[stateIndex]?.player?.name
+    //                     }
+    //                     onPlayerChangeHandler={onPlayerChangeHandler}
+    //                 />
+    //             ) : null}
+    //             {localStorageTeam ? (
+    //                 <ShirtButton
+    //                     isChange={isChange}
+    //                     setIsChange={setIsChange}
+    //                     onPlayerChangeHandler={onPlayerChangeHandler}
+    //                     localStorageTeam={localStorageTeam}
+    //                     position={
+    //                         localStorageTeam[localIndex]?.statistics[0].games
+    //                             .position
+    //                     }
+    //                     name={localStorageTeam[localIndex]?.player?.name}
+    //                     jersey={
+    //                         localStorageTeam[localIndex]
+    //                             ? localStorageTeam[localIndex].jersey
+    //                             : dummyJersey
+    //                     }
+    //                 />
+    //             ) : (
+    //                 <ShirtButton
+    //                     position={pos[stateIndex]?.statistics[0].games.position}
+    //                     name={pos[stateIndex]?.player?.name}
+    //                     jersey={
+    //                         pos[stateIndex]
+    //                             ? pos[stateIndex].jersey
+    //                             : dummyJersey
+    //                     }
+    //                 />
+    //             )}
+    //         </div>
+    //     );
+    // };
+
     const rowGenerator = (pos, styleClass, localIndex, stateIndex) => {
         return (
-            <div className={styleClass}>
-                {isTeamSaved ? (
-                    <BasicModal
-                        name={
-                            localStorageTeam[localIndex]?.player?.name
-                                ? localStorageTeam[localIndex]?.player?.name
-                                : pos[stateIndex]?.player?.name
-                        }
-                        onPlayerChangeHandler={onPlayerChangeHandler}
-                    />
-                ) : null}
-                {localStorageTeam ? (
-                    <ShirtButton
-                        isChange={isChange}
-                        setIsChange={setIsChange}
-                        onPlayerChangeHandler={onPlayerChangeHandler}
-                        localStorageTeam={localStorageTeam}
-                        position={
-                            localStorageTeam[localIndex]?.statistics[0].games
-                                .position
-                        }
-                        name={localStorageTeam[localIndex]?.player?.name}
-                        jersey={
-                            localStorageTeam[localIndex]
-                                ? localStorageTeam[localIndex].jersey
-                                : dummyJersey
-                        }
-                    />
-                ) : (
-                    <ShirtButton
-                        position={pos[stateIndex]?.statistics[0].games.position}
-                        name={pos[stateIndex]?.player?.name}
-                        jersey={
-                            pos[stateIndex]
-                                ? pos[stateIndex].jersey
-                                : dummyJersey
-                        }
-                    />
-                )}
-            </div>
+          <div className={styleClass}>
+            {isTeamSaved ? (
+              <BasicModal
+                name={
+                  loggedUser.team[localIndex]?.player?.name
+                    ? loggedUser.team[localIndex]?.player?.name
+                    : pos[stateIndex]?.player?.name
+                }
+                onPlayerChangeHandler={onPlayerChangeHandler}
+              />
+            ) : null}
+            {loggedUser.team ? (
+              <ShirtButton
+                isChange={isChange}
+                setIsChange={setIsChange}
+                onPlayerChangeHandler={onPlayerChangeHandler}
+                localStorageTeam={loggedUser.team} // updated prop name
+                position={
+                  loggedUser.team[localIndex]?.statistics[0].games
+                    .position
+                }
+                name={loggedUser.team[localIndex]?.player?.name}
+                jersey={
+                  loggedUser.team[localIndex]
+                    ? loggedUser.team[localIndex].jersey
+                    : dummyJersey
+                }
+              />
+            ) : (
+              <ShirtButton
+                position={pos[stateIndex]?.statistics[0].games.position}
+                name={pos[stateIndex]?.player?.name}
+                jersey={
+                  pos[stateIndex]
+                    ? pos[stateIndex].jersey
+                    : dummyJersey
+                }
+              />
+            )}
+          </div>
         );
-    };
+      };
+      
 
     const searchBarHandler = (event, key, payload) => {
         event.preventDefault();
