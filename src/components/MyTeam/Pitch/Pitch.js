@@ -44,7 +44,7 @@ export default function Pitch() {
         fetch(`https://api-football-v1.p.rapidapi.com/v3/players?league=39&season=2022&page=${page}`, {
             headers: {
                 'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com',
-                'X-RapidAPI-Key': "api key stands here",
+                'X-RapidAPI-Key': "",
             }
         }).then(res => {
             if (res.ok) {

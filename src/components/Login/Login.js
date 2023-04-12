@@ -1,5 +1,7 @@
 import "./Login.scss";
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import  SignInSide  from "../Login/LoginComponent";
+
 
 export default function Login() {
     return (
@@ -8,7 +10,7 @@ export default function Login() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-            <h1>LOGIN</h1>
+            <SignInSide/>
         </motion.div>
     );
 }
