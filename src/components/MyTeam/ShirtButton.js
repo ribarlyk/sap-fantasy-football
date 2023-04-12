@@ -30,11 +30,13 @@ export default function ShirtButton({
             let swapIn = newTeamList[playerTakenInIndex];
             newTeamList[playerTakenInIndex] = newTeamList[playerTakenOutIndex];
             newTeamList[playerTakenOutIndex] = swapIn;
-
-            localStorage.setItem("team", JSON.stringify(newTeamList));
+            let team = JSON.parse(localStorage.getItem("loggedUser"));
+            team.team = newTeamList;
+            console.log(team)
+            localStorage.setItem("loggedUser", JSON.stringify(team));
             setIsChange(!isChange);
         } else {
-            return;
+            return
         }
     };
     return (
