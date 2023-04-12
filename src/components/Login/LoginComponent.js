@@ -13,7 +13,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import userManager from '../Models/LoginAndRegisterModel/UserManager';
+import { useUserContext } from "../LiftingStates/UserContext";
+
+
 
 
 function Copyright(props) {
@@ -33,18 +37,35 @@ const theme = createTheme();
 
 export default function SignInSide() {
 
+    const navigate = useNavigate();
+    const [ isSigned, setIsSigned ] = useUserContext();
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const isButtonDisabled = !username || !password;
 
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     const data = new FormData(event.currentTarget);
+    //     console.log({
+    //         email: data.get('email'),
+    //         password: data.get('password'),
+    //     });
+    // };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        userManager
+            .login({ username, password })
+            .then((user) => {
+                console.log("User logged in successfully:", user);
+                setIsSigned(true);
+                // Redirect to the home page
+                navigate('/');
+            })
+            .catch((error) => {
+                alert(error);
+            });
     };
 
     const handleUsernameChange = (event) => {
@@ -57,7 +78,7 @@ export default function SignInSide() {
 
     const handleShowPasswordChange = (event) => {
         setShowPassword(event.target.checked);
-      };
+    };
 
     return (
         <ThemeProvider theme={theme}>

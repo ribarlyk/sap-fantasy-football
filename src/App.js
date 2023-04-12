@@ -11,14 +11,16 @@ import Header from "./components/Header/Header";
 // import Rules from "./components/Rules/Rules";
 import { BrowserRouter as Router } from "react-router-dom";
 import AnimatetRoutes from "./components/Navigation/MainNavigation";
-
+import { UserProvider } from "../src/components/LiftingStates/UserContext"
 function App() {
     return (
         <div className="App">
-            <Router>
-                <Header />
-                <AnimatetRoutes />
-            </Router>
+            <UserProvider>
+                <Router>
+                    <Header />
+                    <AnimatetRoutes />
+                </Router>
+            </UserProvider>
         </div>
     );
 }
