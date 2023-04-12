@@ -11,13 +11,20 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import avatar from "../../assets/images/avatar.jpg";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import { useUserContext } from '../LiftingStates/UserContext';
+import { useEffect } from "react";
 
 function ResponsiveAppBar() {
+    const [isSigned, setIsSigned]= useUserContext();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    let isSigned = false;
+    const navigate = useNavigate()
+    // const [isSigned, setIsSigned] = React.useState(false);
+    // isSigned = false;
     ; //TODO Проверка дали има юзър за да смени вюто на навигацията
+
+   
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -33,7 +40,23 @@ function ResponsiveAppBar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+
     };
+
+    useEffect(() => {
+        const user = localStorage.getItem("loggedUser");
+        setIsSigned(user !== null);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("loggedUser");
+        setIsSigned(false);
+        handleCloseUserMenu();
+        navigate('/')
+    };
+
+    
+
     const userNavigation = (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -139,7 +162,7 @@ function ResponsiveAppBar() {
                             </MenuItem>
                             <MenuItem
                                 key="Logout"
-                                onClick={handleCloseUserMenu}
+                                onClick={handleLogout}
                             >
                                 <Typography
                                     textAlign="center"

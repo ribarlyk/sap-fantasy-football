@@ -1,4 +1,17 @@
 .home-container {
-    background-color: darkkhaki;
-    height: 100vh;
+    min-height: 100vh;
+    max-width: 99%;
+    margin:0 auto;
+
+    div{
+        margin-bottom: 5px;
+        
+    }
+    p{
+        max-width: 90%;
+    }
 }
+
+.introImg {
+    max-width: 100%;
+  }
