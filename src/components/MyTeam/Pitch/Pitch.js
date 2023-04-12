@@ -14,6 +14,7 @@ import attackerJersey from "../../../assets/images/jerseys/brasilyellow.png=z-0,
 import dummyJersey from "../../../assets/images/jerseys/no-player.png=z-0,0_f-webp";
 import SearchBar from "../SearchBar/SearchBar";
 import TeamName from "../TeamName/TeamName";
+import { useUserContext } from "../../LiftingStates/UserContext";
 
 export default function Pitch() {
     const [players, setPlayers] = useState("");
@@ -42,21 +43,39 @@ export default function Pitch() {
     const [input, setInput] = useState("");
     const [teamName, setTeamName] = useState("");
     const [isNameSaved, setIsNameSaved] = useState(false);
+    const [user, setUser] = useState(
+        JSON.parse(localStorage.getItem("loggedUser"))
+    );
+    const [users, setUsers] = useState(
+        JSON.parse(localStorage.getItem("users"))
+    );
+
+    useEffect(() => {
+        user.team = myTeam;
+        localStorage.setItem("loggedUser", JSON.stringify(user));
+        setUser(JSON.parse(localStorage.getItem("loggedUser")));
+        localStorage.setItem(
+            "musers",
+            JSON.stringify(Object.assign(users, user.team))
+        );
+    }, [isTeamSaved]);
 
     useEffect(() => {
         const team = JSON.parse(localStorage.getItem("team"));
-
         setLocalStorageTeam(team);
     }, [isChange]);
 
     useEffect(() => {
-        fetch(`https://api-football-v1.p.rapidapi.com/v3/players?league=39&season=2022&page=${page}`, {
-            headers: {
-                'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com',
-                'X-RapidAPI-Key': "9a511f7146mshe0fab5844669c1dp1c1c5fjsn55edffb40906",
-
+        fetch(
+            `https://api-football-v1.p.rapidapi.com/v3/players?league=39&season=2022&page=${page}`,
+            {
+                headers: {
+                    "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
+                    "X-RapidAPI-Key":
+                        "9a511f7146mshe0fab5844669c1dp1c1c5fjsn55edffb40906",
+                },
             }
-            })
+        )
             .then((res) => {
                 if (res.ok) {
                     return res.json();
@@ -159,6 +178,7 @@ export default function Pitch() {
         if (position === "Goalkeeper") {
             if (goalkeeper.length < 1) {
                 player.jersey = goalkeeperJersey;
+                // player.overallStats = Math.floor(Math.random()*10) TODO  player stats some logic
                 setGoalkeeper((prev) => [...prev, player]);
             }
         } else if (position === "Defender") {
@@ -217,6 +237,7 @@ export default function Pitch() {
                 ...substitute,
             ]
         );
+
         setIsTeamSaved(!isTeamSaved);
     };
 

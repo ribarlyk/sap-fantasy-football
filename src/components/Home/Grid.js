@@ -23,12 +23,33 @@ export default function BasicGrid() {
                 backgroundRepeat: "no-repeat",
             }}
         >
-            <Grid container spacing={0}>
+            <Grid container spacing={1}>
                 <Grid xs={12}>
                     <Item>
                         <img
                             className="introImg"
-                          
+                            src="https://img.olympicchannel.com/images/image/private/t_s_pog_staticContent_hero_xl_2x/f_auto/primary/ydk9vatpnihwfquy6zq3"
+                        ></img>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and
+                            typesetting industry. Lorem Ipsum has been the
+                            industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and
+                            scrambled it to make a type specimen book. It has
+                            survived not only five centuries, but also the leap
+                            into electronic typesetting, remaining essentially
+                            unchanged. It was popularised in the 1960s with the
+                            release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing
+                            software like Aldus PageMaker including versions of
+                            Lorem Ipsum.
+                        </p>
+                    </Item>
+                </Grid>
+                <Grid xs={6}>
+                    <Item>
+                        <img
+                            className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
                         ></img>
                         <p>
@@ -48,10 +69,9 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={6}>
-                <Item>
+                    <Item>
                         <img
                             className="introImg"
-                          
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
                         ></img>
                         <p>
@@ -70,57 +90,11 @@ export default function BasicGrid() {
                         </p>
                     </Item>
                 </Grid>
-                <Grid xs={6}>
-                <Item>
+
+                <Grid xs={4}>
+                    <Item>
                         <img
                             className="introImg"
-                          
-                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
-                        ></img>
-                        <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen book. It has
-                            survived not only five centuries, but also the leap
-                            into electronic typesetting, remaining essentially
-                            unchanged. It was popularised in the 1960s with the
-                            release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing
-                            software like Aldus PageMaker including versions of
-                            Lorem Ipsum.
-                        </p>
-                    </Item>
-                </Grid>
-                <Grid xs={6}>
-                <Item>
-                        <img
-                            className="introImg"
-                          
-                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
-                        ></img>
-                        <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen book. It has
-                            survived not only five centuries, but also the leap
-                            into electronic typesetting, remaining essentially
-                            unchanged. It was popularised in the 1960s with the
-                            release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing
-                            software like Aldus PageMaker including versions of
-                            Lorem Ipsum.
-                        </p>
-                    </Item>
-                </Grid>
-                <Grid xs={6}>
-                <Item>
-                        <img
-                            className="introImg"
-                          
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
                         ></img>
                         <p>
@@ -140,10 +114,9 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                <Item>
+                    <Item>
                         <img
                             className="introImg"
-                          
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
                         ></img>
                         <p>
@@ -163,10 +136,9 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                <Item>
+                    <Item>
                         <img
                             className="introImg"
-                          
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
                         ></img>
                         <p>
@@ -186,10 +158,119 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                <Item>
+                    <Item>
                         <img
                             className="introImg"
-                          
+                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
+                        ></img>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and
+                            typesetting industry. Lorem Ipsum has been the
+                            industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and
+                            scrambled it to make a type specimen book. It has
+                            survived not only five centuries, but also the leap
+                            into electronic typesetting, remaining essentially
+                            unchanged. It was popularised in the 1960s with the
+                            release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing
+                            software like Aldus PageMaker including versions of
+                            Lorem Ipsum.
+                        </p>
+                    </Item>
+                </Grid>
+                <Grid xs={4}>
+                    <Item>
+                        <img
+                            className="introImg"
+                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
+                        ></img>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and
+                            typesetting industry. Lorem Ipsum has been the
+                            industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and
+                            scrambled it to make a type specimen book. It has
+                            survived not only five centuries, but also the leap
+                            into electronic typesetting, remaining essentially
+                            unchanged. It was popularised in the 1960s with the
+                            release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing
+                            software like Aldus PageMaker including versions of
+                            Lorem Ipsum.
+                        </p>
+                    </Item>
+                </Grid>
+                <Grid xs={4}>
+                    <Item>
+                        <img
+                            className="introImg"
+                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
+                        ></img>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and
+                            typesetting industry. Lorem Ipsum has been the
+                            industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and
+                            scrambled it to make a type specimen book. It has
+                            survived not only five centuries, but also the leap
+                            into electronic typesetting, remaining essentially
+                            unchanged. It was popularised in the 1960s with the
+                            release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing
+                            software like Aldus PageMaker including versions of
+                            Lorem Ipsum.
+                        </p>
+                    </Item>
+                </Grid>
+                <Grid xs={4}>
+                    <Item>
+                        <img
+                            className="introImg"
+                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
+                        ></img>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and
+                            typesetting industry. Lorem Ipsum has been the
+                            industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and
+                            scrambled it to make a type specimen book. It has
+                            survived not only five centuries, but also the leap
+                            into electronic typesetting, remaining essentially
+                            unchanged. It was popularised in the 1960s with the
+                            release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing
+                            software like Aldus PageMaker including versions of
+                            Lorem Ipsum.
+                        </p>
+                    </Item>
+                </Grid>
+                <Grid xs={4}>
+                    <Item>
+                        <img
+                            className="introImg"
+                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
+                        ></img>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and
+                            typesetting industry. Lorem Ipsum has been the
+                            industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and
+                            scrambled it to make a type specimen book. It has
+                            survived not only five centuries, but also the leap
+                            into electronic typesetting, remaining essentially
+                            unchanged. It was popularised in the 1960s with the
+                            release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing
+                            software like Aldus PageMaker including versions of
+                            Lorem Ipsum.
+                        </p>
+                    </Item>
+                </Grid>
+                <Grid xs={4}>
+                    <Item>
+                        <img
+                            className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
                         ></img>
                         <p>
