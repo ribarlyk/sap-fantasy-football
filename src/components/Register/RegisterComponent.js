@@ -13,7 +13,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import userManager from '../Models/LoginAndRegisterModel/UserManager';
 
 function Copyright(props) {
     return (
@@ -32,6 +33,7 @@ const theme = createTheme();
 
 export default function SignUpSide() {
 
+    const navigate = useNavigate();
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [usernameValid, setUsernameValid] = useState(false);
@@ -65,15 +67,34 @@ export default function SignUpSide() {
         }
     };
 
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     const data = new FormData(event.currentTarget);
+    //     console.log({
+    //         username: data.get('username'),
+    //         password: data.get('password'),
+    //     });
+    // };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            username: data.get('username'),
-            password: data.get('password'),
-        });
-    };
+        if (password === confirmPassword) {
+          userManager
+            .register({ username, password })
+            .then((newUser) => {
+              console.log("User registered successfully:", newUser);
+              // Redirect to the login page
+              navigate('/login');
+            })
+            .catch((error) => {
+              alert("Registration error:", error);
+            });
+        } else {
+          alert("Passwords do not match");
+        }
+      };
 
+      
     const handleShowPasswordChange = (event) => {
         setShowPassword(event.target.checked);
     };

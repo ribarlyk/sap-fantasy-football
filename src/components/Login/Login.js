@@ -2,7 +2,6 @@ import "./Login.scss";
 import { motion } from "framer-motion";
 import  SignInSide  from "../Login/LoginComponent";
 
-
 export default function Login() {
     return (
         <motion.div className="login-container"
