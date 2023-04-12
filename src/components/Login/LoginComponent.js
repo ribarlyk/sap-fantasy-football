@@ -83,12 +83,12 @@ export default function SignInSide() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+            <Grid container component="main" sx={{ height: '65vh' }}>
                 <CssBaseline />
                 <Grid
                     item
                     xs={false}
-                    sm={4}
+                    sm={3}
                     md={7}
                     sx={{
                         backgroundImage: 'url(https://www.fifplay.com/img/public/football-manager-2024.jpg)',
@@ -109,7 +109,7 @@ export default function SignInSide() {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <Avatar sx={{ m: 0, bgcolor: 'primary.main' }}>
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">

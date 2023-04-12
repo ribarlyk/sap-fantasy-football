@@ -25,7 +25,7 @@ export default function BasicGrid() {
         >
             <Grid container spacing={1}>
                 <Grid xs={12}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://img.olympicchannel.com/images/image/private/t_s_pog_staticContent_hero_xl_2x/f_auto/primary/ydk9vatpnihwfquy6zq3"
@@ -47,7 +47,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={6}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -69,7 +69,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={6}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -92,7 +92,7 @@ export default function BasicGrid() {
                 </Grid>
 
                 <Grid xs={4}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -114,7 +114,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -136,7 +136,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -158,7 +158,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -180,7 +180,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -202,7 +202,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -224,7 +224,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -246,7 +246,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
@@ -268,7 +268,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={4}>
-                    <Item>
+                    <Item className="item">
                         <img
                             className="introImg"
                             src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"

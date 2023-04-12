@@ -4,13 +4,9 @@ import BasicGrid from "./Grid";
 
 export default function Home() {
     return (
-        <motion.div
-            className="home-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-        >
+        <div className="home-container">
+            <h1>HEADLINES</h1>
             <BasicGrid />
-        </motion.div>
+        </div>
     );
 }

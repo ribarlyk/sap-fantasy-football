@@ -1,0 +1,40 @@
+footer {
+    background-color: #1976d2;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 154px;
+    ul {
+      list-style: none;
+      display: flex;
+  
+      li {
+        margin-right: 1rem;
+        font-size: 0.9rem;
+  
+        a {
+          color: #ffffff;
+          text-decoration: none;
+  
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  
+    .social-icons {
+      display: flex;
+      align-items: center;
+  
+      a {
+        color: #ffffff;
+        margin-right: 1rem;
+  
+        &:hover {
+          color: #3c2050
+        }
+      }
+    }
+  }

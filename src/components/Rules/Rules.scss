@@ -1,4 +1,47 @@
-.rules-container{
-    height:100vh;
-    background-color: rgb(89, 113, 89);
+.fantasy-football-rules {
+    height: 100vh;
+    max-width: 800px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: #1976d2;
+    color: #ffffff;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    ol {
+        margin-left: 20px;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    .team-creation,
+    .scoring,
+    .league-management {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 20px;
+
+        h3 {
+            &.team-creation {
+                color: #1976d2;
+            }
+
+            &.scoring {
+                color: #ff5722;
+            }
+
+            &.league-management {
+                color: #4caf50;
+            }
+        }
+    }
 }

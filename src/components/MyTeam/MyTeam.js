@@ -11,14 +11,5 @@ export default function MyTeam() {
         setIsLoaded(true);
     }, 3000);
 
-    return (
-        <motion.div
-            className="team-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-        >
-            {isLoaded ? <Pitch /> : <Loader />}
-        </motion.div>
-    );
+    return <div className="team-container">{isLoaded ? <Pitch /> : <Loader />}</div>;
 }
