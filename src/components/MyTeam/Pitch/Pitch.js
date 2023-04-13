@@ -46,6 +46,7 @@ export default function Pitch() {
     );
     const [isNameSaved, setIsNameSaved] = useState(false);
     const [sumBuy, setSumBuy] = useState(null);
+    // const [addOrRemoveBtn, setAddOrRemoveBtn] = useState("+");
     console.log(JSON.parse(localStorage.getItem("users")));
 
     useEffect(() => {
@@ -159,12 +160,7 @@ export default function Pitch() {
                                 )
                                 .map((x) => {
                                     return (
-                                        <tr
-                                            key={uniqid()}
-                                            onClick={() => {
-                                                onPlayerClickHandler(x);
-                                            }}
-                                        >
+                                        <tr key={uniqid()}>
                                             <td>
                                                 <img
                                                     width="30"
@@ -180,6 +176,20 @@ export default function Pitch() {
                                                 {x.player.lastname}
                                             </td>
                                             <td>{x.player.age || 10} $</td>
+                                            <td>
+                                                <button
+                                                className="add-remove-btn"
+                                                    onClick={(e) => {
+                                                        onPlayerClickHandler(
+                                                            e,
+                                                            x
+                                                        );
+                                                    }}
+                                                >
+                                                    Add
+                                                </button>
+                                                
+                                            </td>
                                         </tr>
                                     );
                                 })
@@ -190,32 +200,70 @@ export default function Pitch() {
         );
     };
 
-    const onPlayerClickHandler = (player) => {
+    const playersAddRemoveHandler = (position,arrayLength,player,jersey,setter)=>{
+        let exist = position.filter((d) => {
+            return d.player.name === player.player.name;
+        });
+
+        if (position.length < arrayLength && exist.length === 0) {
+            player.jersey = jersey;
+            // player.overallStats = Math.floor(Math.random()*10) TODO  player stats some logic
+            setter((prev) => [...prev, player]);
+        } else {
+            let updatedList = position.filter(
+                (g) => g.player.name != player.player.name
+            );
+            setter(updatedList);
+        }
+    }
+    const onPlayerClickHandler = (event, player) => {
         let sumToBuy = player.player.age || 10;
         let position = player.statistics[0].games.position;
         setSumBuy(sumToBuy);
+        if (event.target.textContent === "+") {
+            console.log(event.target.textContent);
+        }
+        console.log(event.target.textContent);
 
         if (position === "Goalkeeper") {
-            if (goalkeeper.length < 1) {
-                player.jersey = goalkeeperJersey;
-                // player.overallStats = Math.floor(Math.random()*10) TODO  player stats some logic
-                setGoalkeeper((prev) => [...prev, player]);
-            }
+            // if (goalkeeper.length < 1) {
+            //     player.jersey = goalkeeperJersey;
+            //     // player.overallStats = Math.floor(Math.random()*10) TODO  player stats some logic
+            //     setGoalkeeper((prev) => [...prev, player]);
+            // } else {
+            //     let goalkeeperNewList = goalkeeper.filter(
+            //         (g) => g.name != player.name
+            //     );
+            //     setGoalkeeper(goalkeeperNewList);
+            // }
+            playersAddRemoveHandler(goalkeeper,1,player,goalkeeperJersey,setGoalkeeper)
         } else if (position === "Defender") {
-            if (defender.length < 4 && !defender.includes(player.player.name)) {
-                setDefender((prev) => [...prev, player]);
-                player.jersey = defenderJersey;
-            }
+           
+            playersAddRemoveHandler(defender,4,player,defenderJersey,setDefender)
+
+            // if (defender.length < 4 && defenderExist.length === 0) {
+            //     setDefender((prev) => [...prev, player]);
+            //     player.jersey = defenderJersey;
+            // } else {
+            //     let defenderNewList = defender.filter(
+            //         (g) => g.player.name != player.player.name
+            //     );
+            //     setDefender(defenderNewList);
+            // }
         } else if (position === "Midfielder") {
-            if (midfielder.length < 4) {
-                setMidfielder((prev) => [...prev, player]);
-                player.jersey = midfielderJersey;
-            }
+            playersAddRemoveHandler(midfielder,4,player,midfielderJersey,setMidfielder)
+
+            // if (midfielder.length < 4) {
+            //     setMidfielder((prev) => [...prev, player]);
+            //     player.jersey = midfielderJersey;
+            // }
         } else if (position === "Attacker") {
-            if (attacker.length < 2) {
-                setAttacker((prev) => [...prev, player]);
-                player.jersey = attackerJersey;
-            }
+            playersAddRemoveHandler(attacker,2,player,attackerJersey,setAttacker)
+
+            // if (attacker.length < 2) {
+            //     setAttacker((prev) => [...prev, player]);
+            //     player.jersey = attackerJersey;
+            // }
         }
         player.agression = Math.floor(Math.random() * 10);
         player.pace = Math.floor(Math.random() * 10);
@@ -242,7 +290,9 @@ export default function Pitch() {
             alert("team already chosen");
         }
     };
-
+    const onRemovePlayerClickHandler = (event, player) => {
+        const name = player.name;
+    };
     const budgetSetHandler = (sumToBuy) => {
         const updatedBudget = Number(budget) - Number(sumToBuy);
         setBudget(updatedBudget);

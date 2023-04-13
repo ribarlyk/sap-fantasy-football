@@ -252,9 +252,7 @@ table {
         border-bottom: 1px solid rgb(220, 214, 214);
     }
 
-    td:hover {
-        cursor: pointer;
-    }
+    
 
     tr:hover {
         background: rgb(238, 174, 202);
@@ -308,4 +306,18 @@ table {
         margin-right: 50px;
     }
     
+}
+
+.add-remove-btn {
+    background-image: linear-gradient(
+        to right,
+        rgb(0, 255, 135),
+        rgb(2, 239, 255)
+    );
+    border: none;
+    border-radius:$borderRadius ;
+
+    &:hover{
+        cursor: pointer;
+    }
 }
