@@ -60,16 +60,13 @@ export default function Pitch() {
     }, [isChange]);
 
     useEffect(() => {
-        fetchData(
-            `https://api-football-v1.p.rapidapi.com/v3/players?league=39&season=2022&page=${page}`,
-            {
-                headers: {
-                    "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
-                    "X-RapidAPI-Key":
-                        "9a511f7146mshe0fab5844669c1dp1c1c5fjsn55edffb40906",
-                },
-            }
-        )
+        fetchData(`page=${page}`, {
+            headers: {
+                "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
+                "X-RapidAPI-Key":
+                    "9a511f7146mshe0fab5844669c1dp1c1c5fjsn55edffb40906",
+            },
+        })
             .then((data) => {
                 setLoading(true);
                 setPlayers(data);
@@ -78,7 +75,7 @@ export default function Pitch() {
                 setLoading(!loading);
             });
         fetchData(
-            `https://api-football-v1.p.rapidapi.com/v3/players?league=39&season=2022&search=${input}`,
+            `search=${input}`,
 
             {
                 headers: {
