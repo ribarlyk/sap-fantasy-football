@@ -178,7 +178,7 @@ export default function Pitch() {
                                             <td>{x.player.age || 10} $</td>
                                             <td>
                                                 <button
-                                                className="add-remove-btn"
+                                                    className="add-remove-btn"
                                                     onClick={(e) => {
                                                         onPlayerClickHandler(
                                                             e,
@@ -188,7 +188,6 @@ export default function Pitch() {
                                                 >
                                                     Add
                                                 </button>
-                                                
                                             </td>
                                         </tr>
                                     );
@@ -200,14 +199,19 @@ export default function Pitch() {
         );
     };
 
-    const playersAddRemoveHandler = (position,arrayLength,player,jersey,setter)=>{
+    const playersAddRemoveHandler = (
+        position,
+        arrayLength,
+        player,
+        jersey,
+        setter
+    ) => {
         let exist = position.filter((d) => {
             return d.player.name === player.player.name;
         });
 
         if (position.length < arrayLength && exist.length === 0) {
             player.jersey = jersey;
-            // player.overallStats = Math.floor(Math.random()*10) TODO  player stats some logic
             setter((prev) => [...prev, player]);
         } else {
             let updatedList = position.filter(
@@ -215,55 +219,45 @@ export default function Pitch() {
             );
             setter(updatedList);
         }
-    }
+    };
+
     const onPlayerClickHandler = (event, player) => {
         let sumToBuy = player.player.age || 10;
         let position = player.statistics[0].games.position;
         setSumBuy(sumToBuy);
-        if (event.target.textContent === "+") {
-            console.log(event.target.textContent);
-        }
-        console.log(event.target.textContent);
 
         if (position === "Goalkeeper") {
-            // if (goalkeeper.length < 1) {
-            //     player.jersey = goalkeeperJersey;
-            //     // player.overallStats = Math.floor(Math.random()*10) TODO  player stats some logic
-            //     setGoalkeeper((prev) => [...prev, player]);
-            // } else {
-            //     let goalkeeperNewList = goalkeeper.filter(
-            //         (g) => g.name != player.name
-            //     );
-            //     setGoalkeeper(goalkeeperNewList);
-            // }
-            playersAddRemoveHandler(goalkeeper,1,player,goalkeeperJersey,setGoalkeeper)
+            playersAddRemoveHandler(
+                goalkeeper,
+                1,
+                player,
+                goalkeeperJersey,
+                setGoalkeeper
+            );
         } else if (position === "Defender") {
-           
-            playersAddRemoveHandler(defender,4,player,defenderJersey,setDefender)
-
-            // if (defender.length < 4 && defenderExist.length === 0) {
-            //     setDefender((prev) => [...prev, player]);
-            //     player.jersey = defenderJersey;
-            // } else {
-            //     let defenderNewList = defender.filter(
-            //         (g) => g.player.name != player.player.name
-            //     );
-            //     setDefender(defenderNewList);
-            // }
+            playersAddRemoveHandler(
+                defender,
+                4,
+                player,
+                defenderJersey,
+                setDefender
+            );
         } else if (position === "Midfielder") {
-            playersAddRemoveHandler(midfielder,4,player,midfielderJersey,setMidfielder)
-
-            // if (midfielder.length < 4) {
-            //     setMidfielder((prev) => [...prev, player]);
-            //     player.jersey = midfielderJersey;
-            // }
+            playersAddRemoveHandler(
+                midfielder,
+                4,
+                player,
+                midfielderJersey,
+                setMidfielder
+            );
         } else if (position === "Attacker") {
-            playersAddRemoveHandler(attacker,2,player,attackerJersey,setAttacker)
-
-            // if (attacker.length < 2) {
-            //     setAttacker((prev) => [...prev, player]);
-            //     player.jersey = attackerJersey;
-            // }
+            playersAddRemoveHandler(
+                attacker,
+                2,
+                player,
+                attackerJersey,
+                setAttacker
+            );
         }
         player.agression = Math.floor(Math.random() * 10);
         player.pace = Math.floor(Math.random() * 10);
