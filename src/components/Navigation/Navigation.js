@@ -51,8 +51,8 @@ function ResponsiveAppBar() {
     };
 
     const userNavigation = (
-        <AppBar position="static" sx={{ width:"88vw" }}>
-            <Container  maxWidth="xl" >
+        <AppBar position="static" sx={{ width: 1100}}>
+            <Container  maxWidth={false} >
                 <Toolbar disableGutters>
                     <Box
                         sx={{
@@ -170,8 +170,8 @@ function ResponsiveAppBar() {
         </AppBar>
     );
     const guestNavigation = (
-        <AppBar position="static" sx={{ width:"88vw" }}>
-            <Container maxWidth="xl">
+        <AppBar position="static" sx={{ width:1100 }}>
+            <Container maxWidth={false}>
                 <Toolbar disableGutters>
                     <Box
                         sx={{
