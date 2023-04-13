@@ -17,6 +17,7 @@ const TeamName = ({ teamNameHandler }) => {
     return (
         <div className="input-form-container">
             <input
+                className="teamInputName"
                 type="text"
                 placeholder="Enter team name here..."
                 value={inputValue}

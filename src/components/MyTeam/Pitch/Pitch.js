@@ -217,7 +217,11 @@ export default function Pitch() {
                 player.jersey = attackerJersey;
             }
         }
-
+        player.agression = Math.floor(Math.random() * 10);
+        player.pace = Math.floor(Math.random() * 10);
+        player.speed = Math.floor(Math.random() * 10);
+        player.defense = Math.floor(Math.random() * 10);
+        player.attack = Math.floor(Math.random() * 10);
         if (
             goalkeeper.length >= 1 &&
             defender.length >= 4 &&
@@ -362,7 +366,7 @@ export default function Pitch() {
         const updatedLoggedUser = {
             ...loggedUser,
             teamName: teamName,
-            budget:budget
+            budget: budget,
         };
 
         const users = JSON.parse(localStorage.getItem("users"));
@@ -385,10 +389,10 @@ export default function Pitch() {
                     <div className="budget-container">
                         {teamName ? (
                             <h1>Team Name : {teamName}</h1>
-                            ) : (
-                                <TeamName teamNameHandler={teamNameHandler} />
-                                )}
-                                <h2>Budget: {budget}/450 €</h2>
+                        ) : (
+                            <TeamName teamNameHandler={teamNameHandler} />
+                        )}
+                        <h2>Budget: {budget}/450 €</h2>
                     </div>
                     <div className="pitch-background">
                         <div
