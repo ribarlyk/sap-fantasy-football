@@ -51,238 +51,258 @@ function ResponsiveAppBar() {
     };
 
     const userNavigation = (
-        <AppBar position="static" sx={{ width: 1100}}>
-            <Container  maxWidth={false} >
-                <Toolbar disableGutters>
-                    <Box
-                        sx={{
-                            flexGrow: 1,
-                            display: { xs: "none", md: "flex" },
-                        }}
-                    >
-                        <Button
-                            key="My Team"
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                            <Link
-                                to="/my-team"
-                                style={{
-                                    color: "white",
-                                    textDecoration: "none",
-                                }}
-                            >
-                                My Team
-                            </Link>
-                        </Button>
-                        <Button
-                            key="Table"
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                            <Link
-                                to="/standings"
-                                style={{
-                                    color: "white",
-                                    textDecoration: "none",
-                                }}
-                            >
-                                Standings
-                            </Link>
-                        </Button>
-                        <Button
-                            key="Match Day"
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                            <Link
-                                to="/match-day"
-                                style={{
-                                    color: "white",
-                                    textDecoration: "none",
-                                }}
-                            >
-                                Match Day
-                            </Link>
-                        </Button>
-                    </Box>
-
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton
-                                onClick={handleOpenUserMenu}
-                                sx={{ p: 0 }}
-                            >
-                                <Avatar alt="Remy Sharp" src={avatar} />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
+        <Container
+            maxWidth={false}
+            disableGutters
+            sx={{ width: "calc(80vw + 2rem)" }}
+        >
+            <AppBar position="static">
+                <Container maxWidth={false}>
+                    <Toolbar disableGutters>
+                        <Box
+                            sx={{
+                                flexGrow: 1,
+                                display: { xs: "none", md: "flex" },
                             }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
                         >
-                            <MenuItem
-                                key="Profile"
-                                onClick={handleCloseUserMenu}
+                            <Button
+                                key="My Team"
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
                             >
-                                <Typography
-                                    textAlign="center"
-                                    onClick={(e) => {
-                                        console.log("Profile");
+                                <Link
+                                    to="/my-team"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
                                     }}
                                 >
-                                    <Link
-                                        to="/profile"
-                                        style={{
-                                            color: "black",
-                                            textDecoration: "none",
+                                    My Team
+                                </Link>
+                            </Button>
+                            <Button
+                                key="Table"
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
+                            >
+                                <Link
+                                    to="/standings"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    Standings
+                                </Link>
+                            </Button>
+                            <Button
+                                key="Match Day"
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
+                            >
+                                <Link
+                                    to="/match-day"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    Match Day
+                                </Link>
+                            </Button>
+                        </Box>
+
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton
+                                    onClick={handleOpenUserMenu}
+                                    sx={{ p: 0 }}
+                                >
+                                    <Avatar alt="Remy Sharp" src={avatar} />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: "45px" }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem
+                                    key="Profile"
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    <Typography
+                                        textAlign="center"
+                                        onClick={(e) => {
+                                            console.log("Profile");
                                         }}
                                     >
-                                        Profile
-                                    </Link>
-                                </Typography>
-                            </MenuItem>
-                            <MenuItem key="Logout" onClick={handleLogout}>
-                                <Typography
-                                    textAlign="center"
-                                    onClick={(e) => {
-                                        console.log("logout");
-                                    }}
-                                >
-                                    Logout
-                                </Typography>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
+                                        <Link
+                                            to="/profile"
+                                            style={{
+                                                color: "black",
+                                                textDecoration: "none",
+                                            }}
+                                        >
+                                            Profile
+                                        </Link>
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem key="Logout" onClick={handleLogout}>
+                                    <Typography
+                                        textAlign="center"
+                                        onClick={(e) => {
+                                            console.log("logout");
+                                        }}
+                                    >
+                                        Logout
+                                    </Typography>
+                                </MenuItem>
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+        </Container>
     );
     const guestNavigation = (
-        <AppBar position="static" sx={{ width:1100 }}>
-            <Container maxWidth={false}>
-                <Toolbar disableGutters>
-                    <Box
-                        sx={{
-                            flexGrow: 1,
-                            display: { xs: "none", md: "flex" },
-                        }}
-                    >
-                        <Button
-                            key="My Team"
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: "white", display: "block" }}
+        <Container
+            maxWidth={false}
+            disableGutters
+            sx={{ width: "calc(80vw + 2rem)" }}
+        >
+            <AppBar position="static">
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Box
+                            sx={{
+                                flexGrow: 1,
+                                display: { xs: "none", md: "flex" },
+                            }}
                         >
-                            <Link
-                                to="/news"
-                                style={{
-                                    color: "white",
-                                    textDecoration: "none",
-                                }}
+                            <Button
+                                key="My Team"
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
                             >
-                                News
-                            </Link>
-                        </Button>
-                        <Button
-                            key="Table"
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                            <Link
-                                to="/rules"
-                                style={{
-                                    color: "white",
-                                    textDecoration: "none",
-                                }}
+                                <Link
+                                    to="/news"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    News
+                                </Link>
+                            </Button>
+                            <Button
+                                key="Table"
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
                             >
-                                Rules
-                            </Link>
-                        </Button>
-                    </Box>
+                                <Link
+                                    to="/rules"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    Rules
+                                </Link>
+                            </Button>
+                        </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton
-                                onClick={handleOpenUserMenu}
-                                sx={{ p: 0 }}
-                            >
-                                <Avatar alt="Remy Sharp" src={avatar} />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            <MenuItem key="Login" onClick={handleCloseUserMenu}>
-                                <Typography
-                                    textAlign="center"
-                                    onClick={(e) => {
-                                        console.log("login");
-                                    }}
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton
+                                    onClick={handleOpenUserMenu}
+                                    sx={{ p: 0 }}
                                 >
-                                    <Link
-                                        to="/login"
-                                        style={{
-                                            color: "black",
-                                            textDecoration: "none",
+                                    <Avatar alt="Remy Sharp" src={avatar} />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: "45px" }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem
+                                    key="Login"
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    <Typography
+                                        textAlign="center"
+                                        onClick={(e) => {
+                                            console.log("login");
                                         }}
                                     >
-                                        Sign In
-                                    </Link>
-                                </Typography>
-                            </MenuItem>
-                            <MenuItem
-                                key="register"
-                                onClick={handleCloseUserMenu}
-                            >
-                                <Typography
-                                    textAlign="center"
-                                    onClick={(e) => {
-                                        console.log("register");
-                                    }}
+                                        <Link
+                                            to="/login"
+                                            style={{
+                                                color: "black",
+                                                textDecoration: "none",
+                                            }}
+                                        >
+                                            Sign In
+                                        </Link>
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem
+                                    key="register"
+                                    onClick={handleCloseUserMenu}
                                 >
-                                    <Link
-                                        to="/register"
-                                        style={{
-                                            color: "black",
-                                            textDecoration: "none",
+                                    <Typography
+                                        textAlign="center"
+                                        onClick={(e) => {
+                                            console.log("register");
                                         }}
                                     >
-                                        Sign Up
-                                    </Link>
-                                </Typography>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
+                                        <Link
+                                            to="/register"
+                                            style={{
+                                                color: "black",
+                                                textDecoration: "none",
+                                            }}
+                                        >
+                                            Sign Up
+                                        </Link>
+                                    </Typography>
+                                </MenuItem>
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+        </Container>
     );
 
-    return <div className="nav-bar-container"> {isSigned ? userNavigation : guestNavigation} </div>;
+    return (
+        <div className="nav-bar-container">
+            {" "}
+            {isSigned ? userNavigation : guestNavigation}{" "}
+        </div>
+    );
 }
 
 export default ResponsiveAppBar;
