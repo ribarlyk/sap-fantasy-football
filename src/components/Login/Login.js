@@ -1,9 +1,10 @@
 import "./Login.scss";
-import  SignInSide  from "../Login/LoginComponent";
+import SignInSide from "../Login/LoginComponent";
 
 export default function Login() {
     return (
-        
-            <SignInSide/>
+        <div className="login-container">
+            <SignInSide />
+        </div>
     );
 }

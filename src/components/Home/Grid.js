@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import "./Home.scss";
 import ScorebatEmbed from "./WidgetApi";
 import LiveScoreEmbed from "./LifescoreWidget";
-import Header from "./Header";
+import Header from "./Headers";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

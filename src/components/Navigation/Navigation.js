@@ -11,21 +11,17 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import avatar from "../../assets/images/avatar.jpg";
-import { Link,useNavigate } from "react-router-dom";
-import { useUserContext } from '../LiftingStates/UserContext';
+import { Link, useNavigate } from "react-router-dom";
+import { useUserContext } from "../LiftingStates/UserContext";
 import { useEffect } from "react";
 
 function ResponsiveAppBar() {
-    const [isSigned, setIsSigned]= useUserContext();
+    const [isSigned, setIsSigned] = useUserContext();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const navigate = useNavigate()
+    const navigate = useNavigate(); //TODO Проверка дали има юзър за да смени вюто на навигацията
     // const [isSigned, setIsSigned] = React.useState(false);
     // isSigned = false;
-    ; //TODO Проверка дали има юзър за да смени вюто на навигацията
-
-   
-
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
         console.log("asd");
@@ -40,7 +36,6 @@ function ResponsiveAppBar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
-
     };
 
     useEffect(() => {
@@ -52,14 +47,12 @@ function ResponsiveAppBar() {
         localStorage.removeItem("loggedUser");
         setIsSigned(false);
         handleCloseUserMenu();
-        navigate('/')
+        navigate("/");
     };
 
-    
-
     const userNavigation = (
-        <AppBar position="static">
-            <Container maxWidth="xl">
+        <AppBar position="static" sx={{ width:"88vw" }}>
+            <Container  maxWidth="xl" >
                 <Toolbar disableGutters>
                     <Box
                         sx={{
@@ -160,10 +153,7 @@ function ResponsiveAppBar() {
                                     </Link>
                                 </Typography>
                             </MenuItem>
-                            <MenuItem
-                                key="Logout"
-                                onClick={handleLogout}
-                            >
+                            <MenuItem key="Logout" onClick={handleLogout}>
                                 <Typography
                                     textAlign="center"
                                     onClick={(e) => {
@@ -180,7 +170,7 @@ function ResponsiveAppBar() {
         </AppBar>
     );
     const guestNavigation = (
-        <AppBar position="static">
+        <AppBar position="static" sx={{ width:"88vw" }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box
@@ -246,10 +236,7 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem
-                                key="Login"
-                                onClick={handleCloseUserMenu}
-                            >
+                            <MenuItem key="Login" onClick={handleCloseUserMenu}>
                                 <Typography
                                     textAlign="center"
                                     onClick={(e) => {
@@ -286,7 +273,6 @@ function ResponsiveAppBar() {
                                     >
                                         Sign Up
                                     </Link>
-                                    
                                 </Typography>
                             </MenuItem>
                         </Menu>
@@ -296,6 +282,7 @@ function ResponsiveAppBar() {
         </AppBar>
     );
 
-    return isSigned ? userNavigation : guestNavigation;
+    return <div className="nav-bar-container"> {isSigned ? userNavigation : guestNavigation} </div>;
 }
+
 export default ResponsiveAppBar;
