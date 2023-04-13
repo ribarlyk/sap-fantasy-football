@@ -13,7 +13,7 @@ import attackerJersey from "../../../assets/images/jerseys/brasilyellow.png=z-0,
 import dummyJersey from "../../../assets/images/jerseys/no-player.png=z-0,0_f-webp";
 import SearchBar from "../SearchBar/SearchBar";
 import TeamName from "../TeamName/TeamName";
-
+import { fetchData } from "../../utils/fetch";
 export default function Pitch() {
     const [loggedUser, setLoggedUser] = useState(
         JSON.parse(localStorage.getItem("loggedUser")) || {}
@@ -46,46 +46,30 @@ export default function Pitch() {
     );
     const [isNameSaved, setIsNameSaved] = useState(false);
     const [sumBuy, setSumBuy] = useState(null);
-    // const [addOrRemoveBtn, setAddOrRemoveBtn] = useState("+");
-    console.log(JSON.parse(localStorage.getItem("users")));
 
     useEffect(() => {
         const team = JSON.parse(localStorage.getItem("loggedUser"));
         setMyTeam(team.team || []);
         setLoggedUser(team);
-
         let users = JSON.parse(localStorage.getItem("users")) || [];
-        console.log(users);
         const userIndex = users.findIndex((u) => u.username === team.username);
         if (userIndex !== -1) {
-            console.log(users[userIndex].team);
-            console.log(users[userIndex]);
-
-            console.log(team.team);
             users[userIndex].team = team.team;
             localStorage.setItem("users", JSON.stringify(users));
         }
-        console.log(JSON.parse(localStorage.getItem("users")));
     }, [isChange]);
 
     useEffect(() => {
-        fetch(
+        fetchData(
             `https://api-football-v1.p.rapidapi.com/v3/players?league=39&season=2022&page=${page}`,
             {
                 headers: {
                     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
                     "X-RapidAPI-Key":
-                        "api-key",
+                        "9a511f7146mshe0fab5844669c1dp1c1c5fjsn55edffb40906",
                 },
             }
         )
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    throw new Error("error in db");
-                }
-            })
             .then((data) => {
                 setLoading(true);
                 setPlayers(data);
@@ -93,24 +77,17 @@ export default function Pitch() {
             .catch((err) => {
                 setLoading(!loading);
             });
-        fetch(
+        fetchData(
             `https://api-football-v1.p.rapidapi.com/v3/players?league=39&season=2022&search=${input}`,
 
             {
                 headers: {
                     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
                     "X-RapidAPI-Key":
-                        "api-key",
+                        "9a511f7146mshe0fab5844669c1dp1c1c5fjsn55edffb40906",
                 },
             }
         )
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    throw new Error("error in db");
-                }
-            })
             .then((data) => {
                 setLoading(true);
                 setSearchPlayers(data);
@@ -284,9 +261,7 @@ export default function Pitch() {
             alert("team already chosen");
         }
     };
-    const onRemovePlayerClickHandler = (event, player) => {
-        const name = player.name;
-    };
+
     const budgetSetHandler = (sumToBuy) => {
         const updatedBudget = Number(budget) - Number(sumToBuy);
         setBudget(updatedBudget);

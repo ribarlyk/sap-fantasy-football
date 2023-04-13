@@ -74,7 +74,7 @@ const useUserManager = () => {
   const [users, setUsers] = useState(
     JSON.parse(localStorage.getItem('users')) || [
       new User('Pavkata', 'samolevski'),
-      new User('DLG', 'samocska'),
+      new User('DLG', 'samolitex'),
     ],
   );
 
