@@ -222,7 +222,8 @@
     align-items: center;
     border-radius: 20px;
     .pitch-background {
-        border-radius: 15px;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
     }
 }
 
@@ -290,5 +291,21 @@ table {
 }
 
 .budget-container{
-    display:flex
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(
+        to right,
+        rgb(0, 255, 135),
+        rgb(2, 239, 255)
+    );
+    width:100%;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom: 2px solid #Ffffff;
+
+    h1{
+        margin-right: 50px;
+    }
+    
 }

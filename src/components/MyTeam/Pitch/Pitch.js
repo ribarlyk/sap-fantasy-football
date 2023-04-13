@@ -18,7 +18,6 @@ export default function Pitch() {
     const [loggedUser, setLoggedUser] = useState(
         JSON.parse(localStorage.getItem("loggedUser")) || {}
     );
-
     const [players, setPlayers] = useState("");
     const [searchPlayers, setSearchPlayers] = useState("");
     const [loading, setLoading] = useState(false);
@@ -28,14 +27,13 @@ export default function Pitch() {
     const [attacker, setAttacker] = useState([]);
     const [page, setPage] = useState(1);
     const [budget, setBudget] = useState(
-        JSON.parse(localStorage.getItem("budget")) || 450
+        JSON.parse(localStorage.getItem("loggedUser")).budget || 450
     );
     const [substitute, setSubstitute] = useState([]);
     const [myTeam, setMyTeam] = useState("");
     const [isTeamChoosen, setIsTeamChoosen] = useState(
         !!JSON.parse(localStorage.getItem("loggedUser")).team
     );
-    // const [localStorageTeam, setLocalStorageTeam] = useState("");
     const [nameClass, setNameClass] = useState(false);
     const [playerIn, setPlayerIn] = useState(null);
     const [isChange, setIsChange] = useState(false);
@@ -43,24 +41,11 @@ export default function Pitch() {
         !!JSON.parse(localStorage.getItem("loggedUser")).team || false
     );
     const [input, setInput] = useState("");
-    const [teamName, setTeamName] = useState("");
+    const [teamName, setTeamName] = useState(
+        JSON.parse(localStorage.getItem("loggedUser")).teamName || ""
+    );
     const [isNameSaved, setIsNameSaved] = useState(false);
-    // const [user, setUser] = useState(
-    //     JSON.parse(localStorage.getItem("loggedUser"))
-    // );
-    // const [users, setUsers] = useState(
-    //     JSON.parse(localStorage.getItem("users"))
-    // );
-
-    // useEffect(() => {
-    //     user.team = myTeam;
-    //     localStorage.setItem("loggedUser", JSON.stringify(user));
-    //     setUser(JSON.parse(localStorage.getItem("loggedUser")));
-    //     localStorage.setItem(
-    //         "musers",
-    //         JSON.stringify(Object.assign(users, user.team))
-    //     );
-    // }, [isTeamSaved]);
+    const [sumBuy, setSumBuy] = useState(null);
     console.log(JSON.parse(localStorage.getItem("users")));
 
     useEffect(() => {
@@ -72,10 +57,10 @@ export default function Pitch() {
         console.log(users);
         const userIndex = users.findIndex((u) => u.username === team.username);
         if (userIndex !== -1) {
-            console.log(users[userIndex].team)
-            console.log(users[userIndex])
+            console.log(users[userIndex].team);
+            console.log(users[userIndex]);
 
-            console.log(team.team)
+            console.log(team.team);
             users[userIndex].team = team.team;
             localStorage.setItem("users", JSON.stringify(users));
         }
@@ -208,6 +193,7 @@ export default function Pitch() {
     const onPlayerClickHandler = (player) => {
         let sumToBuy = player.player.age || 10;
         let position = player.statistics[0].games.position;
+        setSumBuy(sumToBuy);
 
         if (position === "Goalkeeper") {
             if (goalkeeper.length < 1) {
@@ -248,31 +234,38 @@ export default function Pitch() {
 
         if (budget - sumToBuy < 0) {
             alert("not enought money");
+        } else if (substitute.length > 4) {
+            alert("team already chosen");
         }
-
-        setBudget((prev) => Number(prev) - Number(sumToBuy));
-        localStorage.setItem("budget", JSON.stringify(budget));
     };
 
-    // const saveTeamHandler = () => {
-    //     setMyTeam([
-    //         ...goalkeeper,
-    //         ...defender,
-    //         ...midfielder,
-    //         ...attacker,
-    //         ...substitute,
-    //     ]);
-    //     setLocalStorageTeam(
-    //         JSON.parse(localStorage.getItem("team")) || [
-    //             ...goalkeeper,
-    //             ...defender,
-    //             ...midfielder,
-    //             ...attacker,
-    //             ...substitute,
-    //         ]
-    //     );
-    //     setIsTeamSaved(!isTeamSaved);
-    // };
+    const budgetSetHandler = (sumToBuy) => {
+        const updatedBudget = Number(budget) - Number(sumToBuy);
+        setBudget(updatedBudget);
+        localStorage.setItem("budget", JSON.stringify(updatedBudget));
+
+        const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        const updatedLoggedUser = {
+            ...loggedUser,
+            budget: updatedBudget,
+        };
+
+        const users = JSON.parse(localStorage.getItem("users"));
+        const updatedUsers = users.map((user) => {
+            if (user.username === loggedUser.username) {
+                return updatedLoggedUser;
+            } else {
+                return user;
+            }
+        });
+
+        localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+    };
+
+    useEffect(() => {
+        budgetSetHandler(sumBuy);
+    }, [sumBuy]);
 
     const saveTeamHandler = () => {
         const currentTeam = [
@@ -285,12 +278,7 @@ export default function Pitch() {
 
         setMyTeam(currentTeam);
 
-        // setLocalStorageTeam(
-        //   JSON.parse(localStorage.getItem('team')) || currentTeam
-        // );
-
-        // Update the user's team
-        updateUserTeam(loggedUser, currentTeam);
+        updateUserTeam(loggedUser, currentTeam, budget, teamName);
 
         setIsTeamSaved(!isTeamSaved);
     };
@@ -305,7 +293,6 @@ export default function Pitch() {
         ];
         const user = JSON.parse(localStorage.getItem("loggedUser"));
         user.team = teams;
-        console.log(user);
         localStorage.setItem("loggedUser", JSON.stringify(user));
     }
 
@@ -315,51 +302,6 @@ export default function Pitch() {
         setIsChange(!isChange);
         return playerIn;
     };
-
-    // const rowGenerator = (pos, styleClass, localIndex, stateIndex) => {
-    //     return (
-    //         <div className={styleClass}>
-    //             {isTeamSaved ? (
-    //                 <BasicModal
-    //                     name={
-    //                         localStorageTeam[localIndex]?.player?.name
-    //                             ? localStorageTeam[localIndex]?.player?.name
-    //                             : pos[stateIndex]?.player?.name
-    //                     }
-    //                     onPlayerChangeHandler={onPlayerChangeHandler}
-    //                 />
-    //             ) : null}
-    //             {localStorageTeam ? (
-    //                 <ShirtButton
-    //                     isChange={isChange}
-    //                     setIsChange={setIsChange}
-    //                     onPlayerChangeHandler={onPlayerChangeHandler}
-    //                     localStorageTeam={localStorageTeam}
-    //                     position={
-    //                         localStorageTeam[localIndex]?.statistics[0].games
-    //                             .position
-    //                     }
-    //                     name={localStorageTeam[localIndex]?.player?.name}
-    //                     jersey={
-    //                         localStorageTeam[localIndex]
-    //                             ? localStorageTeam[localIndex].jersey
-    //                             : dummyJersey
-    //                     }
-    //                 />
-    //             ) : (
-    //                 <ShirtButton
-    //                     position={pos[stateIndex]?.statistics[0].games.position}
-    //                     name={pos[stateIndex]?.player?.name}
-    //                     jersey={
-    //                         pos[stateIndex]
-    //                             ? pos[stateIndex].jersey
-    //                             : dummyJersey
-    //                     }
-    //                 />
-    //             )}
-    //         </div>
-    //     );
-    // };
 
     const rowGenerator = (pos, styleClass, localIndex, stateIndex) => {
         return (
@@ -408,26 +350,45 @@ export default function Pitch() {
 
     const searchBarHandler = (event, key, payload) => {
         event.preventDefault();
-        console.log(event.nativeEvent.data);
         setInput(event.target.value);
-        console.log(input);
     };
 
     const teamNameHandler = (teamName, isSaved) => {
         setTeamName(teamName);
         setIsNameSaved(isSaved);
+
+        const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+
+        const updatedLoggedUser = {
+            ...loggedUser,
+            teamName: teamName,
+            budget:budget
+        };
+
+        const users = JSON.parse(localStorage.getItem("users"));
+        const updatedUsers = users.map((user) => {
+            if (user.username === loggedUser.username) {
+                return updatedLoggedUser;
+            } else {
+                return user;
+            }
+        });
+
+        localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
     };
+
     return (
         <>
             <div className="container">
                 <div className="pitch-container">
                     <div className="budget-container">
-                        <h2>{budget} Mil</h2>
                         {teamName ? (
-                            <h1>{teamName}</h1>
-                        ) : (
-                            <TeamName teamNameHandler={teamNameHandler} />
-                        )}
+                            <h1>Team Name : {teamName}</h1>
+                            ) : (
+                                <TeamName teamNameHandler={teamNameHandler} />
+                                )}
+                                <h2>Budget: {budget}/450 €</h2>
                     </div>
                     <div className="pitch-background">
                         <div
