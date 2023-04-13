@@ -1,11 +1,12 @@
 import "./Home.scss";
 import { motion } from "framer-motion";
 import BasicGrid from "./Grid";
+import Header from "./Header";
 
 export default function Home() {
     return (
         <div className="home-container">
-            <h1>HEADLINES</h1>
+            <Header title="HEADLINES" />
             <BasicGrid />
         </div>
     );
