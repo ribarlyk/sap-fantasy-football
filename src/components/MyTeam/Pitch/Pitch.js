@@ -75,7 +75,7 @@ export default function Pitch() {
                 headers: {
                     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
                     "X-RapidAPI-Key":
-                        "9a511f7146mshe0fab5844669c1dp1c1c5fjsn55edffb40906",
+                        "api-key",
                 },
             }
         )
@@ -100,7 +100,7 @@ export default function Pitch() {
                 headers: {
                     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
                     "X-RapidAPI-Key":
-                        "9a511f7146mshe0fab5844669c1dp1c1c5fjsn55edffb40906",
+                        "api-key",
                 },
             }
         )
