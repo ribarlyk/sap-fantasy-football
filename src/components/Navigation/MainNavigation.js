@@ -10,7 +10,7 @@ import Register from "../Register/Register";
 import News from "../News/News";
 import Rules from "../Rules/Rules";
 import { AnimatePresence } from 'framer-motion'
-
+import Error from "../Error/Error";
 export default function AnimatetRoutes() {
     const location = useLocation();
 
@@ -26,6 +26,7 @@ export default function AnimatetRoutes() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/news" element={<News />} />
                 <Route path="/rules" element={<Rules />} />
+                <Route path = "*" element={<Error/>} />
             </Routes>
         </AnimatePresence>
     )
