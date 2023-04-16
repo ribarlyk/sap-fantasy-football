@@ -1,40 +1,36 @@
 import { useState } from "react";
+import uniqid from "uniqid";
 
-export default function Pair({ round }) {
-    const [rounds, setRounds] = useState(1);
-    console.log(round);
+export default function Pair( {round} ) {
+    const [rounds, setRounds] = useState([]);
+    console.log(round)
+    const pairs = round.map(
+        (x) =>
+            `${x[0].teamName || x[0].team.name} vs ${
+                x[1].teamName || x[1].team.name
+            }`
+    );
+    console.log(pairs)
 
-    const nextRoundFixturesHandler = () => {
-        setRounds((prev) => prev + 1);
-    };
-
-
-    function getRounds(){
-        
+    const pages = [];
+    for (let i = 0; i < pairs.length; i += 5) {
+        pages.push({ round: i / 5 + 1, pairs: pairs.slice(i, i + 5) });
     }
+    console.log(pages)
+
     return (
         <>
-            <button onClick={nextRoundFixturesHandler}></button>
-            <h2>Round {rounds}</h2>
-            <li>
-                {round
-
-                    .map((x, i) => {
-                        console.log(`Round ${i + 1}`);
-                        console.log(
-                            `${x[0].teamName || x[0].team.name} vs ${
-                                x[1].teamName || x[1].team.name
-                            }`
-                        );
-                        return `
-                ${x[0].teamName || x[0].team.name} vs ${
-                            x[1].teamName || x[1].team.name
-                        }`;
-                    })
-                    .map((x) => (
-                        <li>{x}</li>
-                    ))}
-            </li>
+            {pages.map((page, i) => (
+                <>
+                    <h2>Leg {i+1}</h2>
+                    <ul>
+                        {page.pairs.map((pair) => (
+                            <li key={uniqid()}>{pair}</li>
+                        ))}
+                    </ul>
+                    <div className="page-break"></div>
+                </>
+            ))}
         </>
     );
 }
