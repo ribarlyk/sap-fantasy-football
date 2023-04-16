@@ -1,10 +1,13 @@
 import "./Standings.scss";
-import {teamGenerator} from "../Models/LeagueModel/LeagueManager";
+import { teamGenerator } from "../Models/LeagueModel/LeagueManager";
 import { useState, useEffect } from "react";
-
+import GeneratePairings from "./GeneratePairings";
 export default function Standings() {
     const [teams, setTeams] = useState(
         JSON.parse(localStorage.getItem("teams")) || []
+    );
+    const [userTeam, setUserTeam] = useState(
+        JSON.parse(localStorage.getItem("loggedUser")) || []
     );
 
     useEffect(() => {
@@ -20,11 +23,14 @@ export default function Standings() {
     }, []);
 
     localStorage.setItem("teams", JSON.stringify(teams));
+    localStorage.setItem("league", JSON.stringify([...teams, userTeam]));
 
-    const onClickHandler = () => {};
     return (
         <div className="standings-container">
             <h1>STANDINGS TABLE</h1>
+            <GeneratePairings
+                teams={JSON.parse(localStorage.getItem("league"))}
+            />
         </div>
     );
 }
