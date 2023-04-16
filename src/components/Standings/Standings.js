@@ -2,6 +2,8 @@ import "./Standings.scss";
 import { teamGenerator } from "../Models/LeagueModel/LeagueManager";
 import { useState, useEffect } from "react";
 import GeneratePairings from "./GeneratePairings";
+import Table from "./Table";
+
 export default function Standings() {
     const [teams, setTeams] = useState(
         JSON.parse(localStorage.getItem("teams")) || []
@@ -27,10 +29,16 @@ export default function Standings() {
 
     return (
         <div className="standings-container">
-            <h1>STANDINGS TABLE</h1>
-            <GeneratePairings
-                teams={JSON.parse(localStorage.getItem("league"))}
-            />
+            <div className="fixtures-container">
+                <h1>Fixtures</h1>
+                <GeneratePairings
+                    teams={JSON.parse(localStorage.getItem("league"))}
+                />
+            </div>
+            <div className="table-container">
+                <h1>Table</h1>
+                <Table/>
+            </div>
         </div>
     );
 }
