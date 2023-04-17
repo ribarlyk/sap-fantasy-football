@@ -110,14 +110,14 @@ export default class MatchSimulator {
     // hasIncreasedProbability = false;
 
     calculateTeamRating(team) {
-        const aggressionRating = this.average('aggression', team.players);
+        const aggressionRating = this.average('agression', team.players);
         const attackRating = this.average('attack', team.players);
         const speedRating = this.average('speed', team.players);
         const defenseRating = this.average('defense', team.players);
         const paceRating = this.average('pace', team.players);
 
         return {
-            aggression: aggressionRating,
+            agression: aggressionRating,
             attack: attackRating,
             speed: speedRating,
             defense: defenseRating,

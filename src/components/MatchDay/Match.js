@@ -1,7 +1,7 @@
 import "./Match.scss";
 import MatchSimulator from "./simulatorBeta";
 import { Team, Statistic } from "./simulatorBeta";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
@@ -17,7 +17,6 @@ export default function MatchDay() {
     const [awayTeam, setAwayTeam] = useState(
         new Team(legOne[0][1].teamName, legOne[0][1].team.slice(0, 11))
     );
-    console.log(homeTeam, awayTeam);
 
     const [awayTeamName, setAwayTeamName] = useState("");
     const [awayCorners, setAwayCorners] = useState(0);
@@ -37,62 +36,65 @@ export default function MatchDay() {
     const [homeShotsOnTarget, setHomeShotsOnTarget] = useState(0);
     const [homeThrowIns, setHomeThrowIns] = useState(0);
     const [homeYellowCards, setHomeYellowCards] = useState(0);
+    const [matchSimulator, setMatchSimulator] = useState(null);
+    const [count, setCount] = useState(0);
+
     const handleStartMatch = () => {
         setMatchStarted(true);
 
-        const matchSimulator = new MatchSimulator(homeTeam, awayTeam);
-        setMatchStatistic(matchSimulator.matchStatistic);
+        setMatchSimulator(new MatchSimulator(homeTeam, awayTeam));
+        setMatchStatistic(matchSimulator?.matchStatistic);
     };
 
     useEffect(() => {
-        setAwayCorners(matchStatistic?.awayCornerKicks);
-        setAwayFouls(matchStatistic?.awayFouls);
-        setAwayGoals(matchStatistic?.awayGoals);
-        setAwayPossession(matchStatistic?.awayPossession);
-        setAwayRedCards(matchStatistic?.awayRedCards);
-        setAwayShotsOnTarget(matchStatistic?.awayShotsOnTarget);
-        setAwayGoals(matchStatistic?.awayGoals);
-        setAwayTeamName(matchStatistic?.awayTeam);
-        setAwayYellowCards(matchStatistic?.awayYellowCards);
+       
 
-        setHomeCorners(matchStatistic?.homeCornerKicks);
-        setHomeFouls(matchStatistic?.homeFouls);
-        setHomeGoals(matchStatistic?.homeGoals);
-        setHomePossession(matchStatistic?.homePossession);
-        setHomeRedCards(matchStatistic?.homeRedCards);
-        setHomeShotsOnTarget(matchStatistic?.homeShotsOnTarget);
-        setHomeGoals(matchStatistic?.homeGoals);
-        setHomeTeamName(matchStatistic?.homeTeam);
-        setHomeYellowCards(matchStatistic?.homeYellowCards);
+        const intervalId = setInterval(() => {
+            setCount((prevCount) => prevCount + 1);
+        }, 1000);
+
+        setAwayCorners(matchSimulator?.matchStatistic.awayCornerKicks);
+        setAwayFouls(matchSimulator?.matchStatistic.awayFouls);
+        setAwayGoals(matchSimulator?.matchStatistic.awayGoals);
+        setAwayPossession(matchSimulator?.matchStatistic.awayPossession);
+        setAwayRedCards(matchSimulator?.matchStatistic.awayRedCards);
+        setAwayShotsOnTarget(matchSimulator?.matchStatistic.awayShotsOnTarget);
+        setAwayTeamName(matchSimulator?.matchStatistic.awayTeam);
+        setAwayYellowCards(matchSimulator?.matchStatistic.awayYellowCards);
+
+        setHomeCorners(matchSimulator?.matchStatistic.homeCornerKicks);
+        setHomeFouls(matchSimulator?.matchStatistic.homeFouls);
+        setHomeGoals(matchSimulator?.matchStatistic.homeGoals);
+        setHomePossession(matchSimulator?.matchStatistic.homePossession);
+        setHomeRedCards(matchSimulator?.matchStatistic.homeRedCards);
+        setHomeShotsOnTarget(matchSimulator?.matchStatistic.homeShotsOnTarget);
+        setHomeTeamName(matchSimulator?.matchStatistic.homeTeam);
+        setHomeYellowCards(matchSimulator?.matchStatistic.homeYellowCards);
+
+        return () => clearInterval(intervalId);
     }, [
-        // awayCorners,
-        // awayGoals,
-        // awayFouls,
-        // awayPossession,
-        // awayRedCards,
-        // awayShotsOnTarget,
-        // awayThrowIns,
-        // awayYellowCards,
-        // homeCorners,
-        // homeGoals,
-        // homeFouls,
-        // homePossession,
-        // homeRedCards,
-        // homeShotsOnTarget,
-        // homeThrowIns,
-        // homeYellowCards,
+        matchSimulator?.matchStatistic.awayGoals,
+        matchSimulator?.matchStatistic.homeGoals,
+        matchSimulator?.matchStatistic.awayCornerKicks,
+        matchSimulator?.matchStatistic.awayFouls,
+        matchSimulator?.matchStatistic.awayGoals,
+       matchSimulator?.matchStatistic.awayPossession,
+       matchSimulator?.matchStatistic.awayRedCards,
+        matchSimulator?.matchStatistic.awayShotsOnTarget,
+        matchSimulator?.matchStatistic.awayTeam,
+       matchSimulator?.matchStatistic.awayYellowCards,
     ]);
-    console.log(matchStatistic);
+
     return (
         <div className="match-container">
             {!matchStarted && (
                 <button onClick={handleStartMatch}>Start Match</button>
             )}
-            {matchStatistic && (
+            {matchSimulator?.matchStatistic && (
                 <div>
                     <div>{awayTeamName}</div>
-                    <div>{awayCorners}</div>
                     <div>{awayGoals}</div>
+                    <div>{awayCorners}</div>
                     <div>{awayFouls}</div>
                     <div>{awayPossession}</div>
                     <div>{awayYellowCards}</div>
@@ -101,8 +103,8 @@ export default function MatchDay() {
                     <div>{awayThrowIns}</div>
                     <div>:</div>
                     <div>{homeTeamName}</div>
-                    <div>{homeCorners}</div>
                     <div>{homeGoals}</div>
+                    <div>{homeCorners}</div>
                     <div>{homeFouls}</div>
                     <div>{homePossession}</div>
                     <div>{homeYellowCards}</div>
