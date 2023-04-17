@@ -1,15 +1,3 @@
-// class Team {
-//     constructor(name, players) {
-//       this.name = name;
-//       this.players = players;
-//     }
-
-// FUNC THAT CALCULATES THE ATRIBUTES 
-//     average(attribute) {
-//       const sum = this.players.reduce((acc, player) => acc + player[attribute], 0);
-//       return sum / this.players.length;
-// }
-
 class Player {
     constructor(aggression, attack, defense, pace, speed) {
         this.aggression = aggression;
@@ -21,7 +9,7 @@ class Player {
 }
 
 class Team {
-    constructor(name, players, isFavorite) {
+    constructor(name, players) {
         this.name = name;
         this.players = players;
     }
