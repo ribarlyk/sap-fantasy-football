@@ -11,12 +11,16 @@ export default function Standings() {
     const [userTeam, setUserTeam] = useState(
         JSON.parse(localStorage.getItem("loggedUser")) || []
     );
+    const [league, setLeague] = useState(
+        localStorage.setItem("league", JSON.stringify([...teams, userTeam])) || []
+    );
 
     useEffect(() => {
         async function fetchTeams() {
             try {
                 const team = await teamGenerator.generateTeam();
                 setTeams(team);
+                setLeague([...team, userTeam])
             } catch (error) {
                 console.error(error);
             }
@@ -26,7 +30,9 @@ export default function Standings() {
 
     localStorage.setItem("teams", JSON.stringify(teams));
     localStorage.setItem("league", JSON.stringify([...teams, userTeam]));
-    
+
+   
+   
 
     return (
         <div className="standings-container">
@@ -38,7 +44,7 @@ export default function Standings() {
             </div>
             <div className="table-container">
                 <h1>Table</h1>
-                <Table/>
+                <Table league={league}/>
             </div>
         </div>
     );

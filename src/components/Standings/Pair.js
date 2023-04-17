@@ -17,7 +17,7 @@ export default function Pair( {round} ) {
     return (
         <>
             {pages.map((page, i) => (
-                <>
+                <div key = {uniqid()}>
                     <h2>Leg {i+1}</h2>
                     <ul>
                         {page.pairs.map((pair) => (
@@ -25,7 +25,7 @@ export default function Pair( {round} ) {
                         ))}
                     </ul>
                     <div className="page-break"></div>
-                </>
+                </div>
             ))}
         </>
     );

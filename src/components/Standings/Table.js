@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Standings.scss";
 
-export default function Table() {
+export default function Table({league}) {
     const [teams, setTeams] = useState(
         JSON.parse(localStorage.getItem("league"))
     );
@@ -21,7 +21,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {teams.map((x, index) => {
+          {league.map((x, index) => {
             return (
               <tr key={index}>
                 <td>{index + 1}</td>
