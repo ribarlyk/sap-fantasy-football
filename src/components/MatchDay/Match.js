@@ -38,6 +38,8 @@ export default function MatchDay() {
     const [homeYellowCards, setHomeYellowCards] = useState(0);
     const [matchSimulator, setMatchSimulator] = useState(null);
     const [count, setCount] = useState(0);
+    const [awayBadge, setAwayBadge] = useState(0);
+    const [homeBadge, setHomeBadge] = useState(0);
 
     const handleStartMatch = () => {
         setMatchStarted(true);
@@ -47,8 +49,6 @@ export default function MatchDay() {
     };
 
     useEffect(() => {
-       
-
         const intervalId = setInterval(() => {
             setCount((prevCount) => prevCount + 1);
         }, 1000);
@@ -78,40 +78,108 @@ export default function MatchDay() {
         matchSimulator?.matchStatistic.awayCornerKicks,
         matchSimulator?.matchStatistic.awayFouls,
         matchSimulator?.matchStatistic.awayGoals,
-       matchSimulator?.matchStatistic.awayPossession,
-       matchSimulator?.matchStatistic.awayRedCards,
+        matchSimulator?.matchStatistic.awayPossession,
+        matchSimulator?.matchStatistic.awayRedCards,
         matchSimulator?.matchStatistic.awayShotsOnTarget,
         matchSimulator?.matchStatistic.awayTeam,
-       matchSimulator?.matchStatistic.awayYellowCards,
+        matchSimulator?.matchStatistic.awayYellowCards,
     ]);
 
+    const handleFinishMatch = () => {
+        console.log("finish");
+    };
+    console.log(matchSimulator)
     return (
         <div className="match-container">
             {!matchStarted && (
                 <button onClick={handleStartMatch}>Start Match</button>
             )}
             {matchSimulator?.matchStatistic && (
-                <div>
-                    <div>{awayTeamName}</div>
-                    <div>{awayGoals}</div>
-                    <div>{awayCorners}</div>
-                    <div>{awayFouls}</div>
-                    <div>{awayPossession}</div>
-                    <div>{awayYellowCards}</div>
-                    <div>{awayRedCards}</div>
-                    <div>{awayShotsOnTarget}</div>
-                    <div>{awayThrowIns}</div>
-                    <div>:</div>
-                    <div>{homeTeamName}</div>
-                    <div>{homeGoals}</div>
-                    <div>{homeCorners}</div>
-                    <div>{homeFouls}</div>
-                    <div>{homePossession}</div>
-                    <div>{homeYellowCards}</div>
-                    <div>{homeRedCards}</div>
-                    <div>{homeShotsOnTarget}</div>
-                    <div>{homeThrowIns}</div>
-                </div>
+                <>
+                    <div className="result-teams-container">
+                        <div className="home-team-container">
+                            <h2>{homeTeamName}</h2>
+                            <h2>{homeGoals}</h2>
+                        </div>
+                        <span>-</span>
+                        <div className="away-team-container">
+                            <h2>{awayTeamName}</h2>
+                            <h2>{awayGoals}</h2>
+                        </div>
+                    </div>
+
+                    <table className="table-match">
+                        <thead>
+                            <tr>
+                                <th>HOME</th>
+                                <th>STAT</th>
+                                <th>AWAY</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{awayCorners}</td>
+                                <td>Corners</td>
+                                <td>{homeCorners}</td>
+                            </tr>
+                            <tr>
+                                <td>{awayFouls}</td>
+                                <td>Fouls</td>
+                                <td>{homeFouls}</td>
+                            </tr>
+                            <tr>
+                                <td>{awayPossession}</td>
+                                <td>Possession</td>
+                                <td>{homePossession}</td>
+                            </tr>
+                            <tr>
+                                <td>{awayYellowCards}</td>
+                                <td>YellowCards</td>
+                                <td>{homeYellowCards}</td>
+                            </tr>
+                            <tr>
+                                <td>{awayRedCards}</td>
+                                <td>RedCards</td>
+                                <td>{homeRedCards}</td>
+                            </tr>
+                            <tr>
+                                <td>{awayShotsOnTarget}</td>
+                                <td>Shots</td>
+                                <td>{homeShotsOnTarget}</td>
+                            </tr>
+                            <tr>
+                                <td>{awayThrowIns}</td>
+                                <td>ThrowIns</td>
+                                <td>{homeThrowIns}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </>
+
+                // <div>
+                //     <div>{awayTeamName}</div>
+                //     <div>{awayGoals}</div>
+                //     <div>{awayCorners}</div>
+                //     <div>{awayFouls}</div>
+                //     <div>{awayPossession}</div>
+                //     <div>{awayYellowCards}</div>
+                //     <div>{awayRedCards}</div>
+                //     <div>{awayShotsOnTarget}</div>
+                //     <div>{awayThrowIns}</div>
+                //     <div>:</div>
+                //     <div>{homeTeamName}</div>
+                //     <div>{homeGoals}</div>
+                //     <div>{homeCorners}</div>
+                //     <div>{homeFouls}</div>
+                //     <div>{homePossession}</div>
+                //     <div>{homeYellowCards}</div>
+                //     <div>{homeRedCards}</div>
+                //     <div>{homeShotsOnTarget}</div>
+                //     <div>{homeThrowIns}</div>
+                // </div>
+            )}
+            {matchStarted && (
+                <button onClick={handleFinishMatch}>Finish Match</button>
             )}
         </div>
     );

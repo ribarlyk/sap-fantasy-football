@@ -224,12 +224,12 @@ export default class MatchSimulator {
 
         if (Math.random() < homeGoalProbability / 10) {
             matchStatistic.homeGoals++;
-            console.log(`Goal! ${matchStatistic.homeTeam} scored!`);
+           return `Goal! ${matchStatistic.homeTeam} scored!`
         } else if (Math.random() < awayGoalProbability / 10) {
             matchStatistic.awayGoals++;
-            console.log(`Goal! ${matchStatistic.awayTeam} scored!`);
+            return `Goal! ${matchStatistic.awayTeam} scored!`
         } else {
-            console.log("No action");
+            return "No action"
         }
     }
 
