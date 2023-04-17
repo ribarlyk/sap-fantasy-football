@@ -9,7 +9,7 @@ export default function Table() {
         <table className="table-table">
         <thead>
           <tr>
-            <th >Place</th>
+            <th>Place</th>
             <th>Badge</th>
             <th>TEAM</th>
             <th>Wins</th>
@@ -31,12 +31,12 @@ export default function Table() {
                   ) : null}
                 </td>
                 <td>{x.team.name || x.teamName}</td>
-                <td>{x.team.wins}</td>
-                <td>{x.team.draws}</td>
-                <td>{x.team.loses}</td>
-                <td>{x.team.scoredgoals}</td>
-                <td>{x.team.conceededgoals}</td>
-                <td>{x.team.points}</td>
+                <td>{x.team.wins === 0 ? x.team.wins : x.wins}</td>
+                <td>{x.team.draws === 0 ? x.team.draws : x.draws}</td>
+                <td>{x.team.loses === 0 ? x.team.loses : x.loses}</td>
+                <td>{x.team.scoredgoals === 0  ?x.team.scoredgoals:  x.scoredgoals}</td>
+                <td>{x.team.conceededgoals === 0  ?x.team.conceededgoals:  x.conceededgoals}</td>
+                <td>{x.team.points === 0  ?x.team.points:  x.points}</td>
               </tr>
             );
           })}

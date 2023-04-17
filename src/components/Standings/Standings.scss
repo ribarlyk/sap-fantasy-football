@@ -1,15 +1,40 @@
 .standings-container {
+    display: flex;
+    gap: 100px;
+    justify-content: center;
     min-height: 100vh;
     margin: 180px;
+    .fixtures-container{
+        min-width: 300px;
+        font-size: 18px;
+    }
+    h1{
+        background-image: linear-gradient(
+            to right,
+            rgb(0, 255, 135),
+            rgb(2, 239, 255)
+        );
+        width: fit-content;
+    }
+    button{
+        background-color:#1976d2;
+        color: #ffffff;
+        margin: 5px;
+        padding: 4px;
+        border-radius: 5px;
+        border: none;
+        &:hover{
+            cursor: pointer;
+        }
+    }
 }
 
-
-
-.table-table{
+.table-table {
     border-collapse: separate;
     border-spacing: 10px;
-    *border-collapse: expression('separate', cellSpacing='10px');
-    td{
+    *border-collapse: expression("separate", cellSpacing= "10px");
+    td {
+        text-align: center;
         margin: 12px 12px 12px 12px;
         padding: 12px 12px 12px 12px;
     }

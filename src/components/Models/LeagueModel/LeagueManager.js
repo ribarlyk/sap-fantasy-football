@@ -17,7 +17,7 @@ class TeamGenerator {
 
         for (let j = 0; j < 5; j++) {
             const team = teams[Math.floor(Math.random() * teams.length)];
-            
+
             if (team && team.team && team.team.id) {
                 const response = await fetch(
                     `https://api-football-v1.p.rapidapi.com/v3/players?team=${team.team.id}&league=39&season=2022`,
@@ -82,6 +82,7 @@ class TeamGenerator {
             teams[i].team.draws = 0;
             teams[i].team.scoredgoals = 0;
             teams[i].team.conceededgoals = 0;
+            teams[i].team.points = 0;
             teamsArray.push(teams[i]);
         }
         return teamsArray;

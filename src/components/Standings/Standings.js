@@ -26,6 +26,7 @@ export default function Standings() {
 
     localStorage.setItem("teams", JSON.stringify(teams));
     localStorage.setItem("league", JSON.stringify([...teams, userTeam]));
+    
 
     return (
         <div className="standings-container">
