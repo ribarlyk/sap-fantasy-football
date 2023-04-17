@@ -1,44 +1,36 @@
-class Player {
-    constructor(aggression, attack, defense, pace, speed) {
-        this.aggression = aggression;
-        this.attack = attack;
-        this.defense = defense;
-        this.pace = pace;
-        this.speed = speed;
-    }
-}
+import React from "react";
 
-class Team {
-    constructor(name, players) {
+export class Team {
+    constructor(name, players, isFavorite) {
         this.name = name;
         this.players = players;
     }
 }
 
-function generateSamplePlayers() {
-    let players = [];
-    for (let i = 0; i < 17; i++) {
-        const player = new Player(
-            Math.floor(Math.random() * 10),
-            Math.floor(Math.random() * 10),
-            Math.floor(Math.random() * 10),
-            Math.floor(Math.random() * 10),
-            Math.floor(Math.random() * 10)
-        );
-        players.push(player);
-    }
-    return players;
-}
+// function generateSamplePlayers() {
+//     let players = [];
+//     for (let i = 0; i < 17; i++) {
+//         const player = new Player(
+//             Math.floor(Math.random() * 10),
+//             Math.floor(Math.random() * 10),
+//             Math.floor(Math.random() * 10),
+//             Math.floor(Math.random() * 10),
+//             Math.floor(Math.random() * 10)
+//         );
+//         players.push(player);
+//     }
+//     return players;
+// }
 
-// Sample data for home team and away team
-const homeTeamPlayers = generateSamplePlayers();
-const awayTeamPlayers = generateSamplePlayers();
+// // Sample data for home team and away team
+// const homeTeamPlayers = generateSamplePlayers();
+// const awayTeamPlayers = generateSamplePlayers();
 
-const homeTeam = new Team("Home Team", homeTeamPlayers);
-const awayTeam = new Team("Away Team", awayTeamPlayers);
+// const homeTeam = new Team("Home Team", homeTeamPlayers);
+// const awayTeam = new Team("Away Team", awayTeamPlayers);
 
 
-class Statistic {
+export class Statistic {
     constructor(homeTeam, awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -63,7 +55,7 @@ class Statistic {
     }
 }
 
-class MatchSimulator {
+export default class MatchSimulator {
     constructor(homeTeam, awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -74,7 +66,6 @@ class MatchSimulator {
         this.match = this.simulateMatch();
         this.hasIncreasedProbability = false;
     }
-
     determineFavoriteTeam() {
         const homeTotalRating = Object.values(this.homeTeamRating).reduce((acc, val) => acc + val, 0);
         const awayTotalRating = Object.values(this.awayTeamRating).reduce((acc, val) => acc + val, 0);
@@ -214,6 +205,7 @@ class MatchSimulator {
         if (Math.random() < homeGoalProbability / 10) {
             matchStatistic.homeGoals++;
             console.log(`Goal! ${matchStatistic.homeTeam} scored!`);
+            return (<div>Goal! {matchStatistic.homeTeam} scored!</div>)
         } else if (Math.random() < awayGoalProbability / 10) {
             matchStatistic.awayGoals++;
             console.log(`Goal! ${matchStatistic.awayTeam} scored!`);
@@ -351,5 +343,5 @@ class MatchSimulator {
 
 }
 
-const matchSimulator = new MatchSimulator(homeTeam, awayTeam);
-console.log(matchSimulator.match)
+// const matchSimulator = new MatchSimulator(homeTeam, awayTeam);
+// console.log(matchSimulator.match)
