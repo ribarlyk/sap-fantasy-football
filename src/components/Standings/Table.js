@@ -2,9 +2,9 @@ import { useState } from "react";
 import "./Standings.scss";
 
 export default function Table({league}) {
-    const [teams, setTeams] = useState(
-        JSON.parse(localStorage.getItem("league"))
-    );
+    // const [teams, setTeams] = useState(
+    //     JSON.parse(localStorage.getItem("league"))
+    // );
     return (
         <table className="table-table">
         <thead>
