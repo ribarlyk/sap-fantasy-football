@@ -1,6 +1,6 @@
 .match-container {
     height: 100vh;
-    margin: 50px auto;
+    margin: 150px auto;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -25,7 +25,7 @@ flex-direction: column;
             align-items: center;
             margin: 10px;
         }
-        .away-team-container {
+        .away-team-container{
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -39,6 +39,10 @@ flex-direction: column;
     span{
         font-size: 53px;
     }
+}
+
+.tableContainer {
+    display: flex;
 }
 
 .table-match{
@@ -55,3 +59,22 @@ flex-direction: column;
         padding: 12px 12px 12px 12px;
     }
 }
+
+.logs-container {
+    max-height: calc(3em * 5 + 1em); // 1.5em for each list item and 1em for the header
+    overflow-y: auto;
+    margin-left: 1em;
+    border: 1px solid #ccc;
+    padding: 1em;
+  }
+  
+  .logs-container ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  .logs-container li {
+    line-height: 1.5em;
+  }
+  
