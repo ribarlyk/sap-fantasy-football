@@ -12,8 +12,8 @@ export default function ShirtButton({
         if (onPlayerChangeHandler()) {
             const playerIn = onPlayerChangeHandler();
             const playerOut = e.target.nextElementSibling.textContent;
-
-            let newTeamList = localStorageTeam.slice();
+            console.log(localStorageTeam)
+            let newTeamList = localStorageTeam.slice() || localStorageTeam.team.slice()  
 
             let playerTakenInIndex;
             let playerTakenOutIndex;

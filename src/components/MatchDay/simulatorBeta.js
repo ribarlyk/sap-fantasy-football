@@ -7,6 +7,7 @@ export class Team {
     }
 }
 
+
 export class Statistic {
     constructor(homeTeam, awayTeam) {
         this.homeTeam = homeTeam;
@@ -62,8 +63,9 @@ export default class MatchSimulator {
     // hasIncreasedProbability = false;
     // FUNC THAT CALCULATES THE ATRIBUTES 
     average(attribute, players) {
-        const sum = players.reduce((acc, player) => acc + player[attribute], 0);
-        return sum / players.length;
+        console.log(attribute, players)
+        const sum = players?.reduce((acc, player) => acc + player[attribute], 0);
+        return sum / players?.length;
     }
     // hasIncreasedProbability = false;
 

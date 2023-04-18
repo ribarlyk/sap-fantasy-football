@@ -1,4 +1,3 @@
-import { useState } from "react";
 import uniqid from "uniqid";
 
 export default function Pair( {round} ) {
@@ -18,7 +17,6 @@ export default function Pair( {round} ) {
         <>
             {pages.map((page, i) => (
                 <div key = {uniqid()}>
-                    <h2>Leg {i+1}</h2>
                     <ul>
                         {page.pairs.map((pair) => (
                             <li key={uniqid()}>{pair}</li>
