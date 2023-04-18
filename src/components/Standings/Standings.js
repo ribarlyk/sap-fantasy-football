@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import GeneratePairings from "./GeneratePairings";
 import Table from "./Table";
 import { useResultsContext } from "../LiftingStates/ResultContext";
-import LastMatches from "./LastMatches";
+// import LastMatches from "./LastMatches";
 export default function Standings() {
     const [teams, setTeams] = useState(
         JSON.parse(localStorage.getItem("teams")) || []
@@ -48,7 +48,7 @@ export default function Standings() {
             </div>
 
             <div className="last-matches">
-                <LastMatches results={results} />
+               {/* {results && <LastMatches results={results} />}  */}
             </div>
         </div>
     );
