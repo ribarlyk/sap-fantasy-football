@@ -54,6 +54,7 @@ export default function MatchDay() {
     //     setMatchStatistic(matchSimulator?.matchStatistic);
     // };
 
+    const [allResults, setAllResults] = useState([]);
     const handleStartMatch = () => {
         setMatchStarted(true);
 
@@ -118,10 +119,33 @@ export default function MatchDay() {
         matchSimulator?.matchStatistic.awayThrowIns
     ]);
 
-    const handleFinishMatch = () => {
-        console.log("finish");
+    const simulateAllGamesFromTheLeg = () => {
+        let results = [];
+        for (let i = 1; i < legOne.length; i++) {
+            const homeTeam = new Team(
+                legOne[i][0].team.name,
+                legOne[i][0].team.players
+            );
+            const awayTeam = new Team(
+                legOne[i][1].team.name,
+                legOne[i][1].team.players
+            );
+            console.log(homeTeam,awayTeam)
+            const match = new MatchSimulator(homeTeam, awayTeam)
+            
+            console.log(match);
+            const stats = match?.matchStatistic;
+            console.log(stats);
+            results.push(stats);
+        }
+        return results;
     };
-    console.log(matchSimulator)
+    const handleFinishMatch = () => {
+        console.log(awayTeamName, homeTeamName, awayGoals, homeGoals);
+        console.log(simulateAllGamesFromTheLeg());
+    };
+
+    // console.log(matchSimulator)
     return (
         <div className="match-container">
             {!matchStarted && (
