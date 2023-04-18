@@ -106,6 +106,7 @@ export default function MatchDay() {
                             <h2>{awayTeamName}</h2>
                             <h2>{awayGoals}</h2>
                         </div>
+                        <div className="time-count">{count}</div>
                     </div>
 
                     <table className="table-match">
