@@ -381,14 +381,17 @@ export default function Pitch() {
 
         const updatedLoggedUser = {
             ...loggedUser,
-            teamName: teamName,
-            budget: budget,
-            wins: 0,
-            draws: 0,
-            loses: 0,
-            scoredgoals: 0,
-            conceededgoals: 0,
-            points: 0,
+            team: {
+                name: teamName,
+                budget: budget,
+                wins: 0,
+                draws: 0,
+                loses: 0,
+                scoredgoals: 0,
+                conceededgoals: 0,
+                points: 0,
+                players: myTeam,
+            },
         };
 
         const users = JSON.parse(localStorage.getItem("users"));

@@ -2,22 +2,16 @@ import "./Match.scss";
 import MatchSimulator from "./simulatorBeta";
 import { Team, Statistic } from "./simulatorBeta";
 import { useState, useEffect, useRef } from "react";
+import { useResultsContext } from "../LiftingStates/ResultContext";
 
 export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
     const [matchStatistic, setMatchStatistic] = useState(null);
-    const [round, setRound] = useState(
-        JSON.parse(localStorage.getItem("fixtures"))[0]
-    );
+    const [round, setRound] = useState( JSON.parse(localStorage.getItem("fixtures"))[0]);
     const [legOne, setLegOne] = useState(round.splice(0, 5));
     const [legTwo, setLegTwo] = useState(round.splice());
-    const [homeTeam, setHomeTeam] = useState(
-        new Team(legOne[0][0].team.name, legOne[0][0].team.players)
-    );
-    const [awayTeam, setAwayTeam] = useState(
-        new Team(legOne[0][1].teamName, legOne[0][1].team.slice(0, 11))
-    );
-
+    const [homeTeam, setHomeTeam] = useState(new Team(legOne[0][0].team.name, legOne[0][0].team.players));
+    const [awayTeam, setAwayTeam] = useState(new Team(legOne[0][1].teamName, legOne[0][1].team.slice(0, 11)));
     const [awayTeamName, setAwayTeamName] = useState("");
     const [awayCorners, setAwayCorners] = useState(0);
     const [awayFouls, setAwayFouls] = useState(0);
@@ -42,7 +36,9 @@ export default function MatchDay() {
     const [homeBadge, setHomeBadge] = useState(0);
     const [matchSeconds, setMatchSeconds] = useState(0);
     const [logs, setLogs] = useState([]);
-    const [showNextRound, setShowNextRound] = useState(false);
+    const [allResults, setAllResults] = useState([]);
+    const [league,setLeague] = useState(JSON.parse(localStorage.getItem("league")))
+    const [results, setResults] = useResultsContext();
 
     // const handleStartMatch = () => {
     //     setMatchStarted(true);
@@ -55,7 +51,7 @@ export default function MatchDay() {
     //     setMatchStatistic(matchSimulator?.matchStatistic);
     // };
 
-    const [allResults, setAllResults] = useState([]);
+    
     const handleStartMatch = () => {
         setMatchStarted(true);
 
@@ -71,17 +67,17 @@ export default function MatchDay() {
     };
 
     useEffect(() => {
-        console.log("assss");
-        const intervalId = setInterval(() => {
-            setCount((prevCount) => prevCount + 1);
-            setMatchSeconds((prevSeconds) => {
-                if (prevSeconds >= 90) {
-                    clearInterval(intervalId);
-                    return prevSeconds;
-                }
-                return prevSeconds + 1;
-            });
-        }, 1000);
+        // console.log("assss");
+        // const intervalId = setInterval(() => {
+        //     setCount((prevCount) => prevCount + 1);
+        //     setMatchSeconds((prevSeconds) => {
+        //         if (prevSeconds >= 90) {
+        //             clearInterval(intervalId);
+        //             return prevSeconds;
+        //         }
+        //         return prevSeconds + 1;
+        //     });
+        // }, 1000);
 
         setAwayCorners(matchSimulator?.matchStatistic.awayCornerKicks);
         setAwayFouls(matchSimulator?.matchStatistic.awayFouls);
@@ -104,7 +100,7 @@ export default function MatchDay() {
         setAwayThrowIns(matchSimulator?.matchStatistic.awayThrowIns);
 
 
-        return () => clearInterval(intervalId);
+        // return () => clearInterval(intervalId);
     }, [
         matchSimulator?.matchStatistic.awayGoals,
         matchSimulator?.matchStatistic.homeGoals,
@@ -131,68 +127,29 @@ export default function MatchDay() {
                 legOne[i][1].team.name,
                 legOne[i][1].team.players
             );
-            console.log(homeTeam, awayTeam)
-            const match = new MatchSimulator(homeTeam, awayTeam)
+            console.log(homeTeam, awayTeam);
+            const match = new MatchSimulator(homeTeam, awayTeam);
 
             console.log(match);
             const stats = match?.matchStatistic;
             console.log(stats);
             results.push(stats);
         }
+        setAllResults((prev) => [...prev, results]);
+        setResults((prev) => [...prev, results]);
         return results;
     };
     const handleFinishMatch = () => {
-        console.log(awayTeamName, homeTeamName, awayGoals, homeGoals);
+        let arrayMainMatch = [awayTeamName, homeTeamName, awayGoals, homeGoals];
+
+        setAllResults((prev) => [...prev, arrayMainMatch]);
+        setResults((prev) => [...prev, arrayMainMatch]);
         console.log(simulateAllGamesFromTheLeg());
 
-        setShowNextRound(true);
+        // setShowNextRound(true);
         setMatchStarted(false); 
     };
-
-    const findCurrentUserMatch = (currentUserTeamName, round) => {
-        for (const match of round) {
-            if (match[0].team.name === currentUserTeamName || match[1].team.name === currentUserTeamName) {
-                return match;
-            }
-        }
-        return null;
-    };
-    
-
-    // const handleNextRound = () => {
-    //     // Update the teams playing in the next match
-    //     setCount((prevCount) => prevCount + 1);
-    
-    //     const currentUserMatch = findCurrentUserMatch(currentUserTeamName, legOne);
-    
-    //     if (currentUserMatch) {
-    //         const homeTeamIndex = currentUserMatch[0].team.name === currentUserTeamName ? 0 : 1;
-    //         const awayTeamIndex = homeTeamIndex === 0 ? 1 : 0;
-    
-    //         setHomeTeam(
-    //             new Team(
-    //                 currentUserMatch[homeTeamIndex].team.name,
-    //                 currentUserMatch[homeTeamIndex].team.players
-    //             )
-    //         );
-    //         setAwayTeam(
-    //             new Team(
-    //                 currentUserMatch[awayTeamIndex].team.name,
-    //                 currentUserMatch[awayTeamIndex].team.players
-    //             )
-    //         );
-    //     } else {
-    //         console.log("Current user match not found");
-    //     }
-    
-    //     if (count >= legOne.length - 1) {
-    //         // No more matches in the round
-    //         console.log("Round finished");
-    //         setShowNextRound(false);
-    //     }
-    // };
-    
-    
+    console.log(results)
     // console.log(matchSimulator)
     return (
         <div className="match-container">
@@ -272,95 +229,11 @@ export default function MatchDay() {
                     </div>
                 </>
 
-                // <div>
-                //     <div>{awayTeamName}</div>
-                //     <div>{awayGoals}</div>
-                //     <div>{awayCorners}</div>
-                //     <div>{awayFouls}</div>
-                //     <div>{awayPossession}</div>
-                //     <div>{awayYellowCards}</div>
-                //     <div>{awayRedCards}</div>
-                //     <div>{awayShotsOnTarget}</div>
-                //     <div>{awayThrowIns}</div>
-                //     <div>:</div>
-                //     <div>{homeTeamName}</div>
-                //     <div>{homeGoals}</div>
-                //     <div>{homeCorners}</div>
-                //     <div>{homeFouls}</div>
-                //     <div>{homePossession}</div>
-                //     <div>{homeYellowCards}</div>
-                //     <div>{homeRedCards}</div>
-                //     <div>{homeShotsOnTarget}</div>
-                //     <div>{homeThrowIns}</div>
-                // </div>
             )}
             {matchStarted && (
                 <button onClick={handleFinishMatch}>Finish Match</button>
             )}
-
-            {showNextRound && (
-                <button /* onClick={} */>Next Round</button>
-            )}
+            
         </div>
     );
 }
-// awayCornerKicks
-// :
-// 1
-// awayFouls
-// :
-// 0
-// awayGoals
-// :
-// 1
-// awayPossession
-// :
-// 60
-// awayRedCards
-// :
-// 0
-// awayShotsOnTarget
-// :
-// 4
-// awaySubstitutions
-// :
-// 0
-// awayTeam
-// :
-// "Kopachite"
-// awayThrowIns
-// :
-// 0
-// awayYellowCards
-// :
-// 0
-// homeCornerKicks
-// :
-// 1
-// homeFouls
-// :
-// 2
-// homeGoals
-// :
-// 0
-// homePossession
-// :
-// 40
-// homeRedCards
-// :
-// 0
-// homeShotsOnTarget
-// :
-// 1
-// homeSubstitutions
-// :
-// 3
-// homeTeam
-// :
-// "Newcastle"
-// homeThrowIns
-// :
-// 2
-// homeYellowCards
-// :
-// 0
