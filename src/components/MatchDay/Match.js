@@ -1,6 +1,6 @@
 import "./Match.scss";
 import MatchSimulator from "./simulatorBeta";
-import { Team, Statistic, MatchSimulatorComponent } from "./simulatorBeta";
+import { Team, Statistic } from "./simulatorBeta";
 import { useState, useEffect, useRef } from "react";
 
 export default function MatchDay() {
@@ -42,6 +42,7 @@ export default function MatchDay() {
     const [homeBadge, setHomeBadge] = useState(0);
     const [matchSeconds, setMatchSeconds] = useState(0);
     const [logs, setLogs] = useState([]);
+    const [showNextRound, setShowNextRound] = useState(false);
 
     // const handleStartMatch = () => {
     //     setMatchStarted(true);
@@ -130,9 +131,9 @@ export default function MatchDay() {
                 legOne[i][1].team.name,
                 legOne[i][1].team.players
             );
-            console.log(homeTeam,awayTeam)
+            console.log(homeTeam, awayTeam)
             const match = new MatchSimulator(homeTeam, awayTeam)
-            
+
             console.log(match);
             const stats = match?.matchStatistic;
             console.log(stats);
@@ -143,8 +144,55 @@ export default function MatchDay() {
     const handleFinishMatch = () => {
         console.log(awayTeamName, homeTeamName, awayGoals, homeGoals);
         console.log(simulateAllGamesFromTheLeg());
+
+        setShowNextRound(true);
+        setMatchStarted(false); 
     };
 
+    const findCurrentUserMatch = (currentUserTeamName, round) => {
+        for (const match of round) {
+            if (match[0].team.name === currentUserTeamName || match[1].team.name === currentUserTeamName) {
+                return match;
+            }
+        }
+        return null;
+    };
+    
+
+    // const handleNextRound = () => {
+    //     // Update the teams playing in the next match
+    //     setCount((prevCount) => prevCount + 1);
+    
+    //     const currentUserMatch = findCurrentUserMatch(currentUserTeamName, legOne);
+    
+    //     if (currentUserMatch) {
+    //         const homeTeamIndex = currentUserMatch[0].team.name === currentUserTeamName ? 0 : 1;
+    //         const awayTeamIndex = homeTeamIndex === 0 ? 1 : 0;
+    
+    //         setHomeTeam(
+    //             new Team(
+    //                 currentUserMatch[homeTeamIndex].team.name,
+    //                 currentUserMatch[homeTeamIndex].team.players
+    //             )
+    //         );
+    //         setAwayTeam(
+    //             new Team(
+    //                 currentUserMatch[awayTeamIndex].team.name,
+    //                 currentUserMatch[awayTeamIndex].team.players
+    //             )
+    //         );
+    //     } else {
+    //         console.log("Current user match not found");
+    //     }
+    
+    //     if (count >= legOne.length - 1) {
+    //         // No more matches in the round
+    //         console.log("Round finished");
+    //         setShowNextRound(false);
+    //     }
+    // };
+    
+    
     // console.log(matchSimulator)
     return (
         <div className="match-container">
@@ -167,60 +215,60 @@ export default function MatchDay() {
                     </div>
 
                     <div className="tableContainer">
-                    <table className="table-match">
-                        <thead>
-                            <tr>
-                                <th>HOME</th>
-                                <th>STAT</th>
-                                <th>AWAY</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{awayCorners}</td>
-                                <td>Corners</td>
-                                <td>{homeCorners}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayFouls}</td>
-                                <td>Fouls</td>
-                                <td>{homeFouls}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayPossession}</td>
-                                <td>Possession</td>
-                                <td>{homePossession}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayYellowCards}</td>
-                                <td>YellowCards</td>
-                                <td>{homeYellowCards}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayRedCards}</td>
-                                <td>RedCards</td>
-                                <td>{homeRedCards}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayShotsOnTarget}</td>
-                                <td>Shots</td>
-                                <td>{homeShotsOnTarget}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayThrowIns}</td>
-                                <td>ThrowIns</td>
-                                <td>{homeThrowIns}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className="logs-container">
-                        <h3>Comments:</h3>
-                        <ul>
-                            {logs.map((log, index) => (
-                                <li key={index}>{log}</li>
-                            ))}
-                        </ul>
-                    </div>
+                        <table className="table-match">
+                            <thead>
+                                <tr>
+                                    <th>HOME</th>
+                                    <th>STAT</th>
+                                    <th>AWAY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{awayCorners}</td>
+                                    <td>Corners</td>
+                                    <td>{homeCorners}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayFouls}</td>
+                                    <td>Fouls</td>
+                                    <td>{homeFouls}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayPossession}</td>
+                                    <td>Possession</td>
+                                    <td>{homePossession}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayYellowCards}</td>
+                                    <td>YellowCards</td>
+                                    <td>{homeYellowCards}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayRedCards}</td>
+                                    <td>RedCards</td>
+                                    <td>{homeRedCards}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayShotsOnTarget}</td>
+                                    <td>Shots</td>
+                                    <td>{homeShotsOnTarget}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayThrowIns}</td>
+                                    <td>ThrowIns</td>
+                                    <td>{homeThrowIns}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div className="logs-container">
+                            <h3>Comments:</h3>
+                            <ul>
+                                {logs.map((log, index) => (
+                                    <li key={index}>{log}</li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </>
 
@@ -248,6 +296,10 @@ export default function MatchDay() {
             )}
             {matchStarted && (
                 <button onClick={handleFinishMatch}>Finish Match</button>
+            )}
+
+            {showNextRound && (
+                <button /* onClick={} */>Next Round</button>
             )}
         </div>
     );
