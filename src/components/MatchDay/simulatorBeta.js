@@ -1,34 +1,9 @@
-import React from "react";
-
 export class Team {
     constructor(name, players, isFavorite) {
         this.name = name;
         this.players = players;
     }
 }
-
-// function generateSamplePlayers() {
-//     let players = [];
-//     for (let i = 0; i < 17; i++) {
-//         const player = new Player(
-//             Math.floor(Math.random() * 10),
-//             Math.floor(Math.random() * 10),
-//             Math.floor(Math.random() * 10),
-//             Math.floor(Math.random() * 10),
-//             Math.floor(Math.random() * 10)
-//         );
-//         players.push(player);
-//     }
-//     return players;
-// }
-
-// // Sample data for home team and away team
-// const homeTeamPlayers = generateSamplePlayers();
-// const awayTeamPlayers = generateSamplePlayers();
-
-// const homeTeam = new Team("Home Team", homeTeamPlayers);
-// const awayTeam = new Team("Away Team", awayTeamPlayers);
-
 
 export class Statistic {
     constructor(homeTeam, awayTeam) {
@@ -90,14 +65,14 @@ export default class MatchSimulator {
     // hasIncreasedProbability = false;
 
     calculateTeamRating(team) {
-        const aggressionRating = this.average('aggression', team.players);
+        const aggressionRating = this.average('agression', team.players);
         const attackRating = this.average('attack', team.players);
         const speedRating = this.average('speed', team.players);
         const defenseRating = this.average('defense', team.players);
         const paceRating = this.average('pace', team.players);
 
         return {
-            aggression: aggressionRating,
+            agression: aggressionRating,
             attack: attackRating,
             speed: speedRating,
             defense: defenseRating,
@@ -345,3 +320,155 @@ export default class MatchSimulator {
 
 // const matchSimulator = new MatchSimulator(homeTeam, awayTeam);
 // console.log(matchSimulator.match)
+
+// import React, { useState, useEffect } from 'react';
+
+// export const Team = ({ name, players, isFavorite }) => {
+//   return { name, players, isFavorite };
+// };
+
+// const Statistic = ({ homeTeam, awayTeam }) => {
+//   const [homeGoals, setHomeGoals] = useState(0);
+//   const [awayGoals, setAwayGoals] = useState(0);
+//   const [homePossession, setHomePossession] = useState(50);
+//   const [awayPossession, setAwayPossession] = useState(50);
+//   const [homeShotsOnTarget, setHomeShotsOnTarget] = useState(0);
+//   const [awayShotsOnTarget, setAwayShotsOnTarget] = useState(0);
+//   const [homeFouls, setHomeFouls] = useState(0);
+//   const [awayFouls, setAwayFouls] = useState(0);
+//   const [homeYellowCards, setHomeYellowCards] = useState(0);
+//   const [awayYellowCards, setAwayYellowCards] = useState(0);
+//   const [homeRedCards, setHomeRedCards] = useState(0);
+//   const [awayRedCards, setAwayRedCards] = useState(0);
+//   const [homeSubstitutions, setHomeSubstitutions] = useState(0);
+//   const [awaySubstitutions, setAwaySubstitutions] = useState(0);
+//   const [homeCornerKicks, setHomeCornerKicks] = useState(0);
+//   const [awayCornerKicks, setAwayCornerKicks] = useState(0);
+//   const [homeThrowIns, setHomeThrowIns] = useState(0);
+//   const [awayThrowIns, setAwayThrowIns] = useState(0);
+
+//   return {
+//     homeTeam,
+//     awayTeam,
+//     homeGoals,
+//     awayGoals,
+//     homePossession,
+//     awayPossession,
+//     homeShotsOnTarget,
+//     awayShotsOnTarget,
+//     homeFouls,
+//     awayFouls,
+//     homeYellowCards,
+//     awayYellowCards,
+//     homeRedCards,
+//     awayRedCards,
+//     homeSubstitutions,
+//     awaySubstitutions,
+//     homeCornerKicks,
+//     awayCornerKicks,
+//     homeThrowIns,
+//     awayThrowIns,
+//     setHomeGoals,
+//     setAwayGoals,
+//     setHomePossession,
+//     setAwayPossession,
+//     setHomeShotsOnTarget,
+//     setAwayShotsOnTarget,
+//     setHomeFouls,
+//     setAwayFouls,
+//     setHomeYellowCards,
+//     setAwayYellowCards,
+//     setHomeRedCards,
+//     setAwayRedCards,
+//     setHomeSubstitutions,
+//     setAwaySubstitutions,
+//     setHomeCornerKicks,
+//     setAwayCornerKicks,
+//     setHomeThrowIns,
+//     setAwayThrowIns,
+//   };
+// };
+
+// export const MatchSimulator = ({ homeTeam, awayTeam }) => {
+//   const [matchStatistic, setMatchStatistic] = useState(null);
+//   const [isMatchOver, setIsMatchOver] = useState(false);
+
+//   const average = (attribute, players) => {
+//     const sum = players.reduce((acc, player) => acc + player[attribute], 0);
+//     return sum / players.length;
+//   };
+
+//   const calculateTeamRating = (team) => {
+//     const aggressionRating = average('aggression', team.players);
+//     const attackRating = average('attack', team.players);
+//     const speedRating = average('speed', team.players);
+//     const defenseRating = average('defense', team.players);
+//     const paceRating = average('pace', team.players);
+
+//     return {
+//         aggression: aggressionRating,
+//         attack: attackRating,
+//         speed: speedRating,
+//         defense: defenseRating,
+//         pace: paceRating,
+        
+//         }
+//     }
+        
+//         const simulateMatch = () => {
+//         const homeTeamRating = calculateTeamRating(homeTeam);
+//         const awayTeamRating = calculateTeamRating(awayTeam);
+        
+//         const homeGoals = Math.round(
+//             homeTeamRating.attack * homeTeamRating.pace * (homeTeamRating.aggression / awayTeamRating.defense)
+//           );
+//           const awayGoals = Math.round(
+//             awayTeamRating.attack * awayTeamRating.pace * (awayTeamRating.aggression / homeTeamRating.defense)
+//           );
+          
+//           const homeShotsOnTarget = Math.round(homeGoals * 1.2);
+//           const awayShotsOnTarget = Math.round(awayGoals * 1.2);
+          
+//           const homeFouls = Math.round(homeTeamRating.aggression * 3);
+//           const awayFouls = Math.round(awayTeamRating.aggression * 3);
+          
+//           const homeYellowCards = Math.round(homeTeamRating.aggression * 0.4);
+//           const awayYellowCards = Math.round(awayTeamRating.aggression * 0.4);
+          
+//           const homeRedCards = Math.round(homeTeamRating.aggression * 0.05);
+//           const awayRedCards = Math.round(awayTeamRating.aggression * 0.05);
+          
+//           const homeSubstitutions = Math.round(homeTeam.players.length * 0.2);
+//           const awaySubstitutions = Math.round(awayTeam.players.length * 0.2);
+          
+//           const homeCornerKicks = Math.round(homeTeamRating.attack * 0.8);
+//           const awayCornerKicks = Math.round(awayTeamRating.attack * 0.8);
+          
+//           const homeThrowIns = Math.round(homeTeamRating.speed * 0.5);
+//           const awayThrowIns = Math.round(awayTeamRating.speed * 0.5);
+          
+//           setMatchStatistic({
+//             homeTeam,
+//             awayTeam,
+//             homeGoals,
+//             awayGoals,
+//             homePossession: Math.round(Math.random() * 100),
+//             awayPossession: Math.round(Math.random() * 100),
+//             homeShotsOnTarget,
+//             awayShotsOnTarget,
+//             homeFouls,
+//             awayFouls,
+//             homeYellowCards,
+//             awayYellowCards,
+//             homeRedCards,
+//             awayRedCards,
+//             homeSubstitutions,
+//             awaySubstitutions,
+//             homeCornerKicks,
+//             awayCornerKicks,
+//             homeThrowIns,
+//             awayThrowIns,
+//           });
+//           setIsMatchOver(true);
+//         }
+// }
