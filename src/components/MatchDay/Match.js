@@ -7,18 +7,11 @@ import { useResultsContext } from "../LiftingStates/ResultContext";
 export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
     const [matchStatistic, setMatchStatistic] = useState(null);
-    const [round, setRound] = useState(
-        JSON.parse(localStorage.getItem("fixtures"))[0]
-    );
+    const [round, setRound] = useState( JSON.parse(localStorage.getItem("fixtures"))[0]);
     const [legOne, setLegOne] = useState(round.splice(0, 5));
     const [legTwo, setLegTwo] = useState(round.splice());
-    const [homeTeam, setHomeTeam] = useState(
-        new Team(legOne[0][0].team.name, legOne[0][0].team.players)
-    );
-    const [awayTeam, setAwayTeam] = useState(
-        new Team(legOne[0][1].teamName, legOne[0][1].team.slice(0, 11))
-    );
-
+    const [homeTeam, setHomeTeam] = useState(new Team(legOne[0][0].team.name, legOne[0][0].team.players));
+    const [awayTeam, setAwayTeam] = useState(new Team(legOne[0][1].teamName, legOne[0][1].team.slice(0, 11)));
     const [awayTeamName, setAwayTeamName] = useState("");
     const [awayCorners, setAwayCorners] = useState(0);
     const [awayFouls, setAwayFouls] = useState(0);
@@ -43,6 +36,9 @@ export default function MatchDay() {
     const [homeBadge, setHomeBadge] = useState(0);
     const [matchSeconds, setMatchSeconds] = useState(0);
     const [logs, setLogs] = useState([]);
+    const [allResults, setAllResults] = useState([]);
+    const [league,setLeague] = useState(JSON.parse(localStorage.getItem("league")))
+    const [results, setResults] = useResultsContext();
 
     // const handleStartMatch = () => {
     //     setMatchStarted(true);
@@ -55,10 +51,7 @@ export default function MatchDay() {
     //     setMatchStatistic(matchSimulator?.matchStatistic);
     // };
 
-    const [allResults, setAllResults] = useState([]);
-    const [results, setResults] = useResultsContext();
-    const [league,setLeague] = useState(JSON.parse(localStorage.getItem("league")))
-
+    
     const handleStartMatch = () => {
         setMatchStarted(true);
 
@@ -74,17 +67,17 @@ export default function MatchDay() {
     };
 
     useEffect(() => {
-        console.log("assss");
-        const intervalId = setInterval(() => {
-            setCount((prevCount) => prevCount + 1);
-            setMatchSeconds((prevSeconds) => {
-                if (prevSeconds >= 90) {
-                    clearInterval(intervalId);
-                    return prevSeconds;
-                }
-                return prevSeconds + 1;
-            });
-        }, 1000);
+        // console.log("assss");
+        // const intervalId = setInterval(() => {
+        //     setCount((prevCount) => prevCount + 1);
+        //     setMatchSeconds((prevSeconds) => {
+        //         if (prevSeconds >= 90) {
+        //             clearInterval(intervalId);
+        //             return prevSeconds;
+        //         }
+        //         return prevSeconds + 1;
+        //     });
+        // }, 1000);
 
         setAwayCorners(matchSimulator?.matchStatistic.awayCornerKicks);
         setAwayFouls(matchSimulator?.matchStatistic.awayFouls);
@@ -107,7 +100,7 @@ export default function MatchDay() {
         setAwayThrowIns(matchSimulator?.matchStatistic.awayThrowIns);
 
 
-        return () => clearInterval(intervalId);
+        // return () => clearInterval(intervalId);
     }, [
         matchSimulator?.matchStatistic.awayGoals,
         matchSimulator?.matchStatistic.homeGoals,

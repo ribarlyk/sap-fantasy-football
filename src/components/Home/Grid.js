@@ -123,7 +123,7 @@ export default function BasicGrid() {
                     </Item>
                 </Grid>
                 <Grid xs={6}>
-                    <Header title="Lifescores,fixtures and more..." />
+                    <Header title="Livescores,fixtures and more..." />
 
                     <Item className="item">
                         <LiveScoreEmbed />
