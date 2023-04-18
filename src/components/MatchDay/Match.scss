@@ -1,4 +1,57 @@
-.match-container{
+.match-container {
     height: 100vh;
-    margin: 200px auto;
+    margin: 50px auto;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+    .result-teams-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        margin: 10px;
+        background-image:    url(https://www.verizon.com/about/sites/default/files/2022-05/stadium-1230x690.jpg);
+        background-size:     cover;                     
+        background-repeat:   no-repeat;
+        background-position: center center;
+        height: 400px;
+       
+        .home-team-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+        }
+        .away-team-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+        }
+    }
+    h2{
+        font-size: 32px;
+    }
+    span{
+        font-size: 53px;
+    }
+}
+
+.table-match{
+    width: 700px;
+    border-spacing: 10px;
+    *border-collapse: expression("separate", cellSpacing= "10px");
+    th{
+    text-align: center;
+
+    }
+    td {
+        text-align: center;
+        margin: 12px 12px 12px 12px;
+        padding: 12px 12px 12px 12px;
+    }
 }
