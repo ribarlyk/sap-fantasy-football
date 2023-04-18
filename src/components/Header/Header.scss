@@ -7,7 +7,7 @@
     width: 100%;
     z-index: 100;
     background-color: #ffffff;
-    transition: all 1000ms ease-in-out;
+    transition: all 750ms ease-in-out;
     border-bottom: #000000;
     &.shrink {
       height: 70px;
@@ -22,7 +22,7 @@
     justify-content: space-between;
     width: 100%;
     height: 100%;
-    transition: all 1000ms ease-in-out;
+    transition: all 750ms ease-in-out;
 
   
     &.shrink {
@@ -37,7 +37,7 @@
     justify-content: flex-start;
     width: 100%;
     height: 100%;
-    transition: all 1000ms ease-in-out;
+    transition: all 750ms ease-in-out;
 
   
     &.shrink {
@@ -57,7 +57,7 @@
   .logo {
     max-width: 230px;
     max-height: 180px;
-    transition: all 1000ms ease-in-out;
+    transition: all 750ms ease-in-out;
 
   }
   

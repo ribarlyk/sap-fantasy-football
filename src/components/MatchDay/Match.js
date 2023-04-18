@@ -153,7 +153,7 @@ export default function MatchDay() {
         setResults((prev) => [...prev, arrayMainMatch]);
         console.log(simulateAllGamesFromTheLeg());
     };
-
+    console.log(results)
     // console.log(matchSimulator)
     return (
         <div className="match-container">
