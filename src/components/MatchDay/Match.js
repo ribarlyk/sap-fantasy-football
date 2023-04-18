@@ -2,6 +2,7 @@ import "./Match.scss";
 import MatchSimulator from "./simulatorBeta";
 import { Team, Statistic } from "./simulatorBeta";
 import { useState, useEffect, useRef } from "react";
+import { useResultsContext } from "../LiftingStates/ResultContext";
 
 export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
@@ -41,6 +42,9 @@ export default function MatchDay() {
     const [awayBadge, setAwayBadge] = useState(0);
     const [homeBadge, setHomeBadge] = useState(0);
     const [allResults, setAllResults] = useState([]);
+    const [results, setResults] = useResultsContext();
+    const [league,setLeague] = useState(JSON.parse(localStorage.getItem("league")))
+
     const handleStartMatch = () => {
         setMatchStarted(true);
 
@@ -96,18 +100,23 @@ export default function MatchDay() {
                 legOne[i][1].team.name,
                 legOne[i][1].team.players
             );
-            console.log(homeTeam,awayTeam)
-            const match = new MatchSimulator(homeTeam, awayTeam)
-            
+            console.log(homeTeam, awayTeam);
+            const match = new MatchSimulator(homeTeam, awayTeam);
+
             console.log(match);
             const stats = match?.matchStatistic;
             console.log(stats);
             results.push(stats);
         }
+        setAllResults((prev) => [...prev, results]);
+        setResults((prev) => [...prev, results]);
         return results;
     };
     const handleFinishMatch = () => {
-        console.log(awayTeamName, homeTeamName, awayGoals, homeGoals);
+        let arrayMainMatch = [awayTeamName, homeTeamName, awayGoals, homeGoals];
+
+        setAllResults((prev) => [...prev, arrayMainMatch]);
+        setResults((prev) => [...prev, arrayMainMatch]);
         console.log(simulateAllGamesFromTheLeg());
     };
 
