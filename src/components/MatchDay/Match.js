@@ -1,6 +1,6 @@
 import "./Match.scss";
 import MatchSimulator from "./simulatorBeta";
-import { Team, Statistic } from "./simulatorBeta";
+import { Team, Statistic, MatchSimulatorComponent } from "./simulatorBeta";
 import { useState, useEffect, useRef } from "react";
 import { useResultsContext } from "../LiftingStates/ResultContext";
 
@@ -41,6 +41,20 @@ export default function MatchDay() {
     const [count, setCount] = useState(0);
     const [awayBadge, setAwayBadge] = useState(0);
     const [homeBadge, setHomeBadge] = useState(0);
+    const [matchSeconds, setMatchSeconds] = useState(0);
+    const [logs, setLogs] = useState([]);
+
+    // const handleStartMatch = () => {
+    //     setMatchStarted(true);
+
+    //     const logCallback = (message) => {
+    //         setLogs((prevLogs) => [...prevLogs, message]);
+    //     };
+
+    //     setMatchSimulator(new MatchSimulator(homeTeam, awayTeam));
+    //     setMatchStatistic(matchSimulator?.matchStatistic);
+    // };
+
     const [allResults, setAllResults] = useState([]);
     const [results, setResults] = useResultsContext();
     const [league,setLeague] = useState(JSON.parse(localStorage.getItem("league")))
@@ -48,13 +62,28 @@ export default function MatchDay() {
     const handleStartMatch = () => {
         setMatchStarted(true);
 
-        setMatchSimulator(new MatchSimulator(homeTeam, awayTeam));
-        setMatchStatistic(matchSimulator?.matchStatistic);
+        const logCallback = (message) => {
+            setLogs((prevLogs) => [...prevLogs, message]);
+        };
+
+        setMatchSimulator((prevState) => {
+            const matchSim = new MatchSimulator(homeTeam, awayTeam, logCallback);
+            setMatchStatistic(matchSim.matchStatistic);
+            return matchSim;
+        });
     };
 
     useEffect(() => {
+        console.log("assss");
         const intervalId = setInterval(() => {
             setCount((prevCount) => prevCount + 1);
+            setMatchSeconds((prevSeconds) => {
+                if (prevSeconds >= 90) {
+                    clearInterval(intervalId);
+                    return prevSeconds;
+                }
+                return prevSeconds + 1;
+            });
         }, 1000);
 
         setAwayCorners(matchSimulator?.matchStatistic.awayCornerKicks);
@@ -74,6 +103,9 @@ export default function MatchDay() {
         setHomeShotsOnTarget(matchSimulator?.matchStatistic.homeShotsOnTarget);
         setHomeTeamName(matchSimulator?.matchStatistic.homeTeam);
         setHomeYellowCards(matchSimulator?.matchStatistic.homeYellowCards);
+        setHomeThrowIns(matchSimulator?.matchStatistic.homeThrowIns);
+        setAwayThrowIns(matchSimulator?.matchStatistic.awayThrowIns);
+
 
         return () => clearInterval(intervalId);
     }, [
@@ -87,6 +119,8 @@ export default function MatchDay() {
         matchSimulator?.matchStatistic.awayShotsOnTarget,
         matchSimulator?.matchStatistic.awayTeam,
         matchSimulator?.matchStatistic.awayYellowCards,
+        matchSimulator?.matchStatistic.homeThrowIns,
+        matchSimulator?.matchStatistic.awayThrowIns
     ]);
 
     const simulateAllGamesFromTheLeg = () => {
@@ -138,8 +172,10 @@ export default function MatchDay() {
                             <h2>{awayTeamName}</h2>
                             <h2>{awayGoals}</h2>
                         </div>
+                        <h4>Time: {matchSeconds} seconds</h4>
                     </div>
 
+                    <div className="tableContainer">
                     <table className="table-match">
                         <thead>
                             <tr>
@@ -186,6 +222,15 @@ export default function MatchDay() {
                             </tr>
                         </tbody>
                     </table>
+                    <div className="logs-container">
+                        <h3>Comments:</h3>
+                        <ul>
+                            {logs.map((log, index) => (
+                                <li key={index}>{log}</li>
+                            ))}
+                        </ul>
+                    </div>
+                    </div>
                 </>
 
                 // <div>
