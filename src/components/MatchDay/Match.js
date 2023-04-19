@@ -9,16 +9,19 @@ export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
     const [matchStatistic, setMatchStatistic] = useState(null);
     // const [count, setCount] = useState(0);
-    const [count, setCount] = useState(() => {
-        const savedCount = localStorage.getItem("count");
-        return savedCount > 9 ? 0 : parseInt(savedCount);
-    });
 
-    useEffect(() => {
-        localStorage.setItem("count", count);
-    }, [count]);
+    const [count, setCount] = useState(localStorage.getItem("count") ?? 0)
+    //     const savedCount = localStorage.getItem("count");
+    //     return savedCount > 9 ? 0 : parseInt(savedCount);
+    // });
 
-    const [round, setRound] = useState(JSON.parse(localStorage.getItem("fixtures"))[count]);
+   
+
+    const [round, setRound] = useState(
+        JSON.parse(localStorage.getItem("fixtures"))[count] ?? 0
+    );
+    console.log(round);
+    console.log(count);
     const [legOne, setLegOne] = useState(round.splice(0, 5));
     const [homeTeam, setHomeTeam] = useState(
         new Team(
@@ -56,7 +59,6 @@ export default function MatchDay() {
     const [matchSeconds, setMatchSeconds] = useState(0);
     const [logs, setLogs] = useState([]);
     const [allResults, setAllResults] = useState([]);
-    // const [league, setLeague] = useState(JSON.parse(localStorage.getItem("league")))
     const [fixtures, setFixtures] = useState(
         JSON.parse(localStorage.getItem("fixtures"))
     );
@@ -69,16 +71,19 @@ export default function MatchDay() {
     const [showMatchInfo, setShowMatchInfo] = useState(false);
     const [league, setLeague] = useState(
         JSON.parse(localStorage.getItem("leagueResults")) ||
-        JSON.parse(localStorage.getItem("league"))
+            JSON.parse(localStorage.getItem("league"))
     );
     const [results, setResults] = useResultsContext();
     const [test, setTest] = useState([]);
     const [timer, setTimer] = useState(0);
     const [timerActive, setTimerActive] = useState(false);
 
+    useEffect(() => {
+        localStorage.setItem("count", count);
+    }, [count]);
 
-    console.log("I runnnnnn");
     const findUserAndOpponent = (fixtures, userObject) => {
+        console.log(fixtures,userObject)
         for (let i = count; i < fixtures.length; i++) {
             for (let j = 0; j < fixtures[i].length; j++) {
                 const currentUserIndex = fixtures[i][j].findIndex(
@@ -108,9 +113,18 @@ export default function MatchDay() {
                 opponentPosition[2]
             ];
 
-        setHomeTeam(new Team(nextHomeTeam.team.name, nextHomeTeam.team.players?.slice(0, 11)));
-        setAwayTeam(new Team(nextAwayTeam.team.name, nextAwayTeam.team.players?.slice(0, 11)));
-        ;
+        setHomeTeam(
+            new Team(
+                nextHomeTeam.team.name,
+                nextHomeTeam.team.players?.slice(0, 11)
+            )
+        );
+        setAwayTeam(
+            new Team(
+                nextAwayTeam.team.name,
+                nextAwayTeam.team.players?.slice(0, 11)
+            )
+        );
     };
 
     const getUserTeamAndOpponent = () => {
@@ -119,7 +133,6 @@ export default function MatchDay() {
         if (userMatch) {
             const isUserAway = userMatch.userPosition[2] === 1;
 
-            // Set the next round teams accordingly
             if (isUserAway) {
                 setNextRoundTeams(
                     userMatch.opponentPosition,
@@ -168,7 +181,7 @@ export default function MatchDay() {
         }
 
         setAllResults((prev) => [...prev, results]);
-        setResults((prev) => [...prev, results]);
+        // setResults((prev) => [...prev, results]);
         return results;
     };
 
@@ -193,14 +206,12 @@ export default function MatchDay() {
             setMatchStatistic(matchSim.matchStatistic);
             return matchSim;
         });
-        setCount((prevCount) => prevCount += 1);
+        setCount((prevCount) => (Number(prevCount) + 1));
     };
 
-        const logCallback = (message) => {
-            setLogs((prevLogs) => [...prevLogs, message]);
-        };
-
-
+    const logCallback = (message) => {
+        setLogs((prevLogs) => [...prevLogs, message]);
+    };
 
     // useEffect(() => {
     //     let intervalId;
@@ -275,7 +286,6 @@ export default function MatchDay() {
         // return () => {
         //     clearInterval(intervalId);
         // };
-
     }, [
         matchSimulator?.matchStatistic.awayGoals,
         matchSimulator?.matchStatistic.homeGoals,
@@ -289,7 +299,7 @@ export default function MatchDay() {
         matchSimulator?.matchStatistic.awayYellowCards,
         matchSimulator?.matchStatistic.homeThrowIns,
         matchSimulator?.matchStatistic.awayThrowIns,
-        timerActive
+        timerActive,
     ]);
 
     useEffect(() => {
@@ -368,21 +378,18 @@ export default function MatchDay() {
             setHomeTeam(updatedHomeTeam);
             setAwayTeam(updatedAwayTeam);
 
-            updateTable(test);
 
             setMatchStarted(false);
             setShowNextRoundButton(true);
             setTimerActive(false);
-
         } else {
             console.log("HomeTeam or AwayTeam is null");
         }
     };
 
-
     // function updateTable(testa) {
     //     console.log("Match results:", testa);
-        // console.log(league);
+    // console.log(league);
     // console.log(results)
     // const handleFinishMatch = () => {
     //     let arrayMainMatch = [awayTeamName, homeTeamName, awayGoals, homeGoals];
@@ -478,6 +485,7 @@ export default function MatchDay() {
     function updateTable(testa) {
         console.log(testa);
         console.log(league);
+        setResults(testa)
         let leagueTeamsToBeExportedToLocalStorage = league?.slice();
         console.log(leagueTeamsToBeExportedToLocalStorage);
 
@@ -528,93 +536,97 @@ export default function MatchDay() {
     return (
         <div className="match-container">
             {!matchStarted && (
-                <Button variant="contained" size="large" onClick={handleStartMatch}>Start Match</Button>
+                <Button
+                    variant="contained"
+                    size="large"
+                    onClick={handleStartMatch}
+                >
+                    Start Match
+                </Button>
             )}
-            {matchSimulator?.matchStatistic && (
-                showMatchInfo && (
-                    <>
-                        <div className="result-teams-container">
-                            <div className="home-team-container">
-                                <h2>{homeTeamName}</h2>
-                                <h2>{homeGoals}</h2>
-                            </div>
-                            <span>-</span>
-                            <div className="away-team-container">
-                                <h2>{awayTeamName}</h2>
-                                <h2>{awayGoals}</h2>
-                            </div>
-                            <h4>Time: {timer} seconds</h4>
+            {matchSimulator?.matchStatistic && showMatchInfo && (
+                <>
+                    <div className="result-teams-container">
+                        <div className="home-team-container">
+                            <h2>{homeTeamName}</h2>
+                            <h2>{homeGoals}</h2>
                         </div>
-
-                        <div className="tableContainer">
-                            <table className="table-match">
-                                <thead>
-                                    <tr>
-                                        <th>HOME</th>
-                                        <th>STAT</th>
-                                        <th>AWAY</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{awayCorners}</td>
-                                        <td>Corners</td>
-                                        <td>{homeCorners}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{awayFouls}</td>
-                                        <td>Fouls</td>
-                                        <td>{homeFouls}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{awayPossession}</td>
-                                        <td>Possession</td>
-                                        <td>{homePossession}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{awayYellowCards}</td>
-                                        <td>YellowCards</td>
-                                        <td>{homeYellowCards}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{awayRedCards}</td>
-                                        <td>RedCards</td>
-                                        <td>{homeRedCards}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{awayShotsOnTarget}</td>
-                                        <td>Shots</td>
-                                        <td>{homeShotsOnTarget}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{awayThrowIns}</td>
-                                        <td>ThrowIns</td>
-                                        <td>{homeThrowIns}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div className="logs-container">
-                                <h3>Comments:</h3>
-                                <ul>
-                                    {logs.map((log, index) => (
-                                        <li key={index}>{log}</li>
-                                    ))}
-                                </ul>
-                            </div>
+                        <span>-</span>
+                        <div className="away-team-container">
+                            <h2>{awayTeamName}</h2>
+                            <h2>{awayGoals}</h2>
                         </div>
-                    </>
-                )
+                        <h4>Time: {timer} seconds</h4>
+                    </div>
 
+                    <div className="tableContainer">
+                        <table className="table-match">
+                            <thead>
+                                <tr>
+                                    <th>HOME</th>
+                                    <th>STAT</th>
+                                    <th>AWAY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{awayCorners}</td>
+                                    <td>Corners</td>
+                                    <td>{homeCorners}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayFouls}</td>
+                                    <td>Fouls</td>
+                                    <td>{homeFouls}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayPossession}</td>
+                                    <td>Possession</td>
+                                    <td>{homePossession}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayYellowCards}</td>
+                                    <td>YellowCards</td>
+                                    <td>{homeYellowCards}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayRedCards}</td>
+                                    <td>RedCards</td>
+                                    <td>{homeRedCards}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayShotsOnTarget}</td>
+                                    <td>Shots</td>
+                                    <td>{homeShotsOnTarget}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayThrowIns}</td>
+                                    <td>ThrowIns</td>
+                                    <td>{homeThrowIns}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div className="logs-container">
+                            <h3>Comments:</h3>
+                            <ul>
+                                {logs.map((log, index) => (
+                                    <li key={index}>{log}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </>
             )}
             {matchStarted && (
-                <Button variant="contained" onClick={handleFinishMatch}>Finish Match</Button>
+                <Button variant="contained" onClick={handleFinishMatch}>
+                    Finish Match
+                </Button>
             )}
             {!matchStarted && showNextRoundButton && (
-                <Button variant="contained" onClick={handleNextRound}>Next Round</Button>
+                <Button variant="contained" onClick={handleNextRound}>
+                    Next Round
+                </Button>
             )}
-
-
         </div>
     );
 }
-

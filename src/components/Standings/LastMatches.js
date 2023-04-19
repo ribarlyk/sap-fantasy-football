@@ -1,26 +1,41 @@
+import uniqid from "uniqid";
+export default function LastMatches({ results }) {
+    console.log(results);
+
+    return (
+        <>
+            <h1>Last Matches</h1>
+            {results.map((x) => {
+                return (
+                    <div>
+                        {x.homeTeam} {x.homeGoals} - {x.awayGoals} {x.awayTeam}
+                    </div>
+                );
+            })}
+        </>
+    );
+}
 // export default function LastMatches({ results }) {
 //     console.log(results);
 
 //     return (
 //         <>
 //             <h1>Last Matches</h1>
-            
-//             {results[0].length>0 &&(
-//                 <div>
-//                     {results.map((x) => (
-//                         <div>
-//                             {x.awayTeam} {x.awayGoals} - {x.homeGoals}{" "}
-//                             {x.homeTeam}
-//                         </div>
-//                     ))}
-//                     <div>
-//                         {" "}
-//                         {results[0][0]}
-//                         {results[0][2]} - {results[0][1]}
-//                         {results[0][3]}
-//                     </div>
-//                 </div>
-//             )}
+
+//             <div>
+//                 {results
+//                     .map((eachResult) => eachResult)
+//                     .map((match, index) => {
+//                         console.log(match[index]);
+//                         return (
+//                             <div key={index}>
+//                                 {match[index].awayTeam} {match[index].awayGoals}
+//                                 - {match[index].homeGoals}{" "}
+//                                 {match[index].homeTeam}
+//                             </div>
+//                         );
+//                     })}
+//             </div>
 //         </>
 //     );
 // }
