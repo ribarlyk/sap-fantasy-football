@@ -71,7 +71,7 @@ export default function Table({ league, leagueResults }) {
                                   </tr>
                               );
                           })}
-                ;
+                
             </tbody>
         </table>
     );

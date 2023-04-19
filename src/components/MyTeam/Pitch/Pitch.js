@@ -42,7 +42,7 @@ export default function Pitch() {
     );
     const [input, setInput] = useState("");
     const [teamName, setTeamName] = useState(
-        JSON.parse(localStorage.getItem("loggedUser")).team.name || ""
+        JSON.parse(localStorage.getItem("loggedUser"))?.team?.name || ""
     );
     const [isNameSaved, setIsNameSaved] = useState(false);
     const [sumBuy, setSumBuy] = useState(null);
