@@ -14,6 +14,7 @@ import avatar from "../../assets/images/avatar.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../LiftingStates/UserContext";
 import { useEffect } from "react";
+import "./Navigation.scss";
 
 function ResponsiveAppBar() {
     const [isSigned, setIsSigned] = useUserContext();
@@ -112,65 +113,47 @@ function ResponsiveAppBar() {
                             </Button>
                         </Box>
 
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                                <IconButton
-                                    onClick={handleOpenUserMenu}
-                                    sx={{ p: 0 }}
-                                >
-                                    <Avatar alt="Remy Sharp" src={avatar} />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: "45px" }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
+                        <Box
+                            className="logout-profile-btns"
+                            sx={{ flexGrow: 0 }}
+                        >
+                            <Button
+                                key="Profile"
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
                             >
-                                <MenuItem
-                                    key="Profile"
-                                    onClick={handleCloseUserMenu}
+                                <Link
+                                    to="/profile"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
                                 >
-                                    <Typography
-                                        textAlign="center"
-                                        onClick={(e) => {
-                                            console.log("Profile");
-                                        }}
-                                    >
-                                        <Link
-                                            to="/profile"
-                                            style={{
-                                                color: "black",
-                                                textDecoration: "none",
-                                            }}
-                                        >
-                                            Profile
-                                        </Link>
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem key="Logout" onClick={handleLogout}>
-                                    <Typography
-                                        textAlign="center"
-                                        onClick={(e) => {
-                                            console.log("logout");
-                                        }}
-                                    >
-                                        Logout
-                                    </Typography>
-                                </MenuItem>
-                            </Menu>
+                                    Profile
+                                </Link>
+                            </Button>
+
+                            <Button
+                                key="Logout"
+                                onClick={handleLogout}
+                                sx={{ my: 2, color: "white", display: "block" }}
+                            >
+                                <Link
+                                    to="/"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
+                                    textAlign="center"
+                                    onClick={(e) => {
+                                        console.log("logout");
+                                    }}
+                                >
+                                    Logout
+                                </Link>
+                            </Button>
                         </Box>
-                    </Toolbar> 
+                    </Toolbar>
                 </Container>
             </AppBar>
         </Container>
@@ -222,74 +205,41 @@ function ResponsiveAppBar() {
                             </Button>
                         </Box>
 
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                                <IconButton
-                                    onClick={handleOpenUserMenu}
-                                    sx={{ p: 0 }}
-                                >
-                                    <Avatar alt="Remy Sharp" src={avatar} />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: "45px" }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
+                        <Box
+                            className="login-register-btns"
+                            sx={{ flexGrow: 0 }}
+                        >
+                            <Button
+                                key="Login"
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
                             >
-                                <MenuItem
-                                    key="Login"
-                                    onClick={handleCloseUserMenu}
+                                <Link
+                                    to="/login"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
                                 >
-                                    <Typography
-                                        textAlign="center"
-                                        onClick={(e) => {
-                                            console.log("login");
-                                        }}
-                                    >
-                                        <Link
-                                            to="/login"
-                                            style={{
-                                                color: "black",
-                                                textDecoration: "none",
-                                            }}
-                                        >
-                                            Sign In
-                                        </Link>
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    key="register"
-                                    onClick={handleCloseUserMenu}
+                                    Login
+                                </Link>
+                            </Button>
+
+                            <Button
+                                key="register"
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
+                            >
+                                <Link
+                                    to="/register"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
                                 >
-                                    <Typography
-                                        textAlign="center"
-                                        onClick={(e) => {
-                                            console.log("register");
-                                        }}
-                                    >
-                                        <Link
-                                            to="/register"
-                                            style={{
-                                                color: "black",
-                                                textDecoration: "none",
-                                            }}
-                                        >
-                                            Sign Up
-                                        </Link>
-                                    </Typography>
-                                </MenuItem>
-                            </Menu>
+                                    Register
+                                </Link>
+                            </Button>
                         </Box>
                     </Toolbar>
                 </Container>
