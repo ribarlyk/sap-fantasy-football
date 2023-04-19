@@ -134,7 +134,7 @@ export default class MatchSimulator {
                         break;
                 }
             }
-        }, 1000);
+        }, 500);
     }
 
     simulatePossession(matchStatistic) {
