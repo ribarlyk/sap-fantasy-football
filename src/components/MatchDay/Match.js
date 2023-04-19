@@ -9,14 +9,23 @@ import Button from "@mui/material/Button";
 export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
     const [matchStatistic, setMatchStatistic] = useState(null);
-    const [count, setCount] = useState(0);
+    // const [count, setCount] = useState(0);
+    const [count, setCount] = useState(() => {
+        const savedCount = localStorage.getItem("count");
+        return savedCount ? parseInt(savedCount) : 0;
+      });
+      
+      useEffect(() => {
+        localStorage.setItem("count", count);
+      }, [count]);
+      
     const [round, setRound] = useState(JSON.parse(localStorage.getItem("fixtures"))[count]);
     const [legOne, setLegOne] = useState(round.splice(0, 5));
     const [homeTeam, setHomeTeam] = useState(
-        new Team(legOne[0][0].team.name, legOne[0][0].team.players.slice(0, 11))
+        new Team(legOne[0][0].team.name, legOne[0][0].team.players?.slice(0, 11))
     );
     const [awayTeam, setAwayTeam] = useState(
-        new Team(legOne[0][1].team.name, legOne[0][1].team.players.slice(0, 11))
+        new Team(legOne[0][1].team.name, legOne[0][1].team.players?.slice(0, 11))
     );
     const [awayTeamName, setAwayTeamName] = useState("");
     const [awayCorners, setAwayCorners] = useState(0);
@@ -42,17 +51,21 @@ export default function MatchDay() {
     const [matchSeconds, setMatchSeconds] = useState(0);
     const [logs, setLogs] = useState([]);
     const [allResults, setAllResults] = useState([]);
-    const [league, setLeague] = useState(JSON.parse(localStorage.getItem("league")))
-    const [results, setResults] = useResultsContext();
-    const [test, setTest] = useState(null)
+    // const [league, setLeague] = useState(JSON.parse(localStorage.getItem("league")))
     const [fixtures, setFixtures] = useState(JSON.parse(localStorage.getItem("fixtures")));
     const [userTeam, setUserTeam] = useState(JSON.parse(localStorage.getItem("loggedUser")));
     const [currentRound, setCurrentRound] = useState(1);
     const [nextRound, setNextRound] = useState(false);
     const [showNextRoundButton, setShowNextRoundButton] = useState(false);
     const [showMatchInfo, setShowMatchInfo] = useState(false);
+    const [league, setLeague] = useState(
+                    JSON.parse(localStorage.getItem("leagueResults")) ||
+                    JSON.parse(localStorage.getItem("league"))
+                );
+                const [results, setResults] = useResultsContext();
+                const [test, setTest] = useState([]);
 
-
+    console.log("I runnnnnn");
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
             for (let j = 0; j < fixtures[i].length; j++) {
@@ -76,14 +89,13 @@ export default function MatchDay() {
         const nextHomeTeam = fixtures[userPosition[0]][userPosition[1]][userPosition[2]];
         const nextAwayTeam = fixtures[opponentPosition[0]][opponentPosition[1]][opponentPosition[2]];
 
-        setHomeTeam(new Team(nextHomeTeam.team.name, nextHomeTeam.team.players.slice(0, 11)));
-        setAwayTeam(new Team(nextAwayTeam.team.name, nextAwayTeam.team.players.slice(0, 11)));
+        setHomeTeam(new Team(nextHomeTeam.team.name, nextHomeTeam.team.players?.slice(0, 11)));
+        setAwayTeam(new Team(nextAwayTeam.team.name, nextAwayTeam.team.players?.slice(0, 11)));
+;
     };
 
     const getUserTeamAndOpponent = () => {
         let userMatch = findUserAndOpponent(fixtures, userTeam);
-        setCount((prevCount) => prevCount += 1);
-
 
         if (userMatch) {
 
@@ -91,10 +103,8 @@ export default function MatchDay() {
 
             // Set the next round teams accordingly
             if (isUserAway) {
-                console.log("Away :", isUserAway);
                 setNextRoundTeams(userMatch.opponentPosition, userMatch.userPosition);
             } else {
-                console.log("home :", isUserAway);
                 setNextRoundTeams(userMatch.userPosition, userMatch.opponentPosition);
             }
 
@@ -114,19 +124,7 @@ export default function MatchDay() {
         setMatchStatistic(null);
         setLogs([]);
         getUserTeamAndOpponent()
-        // Add any other logic you need for the next round, like resetting scores or generating new teams
     };
-
-    const handleStartMatch = () => {
-        setMatchStarted(true);
-        setShowMatchInfo(true);
-
-        const [league, setLeague] = useState(
-            JSON.parse(localStorage.getItem("leagueResults")) ||
-            JSON.parse(localStorage.getItem("league"))
-        );
-        const [results, setResults] = useResultsContext();
-        const [test, setTest] = useState([]);
 
         const simulateAllGamesFromTheLeg = () => {
             let results = [];
@@ -153,7 +151,9 @@ export default function MatchDay() {
 
         const handleStartMatch = () => {
             setMatchStarted(true);
+            setShowMatchInfo(true);
             setTest(simulateAllGamesFromTheLeg());
+
             const logCallback = (message) => {
                 setLogs((prevLogs) => [...prevLogs, message]);
             };
@@ -168,6 +168,7 @@ export default function MatchDay() {
                 setMatchStatistic(matchSim.matchStatistic);
                 return matchSim;
             });
+            setCount((prevCount) => prevCount += 1);
         };
 
 
@@ -322,12 +323,12 @@ export default function MatchDay() {
         //     console.log(league);
         // };
 
-        console.log(test);
+
 
         function updateTable(testa) {
             console.log(test);
             console.log(league);
-            let leagueTeamsToBeExportedToLocalStorage = league.slice();
+            let leagueTeamsToBeExportedToLocalStorage = league?.slice();
             console.log(leagueTeamsToBeExportedToLocalStorage);
 
             for (let i = 0; i < testa.length; i++) {
@@ -543,4 +544,4 @@ export default function MatchDay() {
             </div>
         );
     }
-}
+
