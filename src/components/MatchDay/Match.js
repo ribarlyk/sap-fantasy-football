@@ -7,10 +7,16 @@ import { useResultsContext } from "../LiftingStates/ResultContext";
 export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
     const [matchStatistic, setMatchStatistic] = useState(null);
-    const [round, setRound] = useState( JSON.parse(localStorage.getItem("fixtures"))[1]);
+    const [round, setRound] = useState(
+        JSON.parse(localStorage.getItem("fixtures"))[1]
+    );
     const [legOne, setLegOne] = useState(round.splice(0, 5));
-    const [homeTeam, setHomeTeam] = useState(new Team(legOne[0][0].team.name, legOne[0][0].team.players.slice(0, 11)));
-    const [awayTeam, setAwayTeam] = useState(new Team(legOne[0][1].team.name, legOne[0][1].team.players.slice(0, 11)));
+    const [homeTeam, setHomeTeam] = useState(
+        new Team(legOne[0][0].team.name, legOne[0][0].team.players.slice(0, 11))
+    );
+    const [awayTeam, setAwayTeam] = useState(
+        new Team(legOne[0][1].team.name, legOne[0][1].team.players.slice(0, 11))
+    );
     const [awayTeamName, setAwayTeamName] = useState("");
     const [awayCorners, setAwayCorners] = useState(0);
     const [awayFouls, setAwayFouls] = useState(0);
@@ -36,9 +42,11 @@ export default function MatchDay() {
     const [matchSeconds, setMatchSeconds] = useState(0);
     const [logs, setLogs] = useState([]);
     const [allResults, setAllResults] = useState([]);
-    const [league,setLeague] = useState(JSON.parse(localStorage.getItem("league")))
+    const [league, setLeague] = useState(
+        JSON.parse(localStorage.getItem("league"))
+    );
     const [results, setResults] = useResultsContext();
-    const [test,setTest] = useState(null)
+    const [test, setTest] = useState([]);
     // const handleStartMatch = () => {
     //     setMatchStarted(true);
 
@@ -49,21 +57,68 @@ export default function MatchDay() {
     //     setMatchSimulator(new MatchSimulator(homeTeam, awayTeam));
     //     setMatchStatistic(matchSimulator?.matchStatistic);
     // };
+    const simulateAllGamesFromTheLeg = () => {
+        let results = [];
+        let match;
+        for (let i = 1; i < legOne.length; i++) {
+            const homeTeam = new Team(
+                legOne[i][0].team.name,
+                legOne[i][0].team.players
+            );
+            const awayTeam = new Team(
+                legOne[i][1].team.name,
+                legOne[i][1].team.players
+            );
+            console.log(homeTeam, awayTeam);
+            match = new MatchSimulator(homeTeam, awayTeam);
 
-    
+            console.log(match);
+            const stats = match?.matchStatistic;
+            console.log(stats.homeTeam);
+            console.log(stats);
+            results.push(stats);
+            //    let homeTeamForUpdateStats = league.filter(team=>team.team.name === test.homeTeam)
+            //    let awayTeamForUpdateStats = league.filter(team=>team.team.name === test.awayTeam)
+            //    homeTeamForUpdateStats[0].team.conceededgoals += Number(test.awayGoals)
+            //    homeTeamForUpdateStats[0].team.draws += Number(test.awayGoals)===Number(test.homeGoals) ? 1:0;
+            //    homeTeamForUpdateStats[0].team.loses += Number(test.awayGoals)>Number(test.homeGoals) ? 1:0
+            //    homeTeamForUpdateStats[0].team.points += Number(test.awayGoals)<Number(test.homeGoals)? 3:0
+            //    homeTeamForUpdateStats[0].team.scoredgoals += Number(test.homeGoals)
+            //    homeTeamForUpdateStats[0].team.wins += Number(test.awayGoals)<Number(test.homeGoals)? 1:0
+            //    awayTeamForUpdateStats[0].team.conceededgoals += Number(test.awayGoals)
+            //    awayTeamForUpdateStats[0].team.draws += Number(test.awayGoals)===Number(test.homeGoals) ? 1:0;
+            //    awayTeamForUpdateStats[0].team.loses += Number(test.awayGoals)<Number(test.homeGoals) ? 1:0
+            //    awayTeamForUpdateStats[0].team.points += Number(test.awayGoals)>Number(test.homeGoals)? 3:0
+            //    awayTeamForUpdateStats[0].team.scoredgoals += Number(test.homeGoals)
+            //    awayTeamForUpdateStats[0].team.wins += Number(test.awayGoals)>Number(test.homeGoals)? 1:0
+            //    console.log(homeTeamForUpdateStats[0].team,awayTeamForUpdateStats)
+        }
+
+        setAllResults((prev) => [...prev, results]);
+        setResults((prev) => [...prev, results]);
+        return results;
+    };
     const handleStartMatch = () => {
         setMatchStarted(true);
-
+        setTest(simulateAllGamesFromTheLeg());
         const logCallback = (message) => {
             setLogs((prevLogs) => [...prevLogs, message]);
         };
 
         setMatchSimulator((prevState) => {
-            const matchSim = new MatchSimulator(homeTeam, awayTeam, logCallback);
+            const matchSim = new MatchSimulator(
+                homeTeam,
+                awayTeam,
+                logCallback
+            );
+
             setMatchStatistic(matchSim.matchStatistic);
             return matchSim;
         });
     };
+    useEffect(() => {
+        updateTable(test);
+    }, [matchStarted]);
 
     useEffect(() => {
         // console.log("assss");
@@ -98,7 +153,6 @@ export default function MatchDay() {
         setHomeThrowIns(matchSimulator?.matchStatistic.homeThrowIns);
         setAwayThrowIns(matchSimulator?.matchStatistic.awayThrowIns);
 
-
         // return () => clearInterval(intervalId);
     }, [
         matchSimulator?.matchStatistic.awayGoals,
@@ -112,60 +166,108 @@ export default function MatchDay() {
         matchSimulator?.matchStatistic.awayTeam,
         matchSimulator?.matchStatistic.awayYellowCards,
         matchSimulator?.matchStatistic.homeThrowIns,
-        matchSimulator?.matchStatistic.awayThrowIns
+        matchSimulator?.matchStatistic.awayThrowIns,
     ]);
 
-    const simulateAllGamesFromTheLeg = () => {
-        let results = [];
-        let match;
-        for (let i = 1; i < legOne.length; i++) {
-            const homeTeam = new Team(
-                legOne[i][0].team.name,
-                legOne[i][0].team.players
-            );
-            const awayTeam = new Team(
-                legOne[i][1].team.name,
-                legOne[i][1].team.players
-            );
-            console.log(homeTeam, awayTeam);
-             match = new MatchSimulator(homeTeam, awayTeam);
-
-            console.log(match);
-            const stats = match?.matchStatistic;
-            console.log( stats.homeTeam);
-            console.log( stats);
-            results.push(stats);
-                setTest(stats)
-           let homeTeamForUpdateStats = league.filter(team=>team.team.name === test.homeTeam)
-           let awayTeamForUpdateStats = league.filter(team=>team.team.name === test.awayTeam)
-           homeTeamForUpdateStats[0].team.conceededgoals += Number(test.awayGoals)
-           homeTeamForUpdateStats[0].team.draws += Number(test.awayGoals)===Number(test.homeGoals) ? 1:0;
-           homeTeamForUpdateStats[0].team.loses += Number(test.awayGoals)>Number(test.homeGoals) ? 1:0
-           homeTeamForUpdateStats[0].team.points += Number(test.awayGoals)<Number(test.homeGoals)? 3:0
-           homeTeamForUpdateStats[0].team.scoredgoals += Number(test.homeGoals)
-           homeTeamForUpdateStats[0].team.wins += Number(test.awayGoals)<Number(test.homeGoals)? 1:0
-           awayTeamForUpdateStats[0].team.conceededgoals += Number(test.awayGoals)
-           awayTeamForUpdateStats[0].team.draws += Number(test.awayGoals)===Number(test.homeGoals) ? 1:0;
-           awayTeamForUpdateStats[0].team.loses += Number(test.awayGoals)<Number(test.homeGoals) ? 1:0
-           awayTeamForUpdateStats[0].team.points += Number(test.awayGoals)>Number(test.homeGoals)? 3:0
-           awayTeamForUpdateStats[0].team.scoredgoals += Number(test.homeGoals)
-           awayTeamForUpdateStats[0].team.wins += Number(test.awayGoals)>Number(test.homeGoals)? 1:0
-           console.log(homeTeamForUpdateStats[0].team,awayTeamForUpdateStats)
-        }
-
-        setAllResults((prev) => [...prev, results]);
-        setResults((prev) => [...prev, results]);
-        return results;
-    };
     const handleFinishMatch = () => {
         let arrayMainMatch = [awayTeamName, homeTeamName, awayGoals, homeGoals];
 
         setAllResults((prev) => [...prev, arrayMainMatch]);
         setResults((prev) => [...prev, arrayMainMatch]);
-        console.log(simulateAllGamesFromTheLeg());
+        setMatchStarted(false);
+        console.log(league);
     };
-    console.log(results)
+
+    console.log(test);
     // console.log(matchSimulator)
+
+    function updateTable(testa) {
+        console.log(test);
+        console.log(league);
+        let leagueTeamsToBeExportedToLocalStorage = league.slice();
+        console.log(leagueTeamsToBeExportedToLocalStorage);
+
+        for (let i = 0; i < testa.length; i++) {
+            for (let j = 0; j < league.length; j++) {
+                if (
+                    testa[i].homeTeam ===
+                    leagueTeamsToBeExportedToLocalStorage[j].team.name
+                ) {
+                    leagueTeamsToBeExportedToLocalStorage[
+                        j
+                    ].team.conceededgoals += Number(testa[i].awayGoals);
+                    leagueTeamsToBeExportedToLocalStorage[j].team.scoredgoals +=
+                        Number(testa[i].homeGoals);
+                    leagueTeamsToBeExportedToLocalStorage[j].team.wins +=
+                        Number(testa[i].homeGoals) > Number(testa[i].awayGoals)
+                            ? 1
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.loses +=
+                        Number(testa[i].homeGoals) < Number(testa[i].awayGoals)
+                            ? 1
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.draw +=
+                        Number(testa[i].homeGoals) ===
+                        Number(testa[i].awayGoals)
+                            ? 1
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.points +=
+                        Number(testa[i].homeGoals) ===
+                        Number(testa[i].awayGoals)
+                            ? 1
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.points +=
+                        Number(testa[i].homeGoals) > Number(testa[i].awayGoals)
+                            ? 3
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.points +=
+                        Number(testa[i].homeGoals) < Number(testa[i].awayGoals)
+                            ? 0
+                            : 0;
+                } else if (
+                    testa[i].awayTeam ===
+                    leagueTeamsToBeExportedToLocalStorage[j].team.name
+                ) {
+                    leagueTeamsToBeExportedToLocalStorage[
+                        j
+                    ].team.conceededgoals += Number(testa[i].homeGoals);
+                    leagueTeamsToBeExportedToLocalStorage[j].team.scoredgoals +=
+                        Number(testa[i].awayGoals);
+                    leagueTeamsToBeExportedToLocalStorage[j].team.wins +=
+                        Number(testa[i].homeGoals) < Number(testa[i].awayGoals)
+                            ? 1
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.loses +=
+                        Number(testa[i].homeGoals) > Number(testa[i].awayGoals)
+                            ? 1
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.draw +=
+                        Number(testa[i].homeGoals) ===
+                        Number(testa[i].awayGoals)
+                            ? 1
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.points +=
+                        Number(testa[i].homeGoals) ===
+                        Number(testa[i].awayGoals)
+                            ? 1
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.points +=
+                        Number(testa[i].homeGoals) < Number(testa[i].awayGoals)
+                            ? 3
+                            : 0;
+                    leagueTeamsToBeExportedToLocalStorage[j].team.points +=
+                        Number(testa[i].homeGoals) > Number(testa[i].awayGoals)
+                            ? 0
+                            : 0;
+                }
+            }
+            localStorage.setItem(
+                "leagueResults",
+                JSON.stringify(leagueTeamsToBeExportedToLocalStorage)
+            );
+        }
+    }
+
     return (
         <div className="match-container">
             {!matchStarted && (
@@ -187,60 +289,60 @@ export default function MatchDay() {
                     </div>
 
                     <div className="tableContainer">
-                    <table className="table-match">
-                        <thead>
-                            <tr>
-                                <th>HOME</th>
-                                <th>STAT</th>
-                                <th>AWAY</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{awayCorners}</td>
-                                <td>Corners</td>
-                                <td>{homeCorners}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayFouls}</td>
-                                <td>Fouls</td>
-                                <td>{homeFouls}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayPossession}</td>
-                                <td>Possession</td>
-                                <td>{homePossession}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayYellowCards}</td>
-                                <td>YellowCards</td>
-                                <td>{homeYellowCards}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayRedCards}</td>
-                                <td>RedCards</td>
-                                <td>{homeRedCards}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayShotsOnTarget}</td>
-                                <td>Shots</td>
-                                <td>{homeShotsOnTarget}</td>
-                            </tr>
-                            <tr>
-                                <td>{awayThrowIns}</td>
-                                <td>ThrowIns</td>
-                                <td>{homeThrowIns}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className="logs-container">
-                        <h3>Comments:</h3>
-                        <ul>
-                            {logs.map((log, index) => (
-                                <li key={index}>{log}</li>
-                            ))}
-                        </ul>
-                    </div>
+                        <table className="table-match">
+                            <thead>
+                                <tr>
+                                    <th>HOME</th>
+                                    <th>STAT</th>
+                                    <th>AWAY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{awayCorners}</td>
+                                    <td>Corners</td>
+                                    <td>{homeCorners}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayFouls}</td>
+                                    <td>Fouls</td>
+                                    <td>{homeFouls}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayPossession}</td>
+                                    <td>Possession</td>
+                                    <td>{homePossession}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayYellowCards}</td>
+                                    <td>YellowCards</td>
+                                    <td>{homeYellowCards}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayRedCards}</td>
+                                    <td>RedCards</td>
+                                    <td>{homeRedCards}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayShotsOnTarget}</td>
+                                    <td>Shots</td>
+                                    <td>{homeShotsOnTarget}</td>
+                                </tr>
+                                <tr>
+                                    <td>{awayThrowIns}</td>
+                                    <td>ThrowIns</td>
+                                    <td>{homeThrowIns}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div className="logs-container">
+                            <h3>Comments:</h3>
+                            <ul>
+                                {logs.map((log, index) => (
+                                    <li key={index}>{log}</li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </>
 

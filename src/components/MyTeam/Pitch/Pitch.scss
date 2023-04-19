@@ -45,9 +45,33 @@
 .substitute-two,
 .substitute-three,
 .substitute-four {
-    background-color: $changeHighlight;
-    border-radius: $borderRadius;
+  background-color: #214e3474;
+  border-radius: $borderRadius;
+
+  animation-name: color;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  @keyframes color {
+    0% {
+      background-color: #214e34;
+    }
+    25% {
+      background-color: #3e614d;
+    }
+    50% {
+      background-color: #5f7c67;
+    }
+    75% {
+      background-color: #8aa88f;
+    }
+    100% {
+      background-color: #b9d0ba;
+    }
+  }
 }
+
 
 .change-icon {
     position: absolute;
@@ -84,8 +108,31 @@
 
 .row-one-change {
     .card-jersey {
-        background-color: $changeHighlight;
+        background-color: #214e3474;
         border-radius: $borderRadius;
+      
+        animation-name: color;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      
+        @keyframes color {
+          0% {
+            background-color: #214e34;
+          }
+          25% {
+            background-color: #3e614d;
+          }
+          50% {
+            background-color: #5f7c67;
+          }
+          75% {
+            background-color: #8aa88f;
+          }
+          100% {
+            background-color: #b9d0ba;
+          }
+        }
     }
     @include row(
         $width: 500px,
@@ -113,8 +160,31 @@
     // opacity: 50%;
     // background-color: #37003c;
     .card-jersey {
-        background-color: $changeHighlight;
+        background-color: #214e3474;
         border-radius: $borderRadius;
+      
+        animation-name: color;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      
+        @keyframes color {
+          0% {
+            background-color: #214e34;
+          }
+          25% {
+            background-color: #3e614d;
+          }
+          50% {
+            background-color: #5f7c67;
+          }
+          75% {
+            background-color: #8aa88f;
+          }
+          100% {
+            background-color: #b9d0ba;
+          }
+        }
     }
     @include row(
         $width: 550px,
@@ -139,8 +209,31 @@
     // opacity: 50%;
     // background-color: #37003c;
     .card-jersey {
-        background-color: $changeHighlight;
+        background-color: #214e3474;
         border-radius: $borderRadius;
+      
+        animation-name: color;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      
+        @keyframes color {
+          0% {
+            background-color: #214e34;
+          }
+          25% {
+            background-color: #3e614d;
+          }
+          50% {
+            background-color: #5f7c67;
+          }
+          75% {
+            background-color: #8aa88f;
+          }
+          100% {
+            background-color: #b9d0ba;
+          }
+        }
     }
     @include row(
         $width: 550px,
@@ -164,8 +257,31 @@
     // opacity: 50%;
 
     .card-jersey {
-        background-color: $changeHighlight;
+        background-color: #214e3474;
         border-radius: $borderRadius;
+      
+        animation-name: color;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      
+        @keyframes color {
+          0% {
+            background-color: #214e34;
+          }
+          25% {
+            background-color: #215537;
+          }
+          50% {
+            background-color: #225f3b;
+          }
+          75% {
+            background-color: #237244;
+          }
+          100% {
+            background-color: #1e8549;
+          }
+        }
     }
     @include row(
         $width: 500px,
