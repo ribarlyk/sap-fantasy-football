@@ -96,7 +96,7 @@ export default class MatchSimulator {
         let seconds = 0;
         timer = setInterval(() => {
             seconds++;
-            if (seconds === 90) {
+            if (seconds === 20) {
                 this.log(`Match over: ${this.matchStatistic.homeTeam} ${this.matchStatistic.homeGoals} - ${this.matchStatistic.awayGoals} ${this.matchStatistic.awayTeam}`);
                 this.isMatchOver = true;
                 clearInterval(timer)
