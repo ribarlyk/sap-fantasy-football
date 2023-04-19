@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 export default function ShirtButton({
     name,
     jersey,
@@ -12,8 +13,9 @@ export default function ShirtButton({
         if (onPlayerChangeHandler()) {
             const playerIn = onPlayerChangeHandler();
             const playerOut = e.target.nextElementSibling.textContent;
-            console.log(localStorageTeam)
-            let newTeamList = localStorageTeam.slice() || localStorageTeam.team.slice()  
+            console.log(localStorageTeam);
+            let newTeamList =
+                localStorageTeam.slice() || localStorageTeam.team.slice();
 
             let playerTakenInIndex;
             let playerTakenOutIndex;
@@ -32,11 +34,11 @@ export default function ShirtButton({
             newTeamList[playerTakenOutIndex] = swapIn;
             let team = JSON.parse(localStorage.getItem("loggedUser"));
             team.team = newTeamList;
-            console.log(team)
+            console.log(team);
             localStorage.setItem("loggedUser", JSON.stringify(team));
             setIsChange(!isChange);
         } else {
-            return
+            return;
         }
     };
     return (
