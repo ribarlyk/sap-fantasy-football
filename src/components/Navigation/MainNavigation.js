@@ -11,6 +11,7 @@ import News from "../News/News";
 import Rules from "../Rules/Rules";
 import { AnimatePresence } from 'framer-motion'
 import Error from "../Error/Error";
+import ProtectedRoutes from "./Validation";
 export default function AnimatetRoutes() {
     const location = useLocation();
 
@@ -19,14 +20,16 @@ export default function AnimatetRoutes() {
             <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Home />} />
                 <Route path="/my-team" element={<MyTeam />} />
-                <Route path="/standings" element={<Standings />} />
-                <Route path="/match-day" element={<MatchDay />} />
+                <Route element={<ProtectedRoutes/>}>
+                    <Route path="/standings" element={<Standings />} />
+                    <Route path="/match-day" element={<MatchDay />} />
+                </Route>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/news" element={<News />} />
                 <Route path="/rules" element={<Rules />} />
-                <Route path = "*" element={<Error/>} />
+                <Route path="*" element={<Error />} />
             </Routes>
         </AnimatePresence>
     )

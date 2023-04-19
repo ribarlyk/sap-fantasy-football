@@ -79,22 +79,22 @@ export default function SignUpSide() {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (password === confirmPassword) {
-          userManager
-            .register({ username, password })
-            .then((newUser) => {
-              console.log("User registered successfully:", newUser);
-              // Redirect to the login page
-              navigate('/login');
-            })
-            .catch((error) => {
-              alert("Registration error:", error);
-            });
+            userManager
+                .register({ username, password })
+                .then((newUser) => {
+                    console.log("User registered successfully:", newUser);
+                    // Redirect to the login page
+                    navigate('/login');
+                })
+                .catch((error) => {
+                    alert("Registration error:", error);
+                });
         } else {
-          alert("Passwords do not match");
+            alert("Passwords do not match");
         }
-      };
+    };
 
-      
+
     const handleShowPasswordChange = (event) => {
         setShowPassword(event.target.checked);
     };
@@ -131,86 +131,95 @@ export default function SignUpSide() {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{ m:0, bgcolor: 'primary.main' }}>
+                        <Avatar sx={{ m: 0, bgcolor: 'primary.main' }}>
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign up
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="username"
-                                label="username"
-                                name="username"
-                                autoComplete="username"
-                                autoFocus
-                                value={username}
-                                onChange={handleUsernameChange}
-                            />
-                            {username.length > 0 &&
+                        <Box component="form"
+                            noValidate
+                            onSubmit={handleSubmit}
+                            sx={{ mt: 1, height: "100%", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}
+                        >
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="username"
+                            label="username"
+                            name="username"
+                            autoComplete="username"
+                            autoFocus
+                            value={username}
+                            onChange={handleUsernameChange}
+                            helperText={username.length > 0 ? (usernameError || (usernameValid && 'Username is valid')) : ''}
+                            error={!usernameValid && username.length > 0}
+                        />
+                        {/* {username.length > 0 &&
                                 (<Typography variant="caption" color={usernameValid ? "success.main" : "error"} display="block">
                                     {usernameError || (usernameValid && 'Username is valid')}
-                                </Typography>)}
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type={showPassword ? 'text' : 'password'}
-                                id="password"
-                                autoComplete="current-password"
-                                value={password}
-                                onChange={handlePasswordChange}
-                            />{password.length > 0 &&
+                                </Typography>)} */}
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type={showPassword ? 'text' : 'password'}
+                            id="password"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            helperText={password.length > 0 ? (passwordError || (passwordValid && 'Password is valid')) : ''}
+                            error={!passwordValid && password.length > 0}
+                        />
+                        {/* {password.length > 0 &&
                                 (<Typography variant="caption" color={passwordValid ? "success.main" : "error"} display="block">
                                     {passwordError || (passwordValid && 'Password is valid')}
-                                </Typography>)}
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="confirmPassword"
-                                label="Confirm Password"
-                                type={showPassword ? 'text' : 'password'}
-                                id="confirmPassword"
-                                value={confirmPassword}
-                                onChange={handleConfirmPasswordChange}
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={showPassword}
-                                        onChange={handleShowPasswordChange}
-                                        color="primary"
-                                    />
-                                }
-                                label="Show password"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                disabled={isButtonDisabled}
-                            >
-                                Sign Up
-                            </Button>
-                            <Grid container>
-                                <Grid item>
-                                    <Link component={RouterLink} to="/login" variant="body2">
-                                        {"Already have an account"}
-                                    </Link>
-                                </Grid>
+                                </Typography>)} */}
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            type={showPassword ? 'text' : 'password'}
+                            id="confirmPassword"
+                            value={confirmPassword}
+                            onChange={handleConfirmPasswordChange}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={showPassword}
+                                    onChange={handleShowPasswordChange}
+                                    color="primary"
+                                />
+                            }
+                            label="Show password"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            disabled={isButtonDisabled}
+                        >
+                            Sign Up
+                        </Button>
+                        <Grid container>
+                            <Grid item>
+                                <Link component={RouterLink} to="/login" variant="body2">
+                                    {"Already have an account"}
+                                </Link>
                             </Grid>
-                            <Copyright sx={{ mt: 5 }} />
-                        </Box>
+                        </Grid>
+                        <Copyright sx={{ mt: 5 }} />
                     </Box>
-                </Grid>
+                </Box>
             </Grid>
-        </ThemeProvider>
+        </Grid>
+        </ThemeProvider >
     );
 }

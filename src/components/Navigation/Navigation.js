@@ -22,6 +22,9 @@ function ResponsiveAppBar() {
     const navigate = useNavigate(); //TODO Проверка дали има юзър за да смени вюто на навигацията
     // const [isSigned, setIsSigned] = React.useState(false);
     // isSigned = false;
+
+
+
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
         console.log("asd");
@@ -170,7 +173,7 @@ function ResponsiveAppBar() {
                                 </MenuItem>
                             </Menu>
                         </Box>
-                    </Toolbar> 
+                    </Toolbar>
                 </Container>
             </AppBar>
         </Container>
