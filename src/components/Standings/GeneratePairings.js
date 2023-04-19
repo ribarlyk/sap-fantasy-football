@@ -27,13 +27,14 @@ function GeneratePairings({ teams }) {
             pairing[0],
             pairing[1],
         ]);
-        const awayMatches = roundPairings.map((pairing) => [
-            pairing[1],
-            pairing[0],
-        ]);
+        // const awayMatches = roundPairings.map((pairing) => [
+        //     pairing[1],
+        //     pairing[0],                                                  //LOGIC FOR HOME AWAY PLAYING
+        // ]);
 
         // Add the round pairings to the pairings object
-        pairings.push(homeMatches.concat(awayMatches.reverse()));
+        pairings.push(homeMatches)
+            // .concat(awayMatches.reverse()));
     }
     console.log(pairings[1])
     // set number of items per page

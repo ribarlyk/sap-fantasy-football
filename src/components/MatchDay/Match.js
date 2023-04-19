@@ -7,11 +7,10 @@ import { useResultsContext } from "../LiftingStates/ResultContext";
 export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
     const [matchStatistic, setMatchStatistic] = useState(null);
-    const [round, setRound] = useState( JSON.parse(localStorage.getItem("fixtures"))[0]);
+    const [round, setRound] = useState( JSON.parse(localStorage.getItem("fixtures"))[1]);
     const [legOne, setLegOne] = useState(round.splice(0, 5));
-    const [legTwo, setLegTwo] = useState(round.splice());
-    const [homeTeam, setHomeTeam] = useState(new Team(legOne[0][0].team.name, legOne[0][0].team.players));
-    const [awayTeam, setAwayTeam] = useState(new Team(legOne[0][1].teamName, legOne[0][1].team.slice(0, 11)));
+    const [homeTeam, setHomeTeam] = useState(new Team(legOne[0][0].team.name, legOne[0][0].team.players.slice(0, 11)));
+    const [awayTeam, setAwayTeam] = useState(new Team(legOne[0][1].team.name, legOne[0][1].team.players.slice(0, 11)));
     const [awayTeamName, setAwayTeamName] = useState("");
     const [awayCorners, setAwayCorners] = useState(0);
     const [awayFouls, setAwayFouls] = useState(0);
@@ -39,7 +38,7 @@ export default function MatchDay() {
     const [allResults, setAllResults] = useState([]);
     const [league,setLeague] = useState(JSON.parse(localStorage.getItem("league")))
     const [results, setResults] = useResultsContext();
-
+    const [test,setTest] = useState(null)
     // const handleStartMatch = () => {
     //     setMatchStarted(true);
 
@@ -118,6 +117,7 @@ export default function MatchDay() {
 
     const simulateAllGamesFromTheLeg = () => {
         let results = [];
+        let match;
         for (let i = 1; i < legOne.length; i++) {
             const homeTeam = new Team(
                 legOne[i][0].team.name,
@@ -128,13 +128,31 @@ export default function MatchDay() {
                 legOne[i][1].team.players
             );
             console.log(homeTeam, awayTeam);
-            const match = new MatchSimulator(homeTeam, awayTeam);
+             match = new MatchSimulator(homeTeam, awayTeam);
 
             console.log(match);
             const stats = match?.matchStatistic;
-            console.log(stats);
+            console.log( stats.homeTeam);
+            console.log( stats);
             results.push(stats);
+                setTest(stats)
+           let homeTeamForUpdateStats = league.filter(team=>team.team.name === test.homeTeam)
+           let awayTeamForUpdateStats = league.filter(team=>team.team.name === test.awayTeam)
+           homeTeamForUpdateStats[0].team.conceededgoals += Number(test.awayGoals)
+           homeTeamForUpdateStats[0].team.draws += Number(test.awayGoals)===Number(test.homeGoals) ? 1:0;
+           homeTeamForUpdateStats[0].team.loses += Number(test.awayGoals)>Number(test.homeGoals) ? 1:0
+           homeTeamForUpdateStats[0].team.points += Number(test.awayGoals)<Number(test.homeGoals)? 3:0
+           homeTeamForUpdateStats[0].team.scoredgoals += Number(test.homeGoals)
+           homeTeamForUpdateStats[0].team.wins += Number(test.awayGoals)<Number(test.homeGoals)? 1:0
+           awayTeamForUpdateStats[0].team.conceededgoals += Number(test.awayGoals)
+           awayTeamForUpdateStats[0].team.draws += Number(test.awayGoals)===Number(test.homeGoals) ? 1:0;
+           awayTeamForUpdateStats[0].team.loses += Number(test.awayGoals)<Number(test.homeGoals) ? 1:0
+           awayTeamForUpdateStats[0].team.points += Number(test.awayGoals)>Number(test.homeGoals)? 3:0
+           awayTeamForUpdateStats[0].team.scoredgoals += Number(test.homeGoals)
+           awayTeamForUpdateStats[0].team.wins += Number(test.awayGoals)>Number(test.homeGoals)? 1:0
+           console.log(homeTeamForUpdateStats[0].team,awayTeamForUpdateStats)
         }
+
         setAllResults((prev) => [...prev, results]);
         setResults((prev) => [...prev, results]);
         return results;

@@ -329,8 +329,8 @@ export default function Pitch() {
                 {isTeamSaved ? (
                     <BasicModal
                         name={
-                            loggedUser.team[localIndex]?.player?.name
-                                ? loggedUser.team[localIndex]?.player?.name
+                            loggedUser.team[localIndex]?.player?.name || loggedUser.team.players[localIndex]?.player?.name
+                                ? loggedUser.team[localIndex]?.player?.name || loggedUser.team.players[localIndex]?.player?.name
                                 : pos[stateIndex]?.player?.name
                         }
                         onPlayerChangeHandler={onPlayerChangeHandler}
@@ -341,15 +341,14 @@ export default function Pitch() {
                         isChange={isChange}
                         setIsChange={setIsChange}
                         onPlayerChangeHandler={onPlayerChangeHandler}
-                        localStorageTeam={loggedUser.team} // updated prop name
+                        localStorageTeam={loggedUser.team.length ? loggedUser.team : loggedUser.team.players} // updated prop name
                         position={
-                            loggedUser.team[localIndex]?.statistics[0].games
-                                .position
+                            loggedUser.team[localIndex]?.statistics[0]?.games?.position && loggedUser.team?.players?.players[localIndex]?.statistics[0]?.games?.position
                         }
-                        name={loggedUser.team[localIndex]?.player?.name}
+                        name={loggedUser.team[localIndex]?.player?.name ?? loggedUser.team?.players[localIndex]?.player.name}
                         jersey={
-                            loggedUser.team[localIndex]
-                                ? loggedUser.team[localIndex].jersey
+                             loggedUser.team[localIndex] ?? loggedUser.team.players
+                                ? loggedUser?.team[localIndex]?.jersey ?? loggedUser.team.players[localIndex].jersey
                                 : dummyJersey
                         }
                     />
