@@ -437,7 +437,7 @@ table {
     );
     border: none;
     border-radius:$borderRadius ;
-
+    min-width: 65px;
     &:hover{
         cursor: pointer;
     }

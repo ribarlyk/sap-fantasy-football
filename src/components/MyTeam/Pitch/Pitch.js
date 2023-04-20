@@ -1,5 +1,5 @@
 import "./Pitch.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Animations from "../SkeletonPlayers";
 import uniqid from "uniqid";
 import ShirtButton from "../ShirtButton";
@@ -51,7 +51,9 @@ export default function Pitch() {
     const [myLogo, setMyLogo] = useState(
         JSON.parse(localStorage.getItem("loggedUser"))?.team?.logo || null
     );
-
+    const [clickedPlayers, setClickedPlayers] = useState([]);
+    const buttonRef = useRef(null);
+    const [addOrRemove, setAddOrRemove] = useState(null);
     useEffect(() => {
         const team = JSON.parse(localStorage.getItem("loggedUser"));
         setMyTeam(team.team || []);
@@ -123,24 +125,21 @@ export default function Pitch() {
         let users = JSON.parse(localStorage.getItem("users")) || [];
         const userIndex = users.findIndex((u) => u.username === user.username);
         if (userIndex !== -1) {
-            users[userIndex].team =
-                users[userIndex].team != null
-                    ? [...users[userIndex].team]
-                    : team;
+            users[userIndex].team = team;
+            // users[userIndex].team != null
+            //     ? [...users[userIndex].team]
+            //     : team;
             localStorage.setItem("users", JSON.stringify(users));
         }
-    
+
         const updatedUser = { ...user, team };
-        console.log(updatedUser)
         const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-        let asd = Object.assign(loggedUser,updatedUser);
-        console.log(asd)
+        let asd = Object.assign(loggedUser, updatedUser);
         const updatedLoggedUser = { ...loggedUser, ...updatedUser };
-        console.log(updatedLoggedUser);
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         setLoggedUser(updatedLoggedUser);
     };
-    
+
     const createPlayerSection = (containerClass, heading, role) => {
         let dataCheck = input ? searchPlayers : "";
         const data = dataCheck || players;
@@ -181,7 +180,7 @@ export default function Pitch() {
                                             </td>
                                             <td>{x.player.age || 10} $</td>
                                             <td>
-                                                <button
+                                                {/* <button
                                                     className="add-remove-btn"
                                                     onClick={(e) => {
                                                         onPlayerClickHandler(
@@ -191,7 +190,26 @@ export default function Pitch() {
                                                     }}
                                                 >
                                                     Add
-                                                </button>
+                                                </button> */}
+
+                                                {!myLogo ? (
+                                                    <button
+                                                        ref={buttonRef}
+                                                        className="add-remove-btn"
+                                                        onClick={(e) => {
+                                                            onPlayerClickHandler(
+                                                                e,
+                                                                x
+                                                            );
+                                                        }}
+                                                    >
+                                                        {clickedPlayers.includes(
+                                                            x
+                                                        )
+                                                            ? "Remove"
+                                                            : "Add"}
+                                                    </button>
+                                                ) : null}
                                             </td>
                                         </tr>
                                     );
@@ -226,9 +244,21 @@ export default function Pitch() {
     };
 
     const onPlayerClickHandler = (event, player) => {
+        setAddOrRemove(event.target.textContent);
+
         let sumToBuy = player.player.age || 10;
         let position = player.statistics[0].games.position;
         setSumBuy(sumToBuy);
+
+        if (clickedPlayers.includes(player)) {
+            setClickedPlayers(
+                clickedPlayers.filter(
+                    (clickedPlayer) => clickedPlayer !== player
+                )
+            );
+        } else {
+            setClickedPlayers([...clickedPlayers, player]);
+        } //new add-on for add/remove btn
 
         if (position === "Goalkeeper") {
             playersAddRemoveHandler(
@@ -285,12 +315,21 @@ export default function Pitch() {
         if (budget - sumToBuy < 0) {
             alert("not enought money");
         } else if (substitute.length > 4) {
-            alert("team already chosen");
+            alert("team already chosen"); //todo popup instead of alert
         }
     };
 
     const budgetSetHandler = (sumToBuy) => {
-        const updatedBudget = Number(budget) - Number(sumToBuy);
+        let updatedBudget;
+        console.log(addOrRemove);
+        if (addOrRemove === "Add") {
+            updatedBudget = Number(budget) - Number(sumToBuy);
+            console.log("=");
+        } else {
+            updatedBudget = Number(budget) + Number(sumToBuy);
+            console.log("=12");
+        }
+        console.log(updatedBudget);
         setBudget(updatedBudget);
         localStorage.setItem("budget", JSON.stringify(updatedBudget));
 
@@ -354,6 +393,9 @@ export default function Pitch() {
     };
 
     const rowGenerator = (pos, styleClass, localIndex, stateIndex) => {
+        // console.log(loggedUser
+        //     );
+        // console.log(loggedUser?.team?.players[localIndex]?.statistics[0]?.games?.position);
         return (
             <div className={styleClass}>
                 {isTeamSaved ? (
@@ -367,6 +409,22 @@ export default function Pitch() {
                                 : pos[stateIndex]?.player?.name
                         }
                         onPlayerChangeHandler={onPlayerChangeHandler}
+                        playerStats={
+                            loggedUser.team[localIndex]?.player?.name ||
+                            loggedUser.team.players[localIndex]?.player?.name
+                                ? loggedUser.team[localIndex]?.player ||
+                                  loggedUser.team.players[localIndex]?.player
+                                      
+                                : pos[stateIndex]?.player?.name
+                        }
+                        stats={
+                            loggedUser.team[localIndex]?.player?.name ||
+                            loggedUser.team.players[localIndex]?.player?.name
+                                ? loggedUser.team[localIndex] ||
+                                  loggedUser.team.players[localIndex]
+                                      
+                                : pos[stateIndex]?.player?.name
+                        }
                     />
                 ) : null}
                 {loggedUser.team ? (
@@ -380,10 +438,13 @@ export default function Pitch() {
                                 : loggedUser.team.players
                         } // updated prop name
                         position={
-                            loggedUser.team[localIndex]?.statistics[0]?.games
-                                ?.position &&
-                            loggedUser.team?.players?.players[localIndex]
-                                ?.statistics[0]?.games?.position
+                            loggedUser?.team[localIndex]?.statistics[0]?.games
+                                ?.position ||
+                            loggedUser?.team?.players[localIndex]?.statistics[0]
+                                ?.games?.position
+                            //      &&
+                            // loggedUser.team?.players?.players[localIndex]
+                            //     ?.statistics[0]?.games?.position
                         }
                         name={
                             loggedUser.team[localIndex]?.player?.name ??

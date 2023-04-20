@@ -21,7 +21,7 @@ export default function AddPicture({ logoHandler }) {
                 <img src={image} alt="Selected" />
             ) : (
                 <>
-                    <label for="file-upload" class="custom-file-upload">
+                    <label htmlFor="file-upload" className="custom-file-upload">
                         Upload Logo
                     </label>
                     <input

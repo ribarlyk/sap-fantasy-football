@@ -7,7 +7,7 @@ export default function LastMatches({ results }) {
             <h1>Last Matches</h1>
             {results.map((x) => {
                 return (
-                    <div>
+                    <div key={uniqid()}>
                         {x.homeTeam} {x.homeGoals} - {x.awayGoals} {x.awayTeam}
                     </div>
                 );
