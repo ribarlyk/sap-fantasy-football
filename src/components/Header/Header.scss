@@ -58,10 +58,14 @@
     max-width: 230px;
     max-height: 180px;
     transition: all 750ms ease-in-out;
+    transform: rotate(360deg);
 
   }
   
   .shrink .logo {
     max-width: 150px;
     max-height: 75px;
+    transform: rotate(360deg);
+
+
   }

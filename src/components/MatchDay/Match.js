@@ -502,7 +502,6 @@ export default function MatchDay() {
 
             for (let j = 0; j < league.length; j++) {
                 let team = leagueTeamsToBeExportedToLocalStorage[j].team;
-
                 if (homeTeam === team.name) {
                     team.conceededgoals += awayGoals;
                     team.scoredgoals += homeGoals;

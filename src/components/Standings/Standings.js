@@ -23,6 +23,7 @@ export default function Standings() {
     );
     const [results, setResults] = useResultsContext();
     const [isLoaded, setIsLoaded] = useState(false);
+        
 
     useEffect(() => {
         async function fetchTeams() {
@@ -43,7 +44,7 @@ export default function Standings() {
     const timeoutIt = setTimeout(() => {
         setIsLoaded(true);
     }, 3000);
-
+    console.log('hui')
     return (
         <div className="standings-container">
             <div className="fixtures-container">

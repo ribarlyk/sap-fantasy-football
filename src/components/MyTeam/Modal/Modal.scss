@@ -40,3 +40,28 @@
 .info-button {
     border-radius: $borderRadius;
 }
+
+
+
+
+.container-modal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 600px;
+    height: 150px;
+    padding: 20px;
+  }
+  
+  .left-column-modal {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .right-column-modal {
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 20px);
+  }
+  
