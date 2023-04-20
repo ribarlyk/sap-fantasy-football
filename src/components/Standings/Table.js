@@ -26,7 +26,7 @@ export default function Table({ league, leagueResults }) {
                                   <tr key={index}>
                                       <td>{index + 1}</td>
                                       <td>
-                                          {x.teams.logo ? (
+                                          {x.team.logo ? (
                                               <img
                                                   src={x.team.logo}
                                                   alt={`${x.team.name} logo`}
