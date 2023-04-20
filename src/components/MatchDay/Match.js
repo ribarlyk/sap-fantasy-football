@@ -11,7 +11,7 @@ export default function MatchDay() {
     // const [count, setCount] = useState(0);
     const [count, setCount] = useState(() => {
         const savedCount = localStorage.getItem("count");
-        return savedCount > 9 ? 0 : parseInt(savedCount);
+        return savedCount > 8 ? 0 : parseInt(savedCount);
     });
 
     useEffect(() => {
@@ -67,6 +67,7 @@ export default function MatchDay() {
     const [nextRound, setNextRound] = useState(false);
     const [showNextRoundButton, setShowNextRoundButton] = useState(false);
     const [showMatchInfo, setShowMatchInfo] = useState(false);
+    const [showStartButton, setShowStartButton] = useState(true);
     const [league, setLeague] = useState(
         JSON.parse(localStorage.getItem("leagueResults")) ||
         JSON.parse(localStorage.getItem("league"))
@@ -75,6 +76,7 @@ export default function MatchDay() {
     const [test, setTest] = useState([]);
     const [timer, setTimer] = useState(0);
     const [timerActive, setTimerActive] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     console.log("I runnnnnn");
@@ -105,7 +107,7 @@ export default function MatchDay() {
             fixtures[userPosition[0]][userPosition[1]][userPosition[2]];
         const nextAwayTeam =
             fixtures[opponentPosition[0]][opponentPosition[1]][
-                opponentPosition[2]
+            opponentPosition[2]
             ];
 
         setHomeTeam(new Team(nextHomeTeam.team.name, nextHomeTeam.team.players?.slice(0, 11)));
@@ -196,9 +198,9 @@ export default function MatchDay() {
         setCount((prevCount) => prevCount += 1);
     };
 
-        const logCallback = (message) => {
-            setLogs((prevLogs) => [...prevLogs, message]);
-        };
+    const logCallback = (message) => {
+        setLogs((prevLogs) => [...prevLogs, message]);
+    };
 
 
 
@@ -370,7 +372,8 @@ export default function MatchDay() {
 
             updateTable(test);
 
-            setMatchStarted(false);
+            // setMatchStarted(false);
+            setShowStartButton(false);
             setShowNextRoundButton(true);
             setTimerActive(false);
 
@@ -382,7 +385,7 @@ export default function MatchDay() {
 
     // function updateTable(testa) {
     //     console.log("Match results:", testa);
-        // console.log(league);
+    // console.log(league);
     // console.log(results)
     // const handleFinishMatch = () => {
     //     let arrayMainMatch = [awayTeamName, homeTeamName, awayGoals, homeGoals];
@@ -593,7 +596,7 @@ export default function MatchDay() {
                                     </tr>
                                 </tbody>
                             </table>
-                            <div className="logs-container">
+                            <div className={logs.length > 0 ? "logs-container logs-container-border" : "logs-container"}>
                                 <h3>Comments:</h3>
                                 <ul>
                                     {logs.map((log, index) => (
@@ -609,7 +612,7 @@ export default function MatchDay() {
             {matchStarted && (
                 <Button variant="contained" onClick={handleFinishMatch}>Finish Match</Button>
             )}
-            {!matchStarted && showNextRoundButton && (
+            {!showSta && showNextRoundButton && (
                 <Button variant="contained" onClick={handleNextRound}>Next Round</Button>
             )}
 

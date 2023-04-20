@@ -16,6 +16,9 @@ import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import useUseUserManager from '../Models/LoginAndRegisterModel/UserManager';
 import { useUserContext } from "../LiftingStates/UserContext";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 
 
 
@@ -39,10 +42,14 @@ export default function SignInSide() {
 
     const userManager = useUseUserManager();
     const navigate = useNavigate();
-    const [ isSigned, setIsSigned ] = useUserContext();
+    const [isSigned, setIsSigned] = useUserContext();
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+
     const isButtonDisabled = !username || !password;
 
     // const handleSubmit = (event) => {
@@ -61,16 +68,25 @@ export default function SignInSide() {
             .then((user) => {
                 console.log("User logged in successfully:", user);
                 setIsSigned(true);
-                // Redirect to the home page
-                navigate('/');
+                setSnackbarSeverity('success');
+                setSnackbarMessage('Logged in successfully!');
+                setSnackbarOpen(true);
+                setTimeout(() => {
+                    // Redirect to the home page
+                    navigate('/');
+                }, 1500);
             })
             .catch((error) => {
-                alert(error);
+                console.error("Login error:", error);
+                setSnackbarSeverity('error');
+                setSnackbarMessage('Wrong username or password');
+                setSnackbarOpen(true);
             });
     };
 
+
     const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
+        setUsername(event.target.value.trim());
     };
 
     const handlePasswordChange = (event) => {
@@ -80,6 +96,15 @@ export default function SignInSide() {
     const handleShowPasswordChange = (event) => {
         setShowPassword(event.target.checked);
     };
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
+
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -127,7 +152,7 @@ export default function SignInSide() {
                                 autoFocus
                                 value={username}
                                 onChange={handleUsernameChange}
-                                
+
                             />
                             <TextField
                                 margin="normal"
@@ -172,6 +197,17 @@ export default function SignInSide() {
                     </Box>
                 </Grid>
             </Grid>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
+
         </ThemeProvider>
     );
 }

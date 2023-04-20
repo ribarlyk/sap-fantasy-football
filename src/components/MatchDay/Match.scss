@@ -63,8 +63,6 @@ flex-direction: column;
 .logs-container {
     max-height: calc(3em * 5 + 1em); // 1.5em for each list item and 1em for the header
     overflow-y: auto;
-    margin-left: 1em;
-    border: 1px solid #ccc;
     padding: 1em;
   }
   
@@ -77,4 +75,14 @@ flex-direction: column;
   .logs-container li {
     line-height: 1.5em;
   }
+
+  .logs-container-border {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    max-height: 370px;
+    overflow-y: auto;
+    min-width: 350px;
+  }
+
   
