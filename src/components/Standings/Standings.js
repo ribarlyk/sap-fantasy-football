@@ -12,14 +12,11 @@ export default function Standings() {
         JSON.parse(localStorage.getItem("teams")) || []
     );
     const [userTeam, setUserTeam] = useState(
-        JSON.parse(localStorage.getItem("loggedUser")) || []
+        JSON.parse(localStorage.getItem("loggedUser"))
     );
-    const [league, setLeague] = useState(
-        localStorage.setItem("league", JSON.stringify([...teams, userTeam])) ||
-            []
-    );
+    const [league, setLeague] = useState([]);
     const [leagueResults, setLeagueResults] = useState(
-        JSON.parse(localStorage.getItem("leagueResults")) || []
+        JSON.parse(localStorage.getItem("loggedUser")).leagueResults || []
     );
     const [results, setResults] = useResultsContext();
     const [isLoaded, setIsLoaded] = useState(false);
@@ -28,21 +25,52 @@ export default function Standings() {
         async function fetchTeams() {
             try {
                 const team = await teamGenerator.generateTeam();
+                console.log("first useefect", team);
                 setTeams(team);
-                setLeague([...team, userTeam]);
             } catch (error) {
                 console.error(error);
             }
         }
         fetchTeams();
+
     }, []);
 
-    localStorage.setItem("teams", JSON.stringify(teams));
-    localStorage.setItem("league", JSON.stringify([...teams, userTeam]));
+    useEffect(() => {
+        console.log("seconduseefect");
+        const leagueTwo = [...teams, userTeam.team];
+        setLeague(leagueTwo);
+        const updateLeague = { ...userTeam, league: leagueTwo };
+        setUserTeam(updateLeague);
+        
+        // Update users in local storage
+        const users = JSON.parse(localStorage.getItem("users"));
+        const updatedUsers = users.map((user) => {
+            if (user.username === userTeam.username) {
+                return updateLeague;
+            } else {
+                return user;
+            }
+        });
 
-    const timeoutIt = setTimeout(() => {
-        setIsLoaded(true);
-    }, 3000);
+        localStorage.setItem("loggedUser", JSON.stringify(updateLeague));
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        localStorage.setItem("teams", JSON.stringify(teams));
+
+    }, [teams]);
+
+    useEffect(() => {
+        console.log("fourthuseefect");
+
+        const timeoutIt = setTimeout(() => {
+            setIsLoaded(true);
+        }, 3000);
+
+        // Clean up the timeout when the component is unmounted
+        return () => {
+            clearTimeout(timeoutIt);
+        };
+    }, []);
+
 
     return (
         <div className="standings-container">
@@ -53,9 +81,9 @@ export default function Standings() {
                         <div>
                             <h1>Fixtures</h1>
                             <GeneratePairings
-                                teams={JSON.parse(
-                                    localStorage.getItem("league")
-                                )}
+                                teams={
+                                    JSON.parse(localStorage.getItem("loggedUser")).league
+                                }
                             />
 
                             <div className="last-matches">
@@ -80,3 +108,4 @@ export default function Standings() {
         </div>
     );
 }
+

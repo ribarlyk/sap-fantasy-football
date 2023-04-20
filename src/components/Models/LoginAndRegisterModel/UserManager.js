@@ -66,7 +66,10 @@ class User {
     this.username = username;
     this.password = password;
     this.team = null;
-   
+    this.league = [];
+    this.fixtures = null;
+    this.leagueResults = null;
+    this.count = 0;
   }
 }
 
