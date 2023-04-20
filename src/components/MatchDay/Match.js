@@ -138,7 +138,7 @@ export default function MatchDay() {
         setCount((prevState) => prevState = prevState + 1);
 
         const updatedUserTeam = { ...userTeam, count: count};
-
+        
         setUserTeam(updatedUserTeam);
 
         // Save the updated userTeam object in local storage
@@ -222,6 +222,8 @@ export default function MatchDay() {
         setMatchStatistic(null);
         setLogs([]);
         getUserTeamAndOpponent();
+        updateLoggedUserCount();
+
     };
 
     const simulateAllGamesFromTheLeg = () => {
@@ -261,7 +263,7 @@ export default function MatchDay() {
         setShowMatchInfo(true);
         setShowFinishButton(true);
         setTest(simulateAllGamesFromTheLeg());
-        updateLoggedUserCount();
+        // updateLoggedUserCount();
 
         const logCallback = (message) => {
             setLogs((prevLogs) => [...prevLogs, message]);
