@@ -153,11 +153,10 @@ export default function Table({ league, leagueResults }) {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>
-                                    
-                                    {x?.team?.logo ? (
+                                    {x?.team?.logo || x?.logo? (
                                         <img
                                             src={x?.team?.logo || x?.logo }
-                                            alt={`${x.team.name} logo`}
+                                            alt='logo' 
                                             width="55"
                                             height="55"
                                         />
