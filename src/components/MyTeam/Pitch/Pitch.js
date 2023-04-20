@@ -14,6 +14,8 @@ import dummyJersey from "../../../assets/images/jerseys/no-player.png=z-0,0_f-we
 import SearchBar from "../SearchBar/SearchBar";
 import TeamName from "../TeamName/TeamName";
 import { fetchData } from "../../utils/fetch";
+import AddPicture from "../AddPicture/AddPicture";
+
 export default function Pitch() {
     const [loggedUser, setLoggedUser] = useState(
         JSON.parse(localStorage.getItem("loggedUser")) || {}
@@ -46,6 +48,9 @@ export default function Pitch() {
     );
     const [isNameSaved, setIsNameSaved] = useState(false);
     const [sumBuy, setSumBuy] = useState(null);
+    const [myLogo, setMyLogo] = useState(
+        JSON.parse(localStorage.getItem("loggedUser"))?.team?.logo || null
+    );
 
     useEffect(() => {
         const team = JSON.parse(localStorage.getItem("loggedUser"));
@@ -94,23 +99,48 @@ export default function Pitch() {
             });
     }, [page, input]); // да се изкара в папкa service и да се ползва axios
 
+    // const updateUserTeam = (user, team) => {
+    //     // Update the user's team in the users array
+    //     console.log(user, team);
+    //     let users = JSON.parse(localStorage.getItem("users")) || [];
+    //     const userIndex = users.findIndex((u) => u.username === user.username);
+    //     if (userIndex !== -1) {
+    //         users[userIndex].team =
+    //             users[userIndex].team != null
+    //                 ? [...users[userIndex].team]
+    //                 : team;
+    //         localStorage.setItem("users", JSON.stringify(users));
+    //     }
+
+    //     const updatedLoggedUser = { ...user, team };
+    //     console.log(updatedLoggedUser);
+    //     localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
+    //     setLoggedUser(updatedLoggedUser);
+    // };
     const updateUserTeam = (user, team) => {
         // Update the user's team in the users array
         console.log(user, team);
         let users = JSON.parse(localStorage.getItem("users")) || [];
         const userIndex = users.findIndex((u) => u.username === user.username);
         if (userIndex !== -1) {
-            users[userIndex].team = team;
+            users[userIndex].team =
+                users[userIndex].team != null
+                    ? [...users[userIndex].team]
+                    : team;
             localStorage.setItem("users", JSON.stringify(users));
         }
-
-        // Update the loggedUser's team in local storage
-        const updatedLoggedUser = { ...user, team };
-
+    
+        const updatedUser = { ...user, team };
+        console.log(updatedUser)
+        const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        let asd = Object.assign(loggedUser,updatedUser);
+        console.log(asd)
+        const updatedLoggedUser = { ...loggedUser, ...updatedUser };
+        console.log(updatedLoggedUser);
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         setLoggedUser(updatedLoggedUser);
     };
-
+    
     const createPlayerSection = (containerClass, heading, role) => {
         let dataCheck = input ? searchPlayers : "";
         const data = dataCheck || players;
@@ -278,7 +308,7 @@ export default function Pitch() {
                 return user;
             }
         });
-
+        console.log(updatedLoggedUser);
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         localStorage.setItem("users", JSON.stringify(updatedUsers));
     };
@@ -303,18 +333,18 @@ export default function Pitch() {
         setIsTeamSaved(!isTeamSaved);
     };
 
-    if (myTeam.length > 0) {
-        let teams = JSON.parse(localStorage.getItem("loggedUser")).team || [
-            ...goalkeeper,
-            ...defender,
-            ...midfielder,
-            ...attacker,
-            ...substitute,
-        ];
-        const user = JSON.parse(localStorage.getItem("loggedUser"));
-        user.team = teams;
-        localStorage.setItem("loggedUser", JSON.stringify(user));
-    }
+    // if (myTeam.length > 0) {
+    //     let teams = JSON.parse(localStorage.getItem("loggedUser")).team || [
+    //         ...goalkeeper,
+    //         ...defender,
+    //         ...midfielder,
+    //         ...attacker,
+    //         ...substitute,
+    //     ];
+    //     const user = JSON.parse(localStorage.getItem("loggedUser"));
+    //     user.team = teams;
+    //     localStorage.setItem("loggedUser", JSON.stringify(user));
+    // }
 
     const onPlayerChangeHandler = (bool, playerRotate) => {
         setNameClass(bool);
@@ -329,8 +359,11 @@ export default function Pitch() {
                 {isTeamSaved ? (
                     <BasicModal
                         name={
-                            loggedUser.team[localIndex]?.player?.name || loggedUser.team.players[localIndex]?.player?.name
-                                ? loggedUser.team[localIndex]?.player?.name || loggedUser.team.players[localIndex]?.player?.name
+                            loggedUser.team[localIndex]?.player?.name ||
+                            loggedUser.team.players[localIndex]?.player?.name
+                                ? loggedUser.team[localIndex]?.player?.name ||
+                                  loggedUser.team.players[localIndex]?.player
+                                      ?.name
                                 : pos[stateIndex]?.player?.name
                         }
                         onPlayerChangeHandler={onPlayerChangeHandler}
@@ -341,14 +374,26 @@ export default function Pitch() {
                         isChange={isChange}
                         setIsChange={setIsChange}
                         onPlayerChangeHandler={onPlayerChangeHandler}
-                        localStorageTeam={loggedUser.team.length ? loggedUser.team : loggedUser.team.players} // updated prop name
+                        localStorageTeam={
+                            loggedUser.team.length
+                                ? loggedUser.team
+                                : loggedUser.team.players
+                        } // updated prop name
                         position={
-                            loggedUser.team[localIndex]?.statistics[0]?.games?.position && loggedUser.team?.players?.players[localIndex]?.statistics[0]?.games?.position
+                            loggedUser.team[localIndex]?.statistics[0]?.games
+                                ?.position &&
+                            loggedUser.team?.players?.players[localIndex]
+                                ?.statistics[0]?.games?.position
                         }
-                        name={loggedUser.team[localIndex]?.player?.name ?? loggedUser.team?.players[localIndex]?.player.name}
+                        name={
+                            loggedUser.team[localIndex]?.player?.name ??
+                            loggedUser.team?.players[localIndex]?.player.name
+                        }
                         jersey={
-                             loggedUser.team[localIndex] ?? loggedUser.team.players
-                                ? loggedUser?.team[localIndex]?.jersey ?? loggedUser.team.players[localIndex].jersey
+                            loggedUser.team[localIndex] ??
+                            loggedUser.team.players
+                                ? loggedUser?.team[localIndex]?.jersey ??
+                                  loggedUser.team.players[localIndex].jersey
                                 : dummyJersey
                         }
                     />
@@ -390,9 +435,10 @@ export default function Pitch() {
                 conceededgoals: 0,
                 points: 0,
                 players: myTeam,
+                logo: localStorage.getItem("image"),
             },
         };
-
+        setMyLogo(localStorage.getItem("image"));
         const users = JSON.parse(localStorage.getItem("users"));
         const updatedUsers = users.map((user) => {
             if (user.username === loggedUser.username) {
@@ -405,18 +451,25 @@ export default function Pitch() {
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         localStorage.setItem("users", JSON.stringify(updatedUsers));
     };
-
+    // const logoHandler = (result) => {
+    //     setMyLogo(result);
+    // };
     return (
         <>
             <div className="container">
                 <div className="pitch-container">
                     <div className="budget-container">
+                        {myLogo ? (
+                            <img src={myLogo} alt="my-logo"></img>
+                        ) : (
+                            <AddPicture className="add-picture" />
+                        )}
                         {teamName ? (
                             <h1>Team Name : {teamName}</h1>
                         ) : (
                             <TeamName teamNameHandler={teamNameHandler} />
                         )}
-                        <h2>Budget: {budget}/450 €</h2>
+                        <h2>Budget: {budget}/450 $</h2>
                     </div>
                     <div className="pitch-background">
                         <div

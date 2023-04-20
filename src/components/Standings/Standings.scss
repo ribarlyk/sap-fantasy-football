@@ -1,12 +1,16 @@
 .standings-container {
     display: flex;
-    gap: 100px;
     justify-content: center;
+    align-items: center;
     min-height: 100vh;
     margin: 190px;
     .fixtures-container{
-        min-width: 300px;
+        min-width: 500px;
         font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+        gap:50px;
+       
     }
     h1{
         background-image: linear-gradient(
@@ -38,4 +42,15 @@
         margin: 12px 12px 12px 12px;
         padding: 12px 12px 12px 12px;
     }
+}
+
+.div-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
 }

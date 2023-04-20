@@ -1,3 +1,5 @@
+
+
 .match-container {
     height: 100vh;
     margin: 150px auto;
@@ -85,4 +87,26 @@ flex-direction: column;
     min-width: 350px;
   }
 
+  
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 1px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: #fffdfd;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: #1976d2;
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+    height: 1px;
+
+
+  }
+  
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #021050;
+  }
   

@@ -33,7 +33,7 @@ export default function ShirtButton({
             newTeamList[playerTakenInIndex] = newTeamList[playerTakenOutIndex];
             newTeamList[playerTakenOutIndex] = swapIn;
             let team = JSON.parse(localStorage.getItem("loggedUser"));
-            team.team = newTeamList;
+            team.team.players = newTeamList;
             console.log(team);
             localStorage.setItem("loggedUser", JSON.stringify(team));
             setIsChange(!isChange);
