@@ -14,6 +14,8 @@ import dummyJersey from "../../../assets/images/jerseys/no-player.png=z-0,0_f-we
 import SearchBar from "../SearchBar/SearchBar";
 import TeamName from "../TeamName/TeamName";
 import { fetchData } from "../../utils/fetch";
+import AddPicture from "../AddPicture/AddPicture";
+
 export default function Pitch() {
     const [loggedUser, setLoggedUser] = useState(
         JSON.parse(localStorage.getItem("loggedUser")) || {}
@@ -46,6 +48,7 @@ export default function Pitch() {
     );
     const [isNameSaved, setIsNameSaved] = useState(false);
     const [sumBuy, setSumBuy] = useState(null);
+    const [myLogo, setMyLogo] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.team?.logo || null);
 
     useEffect(() => {
         const team = JSON.parse(localStorage.getItem("loggedUser"));
@@ -329,8 +332,11 @@ export default function Pitch() {
                 {isTeamSaved ? (
                     <BasicModal
                         name={
-                            loggedUser.team[localIndex]?.player?.name || loggedUser.team.players[localIndex]?.player?.name
-                                ? loggedUser.team[localIndex]?.player?.name || loggedUser.team.players[localIndex]?.player?.name
+                            loggedUser.team[localIndex]?.player?.name ||
+                            loggedUser.team.players[localIndex]?.player?.name
+                                ? loggedUser.team[localIndex]?.player?.name ||
+                                  loggedUser.team.players[localIndex]?.player
+                                      ?.name
                                 : pos[stateIndex]?.player?.name
                         }
                         onPlayerChangeHandler={onPlayerChangeHandler}
@@ -341,14 +347,26 @@ export default function Pitch() {
                         isChange={isChange}
                         setIsChange={setIsChange}
                         onPlayerChangeHandler={onPlayerChangeHandler}
-                        localStorageTeam={loggedUser.team.length ? loggedUser.team : loggedUser.team.players} // updated prop name
+                        localStorageTeam={
+                            loggedUser.team.length
+                                ? loggedUser.team
+                                : loggedUser.team.players
+                        } // updated prop name
                         position={
-                            loggedUser.team[localIndex]?.statistics[0]?.games?.position && loggedUser.team?.players?.players[localIndex]?.statistics[0]?.games?.position
+                            loggedUser.team[localIndex]?.statistics[0]?.games
+                                ?.position &&
+                            loggedUser.team?.players?.players[localIndex]
+                                ?.statistics[0]?.games?.position
                         }
-                        name={loggedUser.team[localIndex]?.player?.name ?? loggedUser.team?.players[localIndex]?.player.name}
+                        name={
+                            loggedUser.team[localIndex]?.player?.name ??
+                            loggedUser.team?.players[localIndex]?.player.name
+                        }
                         jersey={
-                             loggedUser.team[localIndex] ?? loggedUser.team.players
-                                ? loggedUser?.team[localIndex]?.jersey ?? loggedUser.team.players[localIndex].jersey
+                            loggedUser.team[localIndex] ??
+                            loggedUser.team.players
+                                ? loggedUser?.team[localIndex]?.jersey ??
+                                  loggedUser.team.players[localIndex].jersey
                                 : dummyJersey
                         }
                     />
@@ -390,9 +408,10 @@ export default function Pitch() {
                 conceededgoals: 0,
                 points: 0,
                 players: myTeam,
+                logo: localStorage.getItem("image"),
             },
         };
-
+        setMyLogo(localStorage.getItem("image"));
         const users = JSON.parse(localStorage.getItem("users"));
         const updatedUsers = users.map((user) => {
             if (user.username === loggedUser.username) {
@@ -405,18 +424,25 @@ export default function Pitch() {
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         localStorage.setItem("users", JSON.stringify(updatedUsers));
     };
-
+    // const logoHandler = (result) => {
+    //     setMyLogo(result);
+    // };
     return (
         <>
             <div className="container">
                 <div className="pitch-container">
                     <div className="budget-container">
+                        {myLogo ? (
+                            <img src={myLogo} alt="my-logo"></img>
+                        ) : (
+                            <AddPicture className="add-picture" />
+                        )}
                         {teamName ? (
                             <h1>Team Name : {teamName}</h1>
                         ) : (
                             <TeamName teamNameHandler={teamNameHandler} />
                         )}
-                        <h2>Budget: {budget}/450 €</h2>
+                        <h2>Budget: {budget}/450 $</h2>
                     </div>
                     <div className="pitch-background">
                         <div
