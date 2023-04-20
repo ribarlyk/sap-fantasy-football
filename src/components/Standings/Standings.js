@@ -5,6 +5,7 @@ import GeneratePairings from "./GeneratePairings";
 import Table from "./Table";
 import { useResultsContext } from "../LiftingStates/ResultContext";
 import LastMatches from "./LastMatches";
+import Loader from "../../components/MyTeam/Loader/Loader";
 
 export default function Standings() {
     const [teams, setTeams] = useState(
@@ -21,6 +22,7 @@ export default function Standings() {
         JSON.parse(localStorage.getItem("leagueResults")) || []
     );
     const [results, setResults] = useResultsContext();
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         async function fetchTeams() {
@@ -38,21 +40,42 @@ export default function Standings() {
     localStorage.setItem("teams", JSON.stringify(teams));
     localStorage.setItem("league", JSON.stringify([...teams, userTeam]));
 
+    const timeoutIt = setTimeout(() => {
+        setIsLoaded(true);
+    }, 3000);
+
     return (
         <div className="standings-container">
             <div className="fixtures-container">
-                <h1>Fixtures</h1>
-                <GeneratePairings
-                    teams={JSON.parse(localStorage.getItem("league"))}
-                />
+                {isLoaded ? (
+                    <>
+                        {" "}
+                        <div>
+                            <h1>Fixtures</h1>
+                            <GeneratePairings
+                                teams={JSON.parse(
+                                    localStorage.getItem("league")
+                                )}
+                            />
 
-                <div className="last-matches">
-                    {results && <LastMatches results={results} />}
-                </div>
-            </div>
-            <div className="table-container">
-                <h1>Table</h1>
-                <Table league={league} leagueResults={leagueResults} />
+                            <div className="last-matches">
+                                {results && <LastMatches results={results} />}
+                            </div>
+                        </div>
+                        <div className="table-container">
+                            <h1>Table</h1>
+                            <Table
+                                league={league}
+                                leagueResults={leagueResults}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <div className="div-container">
+                        {" "}
+                        <Loader />
+                    </div>
+                )}
             </div>
         </div>
     );

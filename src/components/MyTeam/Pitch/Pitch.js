@@ -48,7 +48,9 @@ export default function Pitch() {
     );
     const [isNameSaved, setIsNameSaved] = useState(false);
     const [sumBuy, setSumBuy] = useState(null);
-    const [myLogo, setMyLogo] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.team?.logo || null);
+    const [myLogo, setMyLogo] = useState(
+        JSON.parse(localStorage.getItem("loggedUser"))?.team?.logo || null
+    );
 
     useEffect(() => {
         const team = JSON.parse(localStorage.getItem("loggedUser"));
@@ -97,23 +99,48 @@ export default function Pitch() {
             });
     }, [page, input]); // да се изкара в папкa service и да се ползва axios
 
+    // const updateUserTeam = (user, team) => {
+    //     // Update the user's team in the users array
+    //     console.log(user, team);
+    //     let users = JSON.parse(localStorage.getItem("users")) || [];
+    //     const userIndex = users.findIndex((u) => u.username === user.username);
+    //     if (userIndex !== -1) {
+    //         users[userIndex].team =
+    //             users[userIndex].team != null
+    //                 ? [...users[userIndex].team]
+    //                 : team;
+    //         localStorage.setItem("users", JSON.stringify(users));
+    //     }
+
+    //     const updatedLoggedUser = { ...user, team };
+    //     console.log(updatedLoggedUser);
+    //     localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
+    //     setLoggedUser(updatedLoggedUser);
+    // };
     const updateUserTeam = (user, team) => {
         // Update the user's team in the users array
         console.log(user, team);
         let users = JSON.parse(localStorage.getItem("users")) || [];
         const userIndex = users.findIndex((u) => u.username === user.username);
         if (userIndex !== -1) {
-            users[userIndex].team = team;
+            users[userIndex].team =
+                users[userIndex].team != null
+                    ? [...users[userIndex].team]
+                    : team;
             localStorage.setItem("users", JSON.stringify(users));
         }
-
-        // Update the loggedUser's team in local storage
-        const updatedLoggedUser = { ...user, team };
-
+    
+        const updatedUser = { ...user, team };
+        console.log(updatedUser)
+        const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        let asd = Object.assign(loggedUser,updatedUser);
+        console.log(asd)
+        const updatedLoggedUser = { ...loggedUser, ...updatedUser };
+        console.log(updatedLoggedUser);
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         setLoggedUser(updatedLoggedUser);
     };
-
+    
     const createPlayerSection = (containerClass, heading, role) => {
         let dataCheck = input ? searchPlayers : "";
         const data = dataCheck || players;
@@ -281,7 +308,7 @@ export default function Pitch() {
                 return user;
             }
         });
-
+        console.log(updatedLoggedUser);
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         localStorage.setItem("users", JSON.stringify(updatedUsers));
     };
@@ -306,18 +333,18 @@ export default function Pitch() {
         setIsTeamSaved(!isTeamSaved);
     };
 
-    if (myTeam.length > 0) {
-        let teams = JSON.parse(localStorage.getItem("loggedUser")).team || [
-            ...goalkeeper,
-            ...defender,
-            ...midfielder,
-            ...attacker,
-            ...substitute,
-        ];
-        const user = JSON.parse(localStorage.getItem("loggedUser"));
-        user.team = teams;
-        localStorage.setItem("loggedUser", JSON.stringify(user));
-    }
+    // if (myTeam.length > 0) {
+    //     let teams = JSON.parse(localStorage.getItem("loggedUser")).team || [
+    //         ...goalkeeper,
+    //         ...defender,
+    //         ...midfielder,
+    //         ...attacker,
+    //         ...substitute,
+    //     ];
+    //     const user = JSON.parse(localStorage.getItem("loggedUser"));
+    //     user.team = teams;
+    //     localStorage.setItem("loggedUser", JSON.stringify(user));
+    // }
 
     const onPlayerChangeHandler = (bool, playerRotate) => {
         setNameClass(bool);
