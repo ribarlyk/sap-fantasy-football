@@ -15,6 +15,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import useUserManager from '../Models/LoginAndRegisterModel/UserManager';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 
 function Copyright(props) {
     return (
@@ -42,6 +45,9 @@ export default function SignUpSide() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+
     const isButtonDisabled = !username || !password || !confirmPassword;
 
     const handleUsernameChange = (event) => {
@@ -55,26 +61,21 @@ export default function SignUpSide() {
         }
     };
 
+
     const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        if (!regex.test(event.target.value)) {
-            setPasswordError('Password must contain 1 uppercase and 1 special character');
+        const trimmedPassword = event.target.value.trim();
+        setPassword(trimmedPassword);
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s_])[A-Za-z\d\W_]{8,}$/;
+        if (!regex.test(trimmedPassword)) {
+            setPasswordError('Password must contain 1 uppercase, 1 lowercase, 1 digit, and 1 special character');
             setPasswordValid(false);
         } else {
             setPasswordError('');
             setPasswordValid(true);
         }
     };
+    
 
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     const data = new FormData(event.currentTarget);
-    //     console.log({
-    //         username: data.get('username'),
-    //         password: data.get('password'),
-    //     });
-    // };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -83,14 +84,17 @@ export default function SignUpSide() {
                 .register({ username, password })
                 .then((newUser) => {
                     console.log("User registered successfully:", newUser);
-                    // Redirect to the login page
-                    navigate('/login');
+                    setSuccessMessage('You have registered successfully');
+                    setTimeout(() => {
+                        // Redirect to the login page
+                        navigate('/login');
+                    }, 3000);
                 })
                 .catch((error) => {
-                    alert("Registration error:", error);
+                    setErrorMessage("Registration error: " + error);
                 });
         } else {
-            alert("Passwords do not match");
+            setErrorMessage("Passwords do not match");
         }
     };
 
@@ -142,84 +146,107 @@ export default function SignUpSide() {
                             onSubmit={handleSubmit}
                             sx={{ mt: 1, height: "100%", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}
                         >
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="username"
-                            label="username"
-                            name="username"
-                            autoComplete="username"
-                            autoFocus
-                            value={username}
-                            onChange={handleUsernameChange}
-                            helperText={username.length > 0 ? (usernameError || (usernameValid && 'Username is valid')) : ''}
-                            error={!usernameValid && username.length > 0}
-                        />
-                        {/* {username.length > 0 &&
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="username"
+                                label="username"
+                                name="username"
+                                autoComplete="username"
+                                autoFocus
+                                value={username}
+                                onChange={handleUsernameChange}
+                                sx={{ minHeight: "90px" }}
+                                helperText={username.length > 0 ? (usernameError || (usernameValid && 'Username is valid')) : ''}
+                                error={!usernameValid && username.length > 0}
+                            />
+                            {/* {username.length > 0 &&
                                 (<Typography variant="caption" color={usernameValid ? "success.main" : "error"} display="block">
                                     {usernameError || (usernameValid && 'Username is valid')}
                                 </Typography>)} */}
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type={showPassword ? 'text' : 'password'}
-                            id="password"
-                            autoComplete="current-password"
-                            value={password}
-                            onChange={handlePasswordChange}
-                            helperText={password.length > 0 ? (passwordError || (passwordValid && 'Password is valid')) : ''}
-                            error={!passwordValid && password.length > 0}
-                        />
-                        {/* {password.length > 0 &&
-                                (<Typography variant="caption" color={passwordValid ? "success.main" : "error"} display="block">
-                                    {passwordError || (passwordValid && 'Password is valid')}
-                                </Typography>)} */}
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="confirmPassword"
-                            label="Confirm Password"
-                            type={showPassword ? 'text' : 'password'}
-                            id="confirmPassword"
-                            value={confirmPassword}
-                            onChange={handleConfirmPasswordChange}
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={showPassword}
-                                    onChange={handleShowPasswordChange}
-                                    color="primary"
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                autoComplete="current-password"
+                                value={password}
+                                onChange={handlePasswordChange}
+                                sx={{ minHeight: "90px", marginTop: "0" }}
+                                helperText={password.length > 0 ? (passwordError || (passwordValid && 'Password is valid')) : ''}
+                                error={!passwordValid && password.length > 0}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="confirmPassword"
+                                label="Confirm Password"
+                                type={showPassword ? 'text' : 'password'}
+                                id="confirmPassword"
+                                value={confirmPassword}
+                                onChange={handleConfirmPasswordChange}
+                                sx={{ minHeight: "90px", marginTop: "0", marginBottom: "0"}}
+                            />
+                            <Grid container justifyContent="flex-start">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={showPassword}
+                                            onChange={handleShowPasswordChange}
+                                            color="primary"
+                                            
+                                        />
+                                    }
+                                    label="Show password"
                                 />
-                            }
-                            label="Show password"
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            disabled={isButtonDisabled}
-                        >
-                            Sign Up
-                        </Button>
-                        <Grid container>
-                            <Grid item>
-                                <Link component={RouterLink} to="/login" variant="body2">
-                                    {"Already have an account"}
-                                </Link>
                             </Grid>
-                        </Grid>
-                        <Copyright sx={{ mt: 5 }} />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                                disabled={isButtonDisabled}
+                            >
+                                Sign Up
+                            </Button>
+                            <Grid container>
+                                <Grid item>
+                                    <Link component={RouterLink} to="/login" variant="body2">
+                                        {"Already have an account"}
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                            <Copyright sx={{ mt: 5 }} />
+                        </Box>
                     </Box>
-                </Box>
+                </Grid>
             </Grid>
-        </Grid>
+            <Snackbar
+                open={!!errorMessage}
+                autoHideDuration={3000}
+                onClose={() => setErrorMessage('')}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setErrorMessage('')} severity="error" sx={{ width: '100%' }}>
+                    {errorMessage}
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={!!successMessage}
+                autoHideDuration={2000}
+                onClose={() => setSuccessMessage('')}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setSuccessMessage('')} severity="success" sx={{ width: '100%' }}>
+                    {successMessage}
+                </Alert>
+            </Snackbar>
+
         </ThemeProvider >
     );
 }

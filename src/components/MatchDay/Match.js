@@ -5,14 +5,14 @@ import { useState, useEffect, useRef } from "react";
 import { useResultsContext } from "../LiftingStates/ResultContext";
 import Button from "@mui/material/Button";
 
-export default function MatchDay() {
+export default function MatchDay() {    
     const [matchStarted, setMatchStarted] = useState(false);
     const [matchStatistic, setMatchStatistic] = useState(null);
     // const [count, setCount] = useState(0);
 
     const [count, setCount] = useState(localStorage.getItem("count") ?? 0)
     //     const savedCount = localStorage.getItem("count");
-    //     return savedCount > 9 ? 0 : parseInt(savedCount);
+    //     return savedCount > 8 ? 0 : parseInt(savedCount);
     // });
 
    
@@ -69,6 +69,7 @@ export default function MatchDay() {
     const [nextRound, setNextRound] = useState(false);
     const [showNextRoundButton, setShowNextRoundButton] = useState(false);
     const [showMatchInfo, setShowMatchInfo] = useState(false);
+    const [showStartButton, setShowStartButton] = useState(true);
     const [league, setLeague] = useState(
         JSON.parse(localStorage.getItem("leagueResults")) ||
             JSON.parse(localStorage.getItem("league"))
@@ -77,6 +78,7 @@ export default function MatchDay() {
     const [test, setTest] = useState([]);
     const [timer, setTimer] = useState(0);
     const [timerActive, setTimerActive] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         localStorage.setItem("count", count);
@@ -110,7 +112,7 @@ export default function MatchDay() {
             fixtures[userPosition[0]][userPosition[1]][userPosition[2]];
         const nextAwayTeam =
             fixtures[opponentPosition[0]][opponentPosition[1]][
-                opponentPosition[2]
+            opponentPosition[2]
             ];
 
         setHomeTeam(
@@ -212,6 +214,8 @@ export default function MatchDay() {
     const logCallback = (message) => {
         setLogs((prevLogs) => [...prevLogs, message]);
     };
+
+
 
     // useEffect(() => {
     //     let intervalId;
@@ -379,7 +383,8 @@ export default function MatchDay() {
             setAwayTeam(updatedAwayTeam);
 
 
-            setMatchStarted(false);
+            // setMatchStarted(false);
+            setShowStartButton(false);
             setShowNextRoundButton(true);
             setTimerActive(false);
         } else {
@@ -622,10 +627,8 @@ export default function MatchDay() {
                     Finish Match
                 </Button>
             )}
-            {!matchStarted && showNextRoundButton && (
-                <Button variant="contained" onClick={handleNextRound}>
-                    Next Round
-                </Button>
+            {!showStartButton && showNextRoundButton && (
+                <Button variant="contained" onClick={handleNextRound}>Next Round</Button>
             )}
         </div>
     );
