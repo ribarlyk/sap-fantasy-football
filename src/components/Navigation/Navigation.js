@@ -10,7 +10,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import avatar from "../../assets/images/avatar.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../LiftingStates/UserContext";
 import { useEffect } from "react";
