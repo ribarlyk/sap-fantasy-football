@@ -51,7 +51,7 @@ export default function SignUpSide() {
     const isButtonDisabled = !username || !password || !confirmPassword;
 
     const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
+        setUsername(event.target.value.trim());
         if (event.target.value.length < 6) {
             setUsernameError('Username must be at least 6 characters');
             setUsernameValid(false);
@@ -64,7 +64,7 @@ export default function SignUpSide() {
 
     const handlePasswordChange = (event) => {
         const trimmedPassword = event.target.value.trim();
-        setPassword(trimmedPassword);
+        setPassword(trimmedPassword.trim());
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s_])[A-Za-z\d\W_]{8,}$/;
         if (!regex.test(trimmedPassword)) {
             setPasswordError('Password must contain 1 uppercase, 1 lowercase, 1 digit, and 1 special character');

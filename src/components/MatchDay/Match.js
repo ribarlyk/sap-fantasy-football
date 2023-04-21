@@ -12,7 +12,7 @@ export default function MatchDay() {
     console.log("First time count");
 
     const getCountFromLocalStorage = () => {
-        let count= JSON.parse(localStorage.getItem("loggedUser")).count;
+        let count = JSON.parse(localStorage.getItem("loggedUser")).count;
 
         const savedCount = count ?? 0;
         return savedCount > 8 ? 0 : savedCount;
@@ -126,18 +126,22 @@ export default function MatchDay() {
     };
 
     const updateLoggedUserCount = () => {
-        
+
         // setleagueResults(leagueTeamsToBeExportedToLocalStorage)
 
-        // const updateLeagueResults = { ...userTeam, leagueResults: leagueTeamsToBeExportedToLocalStorage }
+        // const updateLeagueResults = { ...userTeam, leagueResults: leagueTeamsToBeExportedToLocalStorage }hand
 
         // setUserTeam(updateLeagueResults);
 
 
         // Update the userTeam state
-        setCount((prevState) => prevState = prevState + 1);
 
-        const updatedUserTeam = { ...userTeam, count: count};
+        setCount(count + 1);
+        // const newCount = await getCountAsync(); // Replace this with your async function to get the new count
+        // setCount(newCount);
+        const updatedUserTeam = { ...userTeam, count: count + 1};
+
+        // const updatedUserTeam = { ...userTeam, count: count };
 
         setUserTeam(updatedUserTeam);
 
@@ -158,6 +162,11 @@ export default function MatchDay() {
 
     };
 
+    async function getCountAsync() {
+        // Replace this with your actual async function to get the new count
+        const currentCount = 0; // Replace with the current count value
+        return currentCount + 1;
+    }
 
 
     const setNextRoundTeams = (userPosition, opponentPosition) => {
@@ -216,12 +225,15 @@ export default function MatchDay() {
     };
 
     const handleNextRound = () => {
+        debugger;
+        updateLoggedUserCount();
         setShowNextRoundButton(false);
         setShowMatchInfo(false);
         setMatchStarted(false);
         setMatchStatistic(null);
         setLogs([]);
         getUserTeamAndOpponent();
+
     };
 
     const simulateAllGamesFromTheLeg = () => {
@@ -261,7 +273,7 @@ export default function MatchDay() {
         setShowMatchInfo(true);
         setShowFinishButton(true);
         setTest(simulateAllGamesFromTheLeg());
-        updateLoggedUserCount();
+        // updateLoggedUserCount();
 
         const logCallback = (message) => {
             setLogs((prevLogs) => [...prevLogs, message]);

@@ -22,6 +22,21 @@ function hasTeam() {
     }
   }
 
+  function hasLeagueAndFix() {
+    const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+  
+    if (loggedUser.fixtures && loggedUser.team) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  export const MatchProtectedRoute = () => {
+    const isAuth = hasLeagueAndFix();
+    return isAuth ? <Outlet/> : <Navigate to="/standings"/>
+  }
+
  export const TeamProtectedRoutes = () => {
     const isAuth = isLogged();
     return isAuth ? <Outlet/> : <Navigate to="/login"/>

@@ -161,6 +161,7 @@ export default function Table({ league, leagueResults }) {
                                             height="55"
                                         />
                                     ) : null}
+                                    {console.log(x.logo)}
                                 </td>
                                 <td>{x?.team?.name || x?.name}</td>
                                 <td>{x?.team?.wins || x?.wins || 0}</td>
