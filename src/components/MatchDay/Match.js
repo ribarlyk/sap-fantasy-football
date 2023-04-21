@@ -9,8 +9,6 @@ export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
     const [matchStatistic, setMatchStatistic] = useState(null);
 
-    console.log("First time count");
-
     const getCountFromLocalStorage = () => {
         let count = JSON.parse(localStorage.getItem("loggedUser")).count;
 
@@ -20,7 +18,6 @@ export default function MatchDay() {
 
     const [count, setCount] = useState(getCountFromLocalStorage());
 
-    console.log("Second time count");
 
     //     const savedCount = localStorage.getItem("count");
     // return savedCount > 8 ? 0 : parseInt(savedCount);
@@ -33,21 +30,19 @@ export default function MatchDay() {
     const [round, setRound] = useState(
         JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count] ?? 0
     );
-    console.log(round);
-    console.log(count);
+
     const [legOne, setLegOne] = useState(round.splice(0, 5));
-    console.log(legOne);
-    const [homeTeam, setHomeTeam] = useState(
-        new Team(
-            legOne[0][0]?.team?.name || legOne[0][0]?.name,
-            legOne[0][0]?.team?.players?.slice(0, 11) || legOne[0][0]?.players?.slice(0, 11)
-        )
+    const [homeTeam, setHomeTeam] = useState( null
+        // new Team(
+        //     legOne[count][0]?.team?.name || legOne[count][0]?.name,
+        //     legOne[count][0]?.team?.players?.slice(0, 11) || legOne[count][0]?.players?.slice(0, 11)
+        // )
     );
-    const [awayTeam, setAwayTeam] = useState(
-        new Team(
-            legOne[0][1]?.team?.name || legOne[0][1]?.name,
-            legOne[0][1]?.team?.players?.slice(0, 11) || legOne[0][1]?.players?.slice(0, 11)
-        )
+    const [awayTeam, setAwayTeam] = useState(null
+        // new Team(
+        //     legOne[count][1]?.team?.name || legOne[count][1]?.name,
+        //     legOne[count][1]?.team?.players?.slice(0, 11) || legOne[count][1]?.players?.slice(0, 11)
+        // )
     );
     const [awayTeamName, setAwayTeamName] = useState("");
     const [awayCorners, setAwayCorners] = useState(0);
@@ -102,7 +97,6 @@ export default function MatchDay() {
 
     const findUserAndOpponent = (fixtures, userObject) => {
         // console.log(fixtures[0][0]);
-        console.log(fixtures, userObject.team.name)
         for (let i = count; i < fixtures.length; i++) {
             for (let j = 0; j < fixtures[i].length; j++) {
                 const currentUserIndex = fixtures[i][j].findIndex(
@@ -162,12 +156,6 @@ export default function MatchDay() {
 
     };
 
-    async function getCountAsync() {
-        // Replace this with your actual async function to get the new count
-        const currentCount = 0; // Replace with the current count value
-        return currentCount + 1;
-    }
-
 
     const setNextRoundTeams = (userPosition, opponentPosition) => {
         const nextHomeTeam =
@@ -176,9 +164,6 @@ export default function MatchDay() {
             fixtures[opponentPosition[0]][opponentPosition[1]][
             opponentPosition[2]
             ];
-
-        console.log(nextHomeTeam);
-        console.log(nextAwayTeam);
 
 
         setHomeTeam(
@@ -197,9 +182,6 @@ export default function MatchDay() {
 
     const getUserTeamAndOpponent = () => {
         let userMatch = findUserAndOpponent(fixtures, userTeam);
-        console.log(userTeam);
-        console.log(fixtures);
-        console.log(userMatch);
 
         if (userMatch) {
             const isUserAway = userMatch.userPosition[2] === 1;
@@ -216,8 +198,6 @@ export default function MatchDay() {
                 );
             }
 
-            console.log(homeTeam);
-            console.log(awayTeam);
             setShowNextRoundButton(false);
         } else {
             console.log("User match not found");
@@ -225,14 +205,15 @@ export default function MatchDay() {
     };
 
     const handleNextRound = () => {
-        debugger;
-        updateLoggedUserCount();
+        // debugger;
         setShowNextRoundButton(false);
         setShowMatchInfo(false);
         setMatchStarted(false);
         setMatchStatistic(null);
         setLogs([]);
         getUserTeamAndOpponent();
+        // updateLoggedUserCount();
+
 
     };
 
@@ -243,8 +224,6 @@ export default function MatchDay() {
 
 
         for (let i = 0; i < legOne.length; i++) {
-            console.log(legOne[i][1].name);
-            console.log(legOne[i][1].players);
 
             const homeTeam = new Team(
                 legOne[i][0]?.team?.name || legOne[i][0].name,
@@ -273,7 +252,7 @@ export default function MatchDay() {
         setShowMatchInfo(true);
         setShowFinishButton(true);
         setTest(simulateAllGamesFromTheLeg());
-        // updateLoggedUserCount();
+        updateLoggedUserCount();
 
         const logCallback = (message) => {
             setLogs((prevLogs) => [...prevLogs, message]);
@@ -384,11 +363,8 @@ export default function MatchDay() {
     };
 
     function updateTable(testa) {
-        console.log(testa);
-        console.log(league);
         setResults(testa);
         let leagueTeamsToBeExportedToLocalStorage = league?.slice();
-        console.log(leagueTeamsToBeExportedToLocalStorage);
 
         for (let i = 0; i < testa.length; i++) {
             let homeTeam = testa[i].homeTeam;
@@ -396,13 +372,8 @@ export default function MatchDay() {
             let homeGoals = Number(testa[i].homeGoals);
             let awayGoals = Number(testa[i].awayGoals);
 
-            console.log("homeTeam", homeTeam);
-            console.log("awayTeam", awayTeam);
-
             for (let j = 0; j < league.length; j++) {
                 let team = leagueTeamsToBeExportedToLocalStorage[j]?.team || leagueTeamsToBeExportedToLocalStorage[j];
-
-                console.log(team);
 
                 if (homeTeam === (team?.name || team)) {
                     team.conceededgoals += awayGoals;

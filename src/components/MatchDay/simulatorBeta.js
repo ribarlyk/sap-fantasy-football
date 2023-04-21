@@ -61,7 +61,6 @@ export default class MatchSimulator {
     // hasIncreasedProbability = false;
     // FUNC THAT CALCULATES THE ATRIBUTES 
     average(attribute, players) {
-        console.log(attribute, players)
         const sum = players?.reduce((acc, player) => acc + player[attribute], 0);
         return sum / players?.length;
     }

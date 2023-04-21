@@ -228,7 +228,7 @@ export default function SignUpSide() {
             </Grid>
             <Snackbar
                 open={!!errorMessage}
-                autoHideDuration={3000}
+                autoHideDuration={1000}
                 onClose={() => setErrorMessage('')}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
@@ -238,7 +238,7 @@ export default function SignUpSide() {
             </Snackbar>
             <Snackbar
                 open={!!successMessage}
-                autoHideDuration={2000}
+                autoHideDuration={1000}
                 onClose={() => setSuccessMessage('')}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
