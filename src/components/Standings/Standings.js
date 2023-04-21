@@ -26,7 +26,6 @@ export default function Standings() {
         async function fetchTeams() {
             try {
                 const team = await teamGenerator.generateTeam();
-                console.log("first useefect", team);
                 setTeams(team);
             } catch (error) {
                 console.error(error);
@@ -37,12 +36,10 @@ export default function Standings() {
     }, []);
 
     useEffect(() => {
-        console.log("seconduseefect");
         const leagueTwo = [...teams, userTeam.team];
         setLeague(leagueTwo);
         const updateLeague = { ...userTeam, league: leagueTwo };
         setUserTeam(updateLeague);
-        
         // Update users in local storage
         const users = JSON.parse(localStorage.getItem("users"));
         const updatedUsers = users.map((user) => {
@@ -60,7 +57,6 @@ export default function Standings() {
     }, [teams]);
 
     useEffect(() => {
-        console.log("fourthuseefect");
 
         const timeoutIt = setTimeout(() => {
             setIsLoaded(true);
@@ -76,7 +72,6 @@ export default function Standings() {
     const timeoutIt = setTimeout(() => {
         setIsLoaded(true);
     }, 3000);
-    console.log('hui')
     
     return (
         <div className="standings-container">
