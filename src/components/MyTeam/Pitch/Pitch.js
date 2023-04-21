@@ -134,7 +134,7 @@ export default function Pitch() {
 
         const updatedUser = { ...user, team };
         const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-        let asd = Object.assign(loggedUser, updatedUser);
+        let updatedUserInfo = Object.assign(loggedUser, updatedUser);
         const updatedLoggedUser = { ...loggedUser, ...updatedUser };
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         setLoggedUser(updatedLoggedUser);
@@ -237,7 +237,7 @@ export default function Pitch() {
             setter((prev) => [...prev, player]);
         } else {
             let updatedList = position.filter(
-                (g) => g.player.name != player.player.name
+                (g) => g.player.name !== player.player.name
             );
             setter(updatedList);
         }
@@ -245,6 +245,7 @@ export default function Pitch() {
 
     const onPlayerClickHandler = (event, player) => {
         setAddOrRemove(event.target.textContent);
+        console.log(event.target.textContent)
 
         let sumToBuy = player.player.age || 10;
         let position = player.statistics[0].games.position;
@@ -354,7 +355,7 @@ export default function Pitch() {
 
     useEffect(() => {
         budgetSetHandler(sumBuy);
-    }, [sumBuy]);
+    }, [sumBuy,addOrRemove]);
 
     const saveTeamHandler = () => {
         const currentTeam = [

@@ -25,25 +25,37 @@ export default function MatchDay() {
 
     const [showFinishButton, setShowFinishButton] = useState(false);
 
-
-
     const [round, setRound] = useState(
         JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count] ?? 0
     );
 
     const [legOne, setLegOne] = useState(round.splice(0, 5));
-    const [homeTeam, setHomeTeam] = useState( null
+    const [homeTeam, setHomeTeam] = useState( null)
         // new Team(
         //     legOne[count][0]?.team?.name || legOne[count][0]?.name,
         //     legOne[count][0]?.team?.players?.slice(0, 11) || legOne[count][0]?.players?.slice(0, 11)
         // )
-    );
-    const [awayTeam, setAwayTeam] = useState(null
+    
+    const [awayTeam, setAwayTeam] = useState(null)
         // new Team(
         //     legOne[count][1]?.team?.name || legOne[count][1]?.name,
         //     legOne[count][1]?.team?.players?.slice(0, 11) || legOne[count][1]?.players?.slice(0, 11)
         // )
-    );
+    // console.log(legOne);
+    // const [homeTeam, setHomeTeam] = useState(
+    //     new Team(
+    //         legOne[0][0]?.team?.name || legOne[0][0]?.name,
+    //         legOne[0][0]?.team?.players?.slice(0, 11) ||
+    //             legOne[0][0]?.players?.slice(0, 11)
+    //     )
+    // );
+    // const [awayTeam, setAwayTeam] = useState(
+    //     new Team(
+    //         legOne[0][1]?.team?.name || legOne[0][1]?.name,
+    //         legOne[0][1]?.team?.players?.slice(0, 11) ||
+    //             legOne[0][1]?.players?.slice(0, 11)
+    //     )
+    // );
     const [awayTeamName, setAwayTeamName] = useState("");
     const [awayCorners, setAwayCorners] = useState(0);
     const [awayFouls, setAwayFouls] = useState(0);
@@ -92,8 +104,8 @@ export default function MatchDay() {
     const [timer, setTimer] = useState(0);
     const [timerActive, setTimerActive] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-
+    const [homeLogo, setHomeLogo] = useState("");
+    const [awayLogo, setAwayLogo] = useState("");
 
     const findUserAndOpponent = (fixtures, userObject) => {
         // console.log(fixtures[0][0]);
@@ -120,20 +132,18 @@ export default function MatchDay() {
     };
 
     const updateLoggedUserCount = () => {
-
         // setleagueResults(leagueTeamsToBeExportedToLocalStorage)
 
         // const updateLeagueResults = { ...userTeam, leagueResults: leagueTeamsToBeExportedToLocalStorage }hand
 
         // setUserTeam(updateLeagueResults);
 
-
         // Update the userTeam state
 
         setCount(count + 1);
         // const newCount = await getCountAsync(); // Replace this with your async function to get the new count
         // setCount(newCount);
-        const updatedUserTeam = { ...userTeam, count: count + 1};
+        const updatedUserTeam = { ...userTeam, count: count + 1 };
 
         // const updatedUserTeam = { ...userTeam, count: count };
 
@@ -153,7 +163,6 @@ export default function MatchDay() {
 
         localStorage.setItem("users", JSON.stringify(updatedUsers));
         localStorage.setItem("loggedUser", JSON.stringify(updatedUserTeam));
-
     };
 
 
@@ -162,20 +171,24 @@ export default function MatchDay() {
             fixtures[userPosition[0]][userPosition[1]][userPosition[2]];
         const nextAwayTeam =
             fixtures[opponentPosition[0]][opponentPosition[1]][
-            opponentPosition[2]
+                opponentPosition[2]
             ];
 
+        setHomeLogo(nextHomeTeam?.team?.logo || nextHomeTeam?.logo);
+        setAwayLogo(nextAwayTeam?.team?.logo || nextAwayTeam?.logo);
 
         setHomeTeam(
             new Team(
                 nextHomeTeam?.team?.name || nextHomeTeam?.name,
-                nextHomeTeam?.team?.players?.slice(0, 11) || nextHomeTeam?.players?.slice(0, 11)
+                nextHomeTeam?.team?.players?.slice(0, 11) ||
+                    nextHomeTeam?.players?.slice(0, 11)
             )
         );
         setAwayTeam(
             new Team(
                 nextAwayTeam?.team?.name || nextAwayTeam?.name,
-                nextAwayTeam?.team?.players?.slice(0, 11) || nextAwayTeam?.players?.slice(0, 11)
+                nextAwayTeam?.team?.players?.slice(0, 11) ||
+                    nextAwayTeam?.players?.slice(0, 11)
             )
         );
     };
@@ -206,6 +219,7 @@ export default function MatchDay() {
 
     const handleNextRound = () => {
         // debugger;
+        updateLoggedUserCount();
         setShowNextRoundButton(false);
         setShowMatchInfo(false);
         setMatchStarted(false);
@@ -221,8 +235,6 @@ export default function MatchDay() {
         let results = [];
         let match;
 
-
-
         for (let i = 0; i < legOne.length; i++) {
 
             const homeTeam = new Team(
@@ -233,8 +245,6 @@ export default function MatchDay() {
                 legOne[i][1]?.team?.name || legOne[i][1].name,
                 legOne[i][1]?.team?.players || legOne[i][0].players
             );
-
-
 
             match = new MatchSimulator(homeTeam, awayTeam);
             const stats = match?.matchStatistic;
@@ -268,28 +278,30 @@ export default function MatchDay() {
             setMatchStatistic(matchSim.matchStatistic);
             return matchSim;
         });
-
-
     };
 
     const logCallback = (message) => {
         setLogs((prevLogs) => [...prevLogs, message]);
     };
 
-
     useEffect(() => {
         // console.log("assss");
         // const intervalId = setInterval(() => {
         //     setCount((prevCount) => prevCount + 1);
-        //     setMatchSeconds((prevSeconds) => {
-        //         if (prevSeconds >= 90) {
-        //             clearInterval(intervalId);
-        //             return prevSeconds;
-        //         }
-        //         return prevSeconds + 1;
-        //     });
+        //
         // }, 1000);
 
+        let timerId = setInterval(() => {
+            setTimer((prev) => {
+                if (prev >= 20) {
+                    clearInterval(timerId);
+                    return prev;
+                }
+                return prev + 1;
+            });
+        }, 500);
+        
+        console.log(matchSimulator?.matchStatistic);
         setAwayCorners(matchSimulator?.matchStatistic.awayCornerKicks);
         setAwayFouls(matchSimulator?.matchStatistic.awayFouls);
         setAwayGoals(matchSimulator?.matchStatistic.awayGoals);
@@ -310,6 +322,10 @@ export default function MatchDay() {
         setHomeThrowIns(matchSimulator?.matchStatistic.homeThrowIns);
         setAwayThrowIns(matchSimulator?.matchStatistic.awayThrowIns);
 
+        return () => {
+            clearInterval(timerId);
+        };
+
         // return () => {
         //     clearInterval(intervalId);
         // };
@@ -328,7 +344,6 @@ export default function MatchDay() {
         matchSimulator?.matchStatistic.awayThrowIns,
         timerActive,
     ]);
-
 
     useEffect(() => {
         getUserTeamAndOpponent();
@@ -351,7 +366,6 @@ export default function MatchDay() {
             setHomeTeam(updatedHomeTeam);
             setAwayTeam(updatedAwayTeam);
 
-
             // setMatchStarted(false);
             setShowFinishButton(false);
             setShowStartButton(false);
@@ -373,7 +387,9 @@ export default function MatchDay() {
             let awayGoals = Number(testa[i].awayGoals);
 
             for (let j = 0; j < league.length; j++) {
-                let team = leagueTeamsToBeExportedToLocalStorage[j]?.team || leagueTeamsToBeExportedToLocalStorage[j];
+                let team =
+                    leagueTeamsToBeExportedToLocalStorage[j]?.team ||
+                    leagueTeamsToBeExportedToLocalStorage[j];
 
                 if (homeTeam === (team?.name || team)) {
                     team.conceededgoals += awayGoals;
@@ -383,36 +399,54 @@ export default function MatchDay() {
                     team.scoredgoals += awayGoals;
                 }
 
-                if (homeGoals > awayGoals && homeTeam === (team?.name || team)) {
+                if (
+                    homeGoals > awayGoals &&
+                    homeTeam === (team?.name || team)
+                ) {
                     team.wins += 1;
                     team.points += 3;
-                } else if (homeGoals < awayGoals && homeTeam === (team?.name || team)) {
+                } else if (
+                    homeGoals < awayGoals &&
+                    homeTeam === (team?.name || team)
+                ) {
                     team.loses += 1;
-                } else if (homeGoals === awayGoals && homeTeam === (team?.name || team)) {
+                } else if (
+                    homeGoals === awayGoals &&
+                    homeTeam === (team?.name || team)
+                ) {
                     team.draws += 1;
                     team.points += 1;
                 }
 
-                if (awayGoals > homeGoals && awayTeam === (team?.name || team)) {
+                if (
+                    awayGoals > homeGoals &&
+                    awayTeam === (team?.name || team)
+                ) {
                     team.wins += 1;
                     team.points += 3;
-                } else if (awayGoals < homeGoals && awayTeam === (team?.name || team)) {
+                } else if (
+                    awayGoals < homeGoals &&
+                    awayTeam === (team?.name || team)
+                ) {
                     team.loses += 1;
-                } else if (awayGoals === homeGoals && awayTeam === (team?.name || team)) {
+                } else if (
+                    awayGoals === homeGoals &&
+                    awayTeam === (team?.name || team)
+                ) {
                     team.draws += 1;
                     team.points += 1;
                 }
             }
         }
 
+        setleagueResults(leagueTeamsToBeExportedToLocalStorage);
 
-
-        setleagueResults(leagueTeamsToBeExportedToLocalStorage)
-
-        const updateLeagueResults = { ...userTeam, leagueResults: leagueTeamsToBeExportedToLocalStorage }
+        const updateLeagueResults = {
+            ...userTeam,
+            leagueResults: leagueTeamsToBeExportedToLocalStorage,
+        };
 
         setUserTeam(updateLeagueResults);
-
 
         // localStorage.setItem("loggedUser", JSON.stringify(updateLeagueResults));
 
@@ -426,12 +460,12 @@ export default function MatchDay() {
         //     }
         // });
 
-
         localStorage.setItem("loggedUser", JSON.stringify(updateLeagueResults));
         // localStorage.setItem("users", JSON.stringify(updatedUsers));
         // updateLoggedUserCount(leagueTeamsToBeExportedToLocalStorage);
-
     }
+
+    // console.log("asd")
 
     return (
         <div className="match-container">
@@ -448,11 +482,23 @@ export default function MatchDay() {
                 <>
                     <div className="result-teams-container">
                         <div className="home-team-container">
+                            <img
+                                width="100"
+                                height="100"
+                                src={homeLogo}
+                                alt="logo"
+                            ></img>
                             <h2>{homeTeamName}</h2>
                             <h2>{homeGoals}</h2>
                         </div>
                         <span>-</span>
                         <div className="away-team-container">
+                            <img
+                                width="100"
+                                height="100"
+                                src={awayLogo}
+                                alt="logo"
+                            ></img>
                             <h2>{awayTeamName}</h2>
                             <h2>{awayGoals}</h2>
                         </div>
@@ -523,7 +569,9 @@ export default function MatchDay() {
                 </Button>
             )}
             {!showStartButton && showNextRoundButton && (
-                <Button variant="contained" onClick={handleNextRound}>Next Round</Button>
+                <Button variant="contained" onClick={handleNextRound}>
+                    Next Round
+                </Button>
             )}
         </div>
     );
