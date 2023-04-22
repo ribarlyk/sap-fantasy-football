@@ -1,6 +1,17 @@
 import uniqid from "uniqid";
+import { useEffect, useState } from "react";
+
 export default function LastMatches({ results }) {
-    console.log(results);
+    const [gamesHistory, setGamesHistory] = useState(
+        JSON.parse(sessionStorage.getItem("seasonHistory")) || null
+    );
+
+    useEffect(() => {
+        gamesHistory === null
+            ? setGamesHistory(results)
+            : setGamesHistory((prev) => [...prev, results]);
+    }, []);
+    sessionStorage.setItem("seasonHistory", JSON.stringify(gamesHistory));
 
     return (
         <>
@@ -15,27 +26,3 @@ export default function LastMatches({ results }) {
         </>
     );
 }
-// export default function LastMatches({ results }) {
-//     console.log(results);
-
-//     return (
-//         <>
-//             <h1>Last Matches</h1>
-
-//             <div>
-//                 {results
-//                     .map((eachResult) => eachResult)
-//                     .map((match, index) => {
-//                         console.log(match[index]);
-//                         return (
-//                             <div key={index}>
-//                                 {match[index].awayTeam} {match[index].awayGoals}
-//                                 - {match[index].homeGoals}{" "}
-//                                 {match[index].homeTeam}
-//                             </div>
-//                         );
-//                     })}
-//             </div>
-//         </>
-//     );
-// }
