@@ -245,7 +245,7 @@ export default function Pitch() {
 
     const onPlayerClickHandler = (event, player) => {
         setAddOrRemove(event.target.textContent);
-        console.log(event.target.textContent)
+        console.log(event.target.textContent);
 
         let sumToBuy = player.player.age || 10;
         let position = player.statistics[0].games.position;
@@ -355,7 +355,7 @@ export default function Pitch() {
 
     useEffect(() => {
         budgetSetHandler(sumBuy);
-    }, [sumBuy,addOrRemove]);
+    }, [sumBuy, addOrRemove]);
 
     const saveTeamHandler = () => {
         const currentTeam = [
@@ -415,7 +415,6 @@ export default function Pitch() {
                             loggedUser.team.players[localIndex]?.player?.name
                                 ? loggedUser.team[localIndex]?.player ||
                                   loggedUser.team.players[localIndex]?.player
-                                      
                                 : pos[stateIndex]?.player?.name
                         }
                         stats={
@@ -423,7 +422,6 @@ export default function Pitch() {
                             loggedUser.team.players[localIndex]?.player?.name
                                 ? loggedUser.team[localIndex] ||
                                   loggedUser.team.players[localIndex]
-                                      
                                 : pos[stateIndex]?.player?.name
                         }
                     />
@@ -521,16 +519,21 @@ export default function Pitch() {
             <div className="container">
                 <div className="pitch-container">
                     <div className="budget-container">
-                        {myLogo ? (
-                            <img src={myLogo} alt="my-logo"></img>
-                        ) : (
-                            <AddPicture className="add-picture" />
-                        )}
-                        {teamName ? (
-                            <h1>Team Name : {teamName}</h1>
-                        ) : (
-                            <TeamName teamNameHandler={teamNameHandler} />
-                        )}
+                        <div className="logo-container">
+                            {myLogo ? (
+                                <img src={myLogo} alt="my-logo"></img>
+                            ) : (
+                                <AddPicture className="add-picture" />
+                            )}
+                        </div>
+                        <div className="team-name-container">
+                            {teamName ? (
+                                <h2>Team Name : {teamName}</h2>
+                            ) : (
+                                <TeamName teamNameHandler={teamNameHandler} />
+                            )}
+                        </div>
+
                         <h2>Budget: {budget}/450 $</h2>
                     </div>
                     <div className="pitch-background">

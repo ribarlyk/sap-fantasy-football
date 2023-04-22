@@ -213,7 +213,6 @@ export default function MatchDay() {
         // updateLoggedUserCount(); // викаше се два пъти
     };
     useEffect(() => {
-     
         let timerId = setInterval(() => {
             setTimer((prev) => {
                 if (prev >= 20) {
@@ -309,7 +308,7 @@ export default function MatchDay() {
         setMatchStarted(true);
         setShowMatchInfo(true);
         setShowFinishButton(true);
-        // console.log(simulateAllGamesFromTheLeg());   // може и да чупи нещатата 
+        // console.log(simulateAllGamesFromTheLeg());   // може и да чупи нещатата
         setTest(simulateAllGamesFromTheLeg());
         updateLoggedUserCount();
 
@@ -381,7 +380,7 @@ export default function MatchDay() {
                     team.conceededgoals += homeGoalsa;
                     team.scoredgoals += awayGoalsa;
                 }
-      
+
                 if (
                     homeGoalsa > awayGoalsa &&
                     homeTeam === (team?.name || team)
@@ -428,7 +427,7 @@ export default function MatchDay() {
             leagueResults: leagueTeamsToBeExportedToLocalStorage,
         };
 
-        setUserTeam(updateLeagueResults);   
+        setUserTeam(updateLeagueResults);
         localStorage.setItem("loggedUser", JSON.stringify(updateLeagueResults));
     }
 
@@ -446,28 +445,33 @@ export default function MatchDay() {
             {matchSimulator?.matchStatistic && showMatchInfo && (
                 <>
                     <div className="result-teams-container">
-                        <div className="home-team-container">
-                            <img
-                                width="100"
-                                height="100"
-                                src={homeLogo}
-                                alt="logo"
-                            ></img>
-                            <h2>{homeTeamName}</h2>
-                            <h2>{homeGoals}</h2>
+                        <h4 className="match-timer">{timer <20 ? `Time: ${timer} seconds`: 'Match Finished' }</h4>
+
+                        <div className="result-teams-container-wrapper">
+                            <div className="home-team-container">
+                                <img
+                                    width="100"
+                                    height="100"
+                                    src={homeLogo}
+                                    alt="logo"
+                                ></img>
+                                <h2>{homeTeamName}</h2>
+                                <h2>{homeGoals}</h2>
+                            </div>
+                            <span>-</span>
+                            <div className="away-team-container">
+                                <h2>{awayGoals}</h2>
+                                
+                                <h2>{awayTeamName}</h2>
+                                <img
+                                    width="100"
+                                    height="100"
+                                    src={awayLogo}
+                                    alt="logo"
+                                ></img>
+                              
+                            </div>
                         </div>
-                        <span>-</span>
-                        <div className="away-team-container">
-                            <img
-                                width="100"
-                                height="100"
-                                src={awayLogo}
-                                alt="logo"
-                            ></img>
-                            <h2>{awayTeamName}</h2>
-                            <h2>{awayGoals}</h2>
-                        </div>
-                        <h4>Time: {timer} seconds</h4>
                     </div>
 
                     <div className="tableContainer">
