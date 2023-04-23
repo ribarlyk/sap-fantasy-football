@@ -1,6 +1,17 @@
 .my-season-container {
+    width: 900px;
     min-height: 100vh;
-    margin-top: 200px;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .chart-container{
+        display: flex;
+        justify-content: center;
+        margin: 40px auto;
+    }
 }
 
 .my-team-history {
