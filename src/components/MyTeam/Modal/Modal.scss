@@ -47,16 +47,17 @@
 .container-modal {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
     width: 600px;
     height: 150px;
-    padding: 20px;
+    padding: 10px;
   }
   
   .left-column-modal {
     display: flex;
     flex-direction: column;
+    margin-left: 5px;
   }
   
   .right-column-modal {

@@ -1,0 +1,33 @@
+.my-season-container {
+    min-height: 100vh;
+    margin-top: 200px;
+}
+
+.my-team-history {
+    width: 100%;
+    max-width: 900px;
+    border-collapse: collapse;
+}
+
+.my-team-history th,
+.my-team-history td {
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.my-team-history th {
+    background-color: #1976d2;
+    font-weight: bold;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .my-team-history th,
+    .my-team-history td {
+        padding: 6px;
+    }
+}
+.team-name-data {
+    font-size: 18px;
+    font-weight: 700;
+}

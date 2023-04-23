@@ -28,8 +28,7 @@ export default function MatchDay() {
     // });
 
     const [showFinishButton, setShowFinishButton] = useState(false);
-    
-    
+
     const [round, setRound] = useState(
         JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count] ||
             JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count]
@@ -101,8 +100,9 @@ export default function MatchDay() {
     const [myMatchStats, setMyMatchStats] = useState([]);
     const [confetiTimer, setConfetiTimer] = useState(false);
     const navigate = useNavigate();
-    const history = useNavigate();
-
+    const [history, setHistory] = useState(
+        JSON.parse(sessionStorage.getItem("myHistory")) || []
+    );
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
             for (let j = 0; j < fixtures[i].length; j++) {
@@ -346,8 +346,20 @@ export default function MatchDay() {
     useEffect(() => {
         getUserTeamAndOpponent();
     }, []);
+    useEffect(()=>{
+        setHistory((prev) => [...prev, results]);
+        sessionStorage.setItem(
+            "myHistory",
+            JSON.stringify([...history, results])
+        );
+    },[results])
     const handleFinishMatch = () => {
+
         updateTable(test, myMatchStats);
+
+        
+            
+        
 
         if (homeTeam && awayTeam) {
             const updatedHomeTeam = {
@@ -460,6 +472,7 @@ export default function MatchDay() {
         user.leagueResults = null;
         user.count = 0;
         setCount(0);
+        setResults([]);
         sessionStorage.setItem(
             "loggedUser",
             JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
@@ -468,6 +481,30 @@ export default function MatchDay() {
         localStorage.setItem("loggedUser", JSON.stringify(user));
         navigate("/standings");
     };
+
+    const handleMySeason = () => {
+        const user = JSON.parse(localStorage.getItem("loggedUser"));
+        user.fixtures = null;
+        user.league = [];
+        user.team.conceededgoals = 0;
+        user.team.draws = 0;
+        user.team.loses = 0;
+        user.team.points = 0;
+        user.team.scoredgoals = 0;
+        user.team.wins = 0;
+        user.leagueResults = null;
+        user.count = 0;
+        setCount(0);
+        // setResults([]);
+        sessionStorage.setItem(
+            "loggedUser",
+            JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
+        );
+
+        localStorage.setItem("loggedUser", JSON.stringify(user));
+        navigate("/my-season");
+    };
+
     return (
         <div className="match-container">
             {!matchStarted && (
@@ -584,14 +621,36 @@ export default function MatchDay() {
             )}
             {!showStartButton &&
                 showNextRoundButton &&
-                (count < 9 ? null : (
+                (count < 1 ? null : (
                     <div className="season-end-container">
                         <h1>Championship Over</h1>
                         <h2>Top 3</h2>
-                        <Table leagueResults={leagueResults.slice(0, 3)} />
-                        <Button variant="contained" onClick={handleNewSeason}>
-                            New Season
-                        </Button>
+                        <Table
+                            leagueResults={leagueResults
+                                .sort(
+                                    (a, b) =>
+                                        (b?.team?.points ||
+                                            0 ||
+                                            b?.points ||
+                                            0) -
+                                        (a?.team?.points || 0 || a?.points || 0)
+                                )
+                                .slice(0, 3)}
+                        />
+                        <div className="btn-container-matchday">
+                            <Button
+                                variant="contained"
+                                onClick={handleNewSeason}
+                            >
+                                New Season
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleMySeason}
+                            >
+                                My Season
+                            </Button>
+                        </div>
                     </div>
                 ))}
         </div>

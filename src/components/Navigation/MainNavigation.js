@@ -9,6 +9,7 @@ import Login from "../Login/Login";
 import Register from "../Register/Register";
 import News from "../News/News";
 import Rules from "../Rules/Rules";
+import MySeason from "../MatchDay/MySeason/MySeason";
 import { AnimatePresence } from 'framer-motion'
 import Error from "../Error/Error";
 import ProtectedRoutes, { MatchProtectedRoute } from "./Validation";
@@ -36,6 +37,7 @@ export default function AnimatetRoutes() {
                 {/* <Route path="/news" element={<News />} /> */}
                 <Route path="/rules" element={<Rules />} />
                 <Route path="*" element={<Error />} />
+                <Route path="/my-season" element={<MySeason/>}/>
             </Routes>
         </AnimatePresence >
     )

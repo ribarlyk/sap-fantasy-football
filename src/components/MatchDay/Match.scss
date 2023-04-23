@@ -47,7 +47,7 @@
 
 .tableContainer {
     display: flex;
-    margin :40px;
+    margin: 40px;
 }
 
 .table-match {
@@ -58,7 +58,7 @@
     *border-collapse: expression("separate", cellSpacing= "10px");
     th {
         text-align: center;
-        color: #ffffff
+        color: #ffffff;
     }
     td {
         text-align: center;
@@ -76,7 +76,6 @@
     padding: 1em;
     min-width: 450px;
     padding-top: 0px;
-
 }
 
 .logs-container ul {
@@ -127,4 +126,8 @@
     color: #ffffff;
     margin: 10px auto;
     height: 400px;
+}
+
+.btn-container-matchday {
+    display: flex;
 }

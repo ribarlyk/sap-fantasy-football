@@ -9,7 +9,7 @@ export default function LastMatches({ results }) {
     useEffect(() => {
         gamesHistory === null
             ? setGamesHistory(results)
-            : setGamesHistory((prev) => [...prev, results]);
+            : setGamesHistory((prev) => [...prev, ...results]);
     }, []);
     sessionStorage.setItem("seasonHistory", JSON.stringify(gamesHistory));
 
