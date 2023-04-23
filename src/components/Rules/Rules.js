@@ -13,7 +13,7 @@ function Rules() {
                         <li>Each team must have a unique name.</li>
                         <li>
                             Each team consists of a fixed number of players
-                            (e.g. 10 players) from any professional football
+                            (e.g. 11 players) from any professional football
                             team.
                         </li>
                         <li>

@@ -45,34 +45,32 @@
 .substitute-two,
 .substitute-three,
 .substitute-four {
-  background-color: #214e3474;
-  border-radius: $borderRadius;
+    background-color: #214e3474;
+    border-radius: $borderRadius;
 
-  animation-name: color;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
 
-  @keyframes color {
-    0% {
-      background-color: #214e34;
+    @keyframes color {
+        0% {
+            background-color: #214e34;
+        }
+        25% {
+            background-color: #3e614d;
+        }
+        50% {
+            background-color: #5f7c67;
+        }
+        75% {
+            background-color: #8aa88f;
+        }
+        100% {
+            background-color: #b9d0ba;
+        }
     }
-    25% {
-      background-color: #3e614d;
-    }
-    50% {
-      background-color: #5f7c67;
-    }
-    75% {
-      background-color: #8aa88f;
-    }
-    100% {
-      background-color: #b9d0ba;
-    }
-  }
 }
-
-
 
 .change-icon {
     position: absolute;
@@ -111,28 +109,28 @@
     .card-jersey {
         background-color: #214e3474;
         border-radius: $borderRadius;
-      
+
         animation-name: color;
         animation-duration: 2s;
         animation-iteration-count: infinite;
         animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-      
+
         @keyframes color {
-          0% {
-            background-color: #214e34;
-          }
-          25% {
-            background-color: #3e614d;
-          }
-          50% {
-            background-color: #5f7c67;
-          }
-          75% {
-            background-color: #8aa88f;
-          }
-          100% {
-            background-color: #b9d0ba;
-          }
+            0% {
+                background-color: #214e34;
+            }
+            25% {
+                background-color: #3e614d;
+            }
+            50% {
+                background-color: #5f7c67;
+            }
+            75% {
+                background-color: #8aa88f;
+            }
+            100% {
+                background-color: #b9d0ba;
+            }
         }
     }
     @include row(
@@ -163,28 +161,28 @@
     .card-jersey {
         background-color: #214e3474;
         border-radius: $borderRadius;
-      
+
         animation-name: color;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-      
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+
         @keyframes color {
-          0% {
-            background-color: #214e34;
-          }
-          25% {
-            background-color: #3e614d;
-          }
-          50% {
-            background-color: #5f7c67;
-          }
-          75% {
-            background-color: #8aa88f;
-          }
-          100% {
-            background-color: #b9d0ba;
-          }
+            0% {
+                background-color: #214e34;
+            }
+            25% {
+                background-color: #3e614d;
+            }
+            50% {
+                background-color: #5f7c67;
+            }
+            75% {
+                background-color: #8aa88f;
+            }
+            100% {
+                background-color: #b9d0ba;
+            }
         }
     }
     @include row(
@@ -212,28 +210,28 @@
     .card-jersey {
         background-color: #214e3474;
         border-radius: $borderRadius;
-      
+
         animation-name: color;
         animation-duration: 2s;
         animation-iteration-count: infinite;
         animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-      
+
         @keyframes color {
-          0% {
-            background-color: #214e34;
-          }
-          25% {
-            background-color: #3e614d;
-          }
-          50% {
-            background-color: #5f7c67;
-          }
-          75% {
-            background-color: #8aa88f;
-          }
-          100% {
-            background-color: #b9d0ba;
-          }
+            0% {
+                background-color: #214e34;
+            }
+            25% {
+                background-color: #3e614d;
+            }
+            50% {
+                background-color: #5f7c67;
+            }
+            75% {
+                background-color: #8aa88f;
+            }
+            100% {
+                background-color: #b9d0ba;
+            }
         }
     }
     @include row(
@@ -260,29 +258,28 @@
     .card-jersey {
         background-color: #214e3474;
         border-radius: $borderRadius;
-      
+
         animation-name: color;
         animation-duration: 2s;
         animation-iteration-count: infinite;
         animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-      
         @keyframes color {
-          0% {
-            background-color: #1976d2;
-          }
-          // 25% {
-          //   background-color: #262155;
-          // }
-          // 50% {
-          //   background-color: #5f4022;
-          // }
-          // 75% {
-          //   background-color: #722323;
-          // }
-          100% {
-            background-color: #ffffff
-          }
+            0% {
+                background-color: #1976d2;
+            }
+            // 25% {
+            //   background-color: #262155;
+            // }
+            // 50% {
+            //   background-color: #5f4022;
+            // }
+            // 75% {
+            //   background-color: #722323;
+            // }
+            100% {
+                background-color: #ffffff;
+            }
         }
     }
     @include row(
@@ -320,8 +317,6 @@
     display: flex;
     justify-content: center;
     margin: 200px auto;
-
-
 }
 
 .players-container {
@@ -373,8 +368,6 @@ table {
         border-bottom: 1px solid rgb(220, 214, 214);
     }
 
-    
-
     tr:hover {
         background: rgb(238, 174, 202);
         background: radial-gradient(
@@ -403,14 +396,15 @@ table {
     &:hover {
         cursor: pointer;
     }
-    &:disabled{
+    &:disabled {
         background-color: #1976d2b4;
-        cursor:not-allowed;
+        cursor: not-allowed;
     }
 }
 
-.budget-container{
-    display:flex;
+.budget-container {
+    height: 63px;
+    display: flex;
     justify-content: center;
     align-items: center;
     background-image: linear-gradient(
@@ -418,15 +412,21 @@ table {
         rgb(0, 255, 135),
         rgb(2, 239, 255)
     );
-    width:100%;
+    width: 100%;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
-    border-bottom: 2px solid #Ffffff;
+    border-bottom: 2px solid #ffffff;
 
-    h1{
-        margin-right: 50px;
+    h1 {
+        margin-right: 100px;
     }
-    
+
+    .logo-container {
+        min-width: 150px;
+    }
+    .team-name-container {
+        width: 440px;
+    }
 }
 
 .add-remove-btn {
@@ -436,9 +436,9 @@ table {
         rgb(2, 239, 255)
     );
     border: none;
-    border-radius:$borderRadius ;
+    border-radius: $borderRadius;
     min-width: 65px;
-    &:hover{
+    &:hover {
         cursor: pointer;
     }
 }
