@@ -107,6 +107,7 @@ export default function MySeason() {
 
     const handleNextSeason = () => {
         setResults([]);
+        sessionStorage.removeItem('myHistory')
         navigate("/standings");
     };
 

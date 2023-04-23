@@ -98,11 +98,20 @@ export default function MatchDay() {
     const [homeLogo, setHomeLogo] = useState("");
     const [awayLogo, setAwayLogo] = useState("");
     const [myMatchStats, setMyMatchStats] = useState([]);
-    const [confetiTimer, setConfetiTimer] = useState(false);
     const navigate = useNavigate();
     const [history, setHistory] = useState(
         JSON.parse(sessionStorage.getItem("myHistory")) || []
     );
+    const [showConfet, setShowConfet] = useState(false);
+
+    useEffect(() => {
+        if (!showStartButton && showNextRoundButton && count >= 9) {
+          setShowConfet(true);
+          setTimeout(() => setShowConfet(false), 8000); 
+        }
+      }, [showStartButton, showNextRoundButton, count]);
+
+
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
             for (let j = 0; j < fixtures[i].length; j++) {
@@ -455,32 +464,32 @@ export default function MatchDay() {
         localStorage.setItem("loggedUser", JSON.stringify(updateLeagueResults));
     }
 
-    const handleNewSeason = () => {
-        // handleNextRound();
-        // setResults([]);clearva lastmatches
-        // navigate("/standings");
+    // const handleNewSeason = () => {
+    //     // handleNextRound();
+    //     // setResults([]);clearva lastmatches
+    //     // navigate("/standings");
 
-        const user = JSON.parse(localStorage.getItem("loggedUser"));
-        user.fixtures = null;
-        user.league = [];
-        user.team.conceededgoals = 0;
-        user.team.draws = 0;
-        user.team.loses = 0;
-        user.team.points = 0;
-        user.team.scoredgoals = 0;
-        user.team.wins = 0;
-        user.leagueResults = null;
-        user.count = 0;
-        setCount(0);
-        setResults([]);
-        sessionStorage.setItem(
-            "loggedUser",
-            JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
-        );
+    //     const user = JSON.parse(localStorage.getItem("loggedUser"));
+    //     user.fixtures = null;
+    //     user.league = [];
+    //     user.team.conceededgoals = 0;
+    //     user.team.draws = 0;
+    //     user.team.loses = 0;
+    //     user.team.points = 0;
+    //     user.team.scoredgoals = 0;
+    //     user.team.wins = 0;
+    //     user.leagueResults = null;
+    //     user.count = 0;
+    //     setCount(0);
+    //     setResults([]);
+    //     sessionStorage.setItem(
+    //         "loggedUser",
+    //         JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
+    //     );
 
-        localStorage.setItem("loggedUser", JSON.stringify(user));
-        navigate("/standings");
-    };
+    //     localStorage.setItem("loggedUser", JSON.stringify(user));
+    //     navigate("/standings");                   //the logic is being executed from handleMySeason func
+    // };
 
     const handleMySeason = () => {
         const user = JSON.parse(localStorage.getItem("loggedUser"));
@@ -614,14 +623,14 @@ export default function MatchDay() {
                     Finish Match
                 </Button>
             )}
-            {!showStartButton && showNextRoundButton && (
+            {!showStartButton && showNextRoundButton && count < 9&& (
                 <Button variant="contained" onClick={handleNextRound}>
                     Next Round
                 </Button>
             )}
             {!showStartButton &&
                 showNextRoundButton &&
-                (count < 1 ? null : (
+                (count < 9 ? null : (
                     <div className="season-end-container">
                         <h1>Championship Over</h1>
                         <h2>Top 3</h2>
@@ -638,18 +647,19 @@ export default function MatchDay() {
                                 .slice(0, 3)}
                         />
                         <div className="btn-container-matchday">
-                            <Button
+                            {/* <Button
                                 variant="contained"
                                 onClick={handleNewSeason}
                             >
                                 New Season
-                            </Button>
+                            </Button> */}   
                             <Button
                                 variant="contained"
                                 onClick={handleMySeason}
                             >
                                 My Season
                             </Button>
+                             {showConfet && <Confet />}
                         </div>
                     </div>
                 ))}

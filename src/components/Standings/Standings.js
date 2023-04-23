@@ -96,6 +96,7 @@ export default function Standings() {
                             <Table
                                 league={league}
                                 leagueResults={leagueResults}
+                                style='standings-table-tbody'
                             />
                         </div>
                     </>

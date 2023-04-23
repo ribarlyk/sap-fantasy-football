@@ -1,6 +1,6 @@
 import "./Standings.scss";
 
-export default function Table({ league, leagueResults }) {
+export default function Table({ league, leagueResults ,style }) {
     console.log(leagueResults);
     return (
         <table className="table-table">
@@ -17,7 +17,7 @@ export default function Table({ league, leagueResults }) {
                     <th className="header-table-row">Points</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody className={style}>
                 {(leagueResults.length > 0 ? leagueResults : league)
                     .sort((a, b) => ((b?.team?.points || 0) || (b?.points || 0)) - ((a?.team?.points || 0) || (a?.points || 0)))
                     .map((x, index) => {
