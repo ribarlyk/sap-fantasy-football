@@ -41,7 +41,7 @@ export default function MatchDay() {
     );
     console.log(JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count]);
     // JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count] ?? 0 // tova bachkashe predi tova
-    const [legOne, setLegOne] = useState(round?.splice(0, 5));
+    const [legOne, setLegOne] = useState(round?.slice(0, 5));
     const [homeTeam, setHomeTeam] = useState(null);
     // new Team(
     //     legOne[count][0]?.team?.name || legOne[count][0]?.name,
@@ -111,12 +111,12 @@ export default function MatchDay() {
     );
     const [showConfet, setShowConfet] = useState(false);
 
-    // useEffect(() => {
-    //     if (!showStartButton && showNextRoundButton && count >= 9) {
-    //         setShowConfet(true);
-    //         setTimeout(() => setShowConfet(false), 8000);
-    //     }
-    // }, [showStartButton, showNextRoundButton, count]);
+    useEffect(() => {
+        if (!showStartButton && showNextRoundButton && count >= 9) {
+            setShowConfet(true);
+            setTimeout(() => setShowConfet(false), 8000);
+        }
+    }, [showStartButton, showNextRoundButton, count]);
 
     useEffect(() => {
         setRound(
@@ -305,8 +305,8 @@ export default function MatchDay() {
         let results = [];
         let match;
         const myTeamName = userTeam.team.name;
-        console.log(round);
-        console.log(legOne);
+        let legOne = (JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
+        JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count]).slice(0,5)
         for (let i = 0; i < legOne.length; i++) {
             console.log(legOne[i][0]?.team?.name || legOne[i][0].name);
             console.log(legOne[i][1]?.team?.name || legOne[i][1].name);
@@ -347,7 +347,7 @@ export default function MatchDay() {
         setMatchStarted(true);
         setShowMatchInfo(true);
         setShowFinishButton(true);
-        console.log(simulateAllGamesFromTheLeg()); // може и да чупи нещатата
+        // console.log(simulateAllGamesFromTheLeg()); // може и да чупи нещатата
         setTest(simulateAllGamesFromTheLeg());
         updateLoggedUserCount();
 
@@ -373,6 +373,7 @@ export default function MatchDay() {
     useEffect(() => {
         getUserTeamAndOpponent();
     }, []);
+
     useEffect(() => {
         setHistory((prev) => [...prev, results]);
         sessionStorage.setItem(
@@ -380,6 +381,7 @@ export default function MatchDay() {
             JSON.stringify([...history, results])
         );
     }, [results]);
+
     const handleFinishMatch = () => {
         updateTable(test, myMatchStats);
         console.log(test);
