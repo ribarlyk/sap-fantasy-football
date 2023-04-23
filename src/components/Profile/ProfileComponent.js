@@ -232,6 +232,95 @@ const ProfilePage = () => {
     const [isEditing, setIsEditing] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.profile?.isEditing ? true : false);
     const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("loggedUser")));
     const [profilePic, setProfilePic] = useState(loggedInUser?.profilePic || '');
+    const [favoriteTeamMatches, setFavoriteTeamMatches] = useState([]);
+    const [userFavoriteTeam, setUserFavoriteTeam] = useState('');
+    const [filter, setFilter] = useState('all');
+    const [filteredMatches, setFilteredMatches] = useState(favoriteTeamMatches);
+    // const [lastRoundMatches, setLastRoundMatches] = useState([]);
+
+
+
+    useEffect(() => {
+        const userTeamName = loggedInUser?.team?.name;
+
+        if (userTeamName) {
+            setUserFavoriteTeam(userTeamName);
+
+            const matches = JSON.parse(sessionStorage.getItem('seasonHistory'));
+
+            if (matches) {
+                const allRoundsFilteredMatches = matches.reduce((acc, round) => {
+                    const filteredMatches = round.filter(
+                        (match) =>
+                            match.homeTeam === userTeamName || match.awayTeam === userTeamName
+                    );
+                    return [...acc, ...filteredMatches];
+                }, []);
+
+                setFavoriteTeamMatches(allRoundsFilteredMatches);
+            }
+        }
+        console.log("logwam2");
+
+    }, []);
+
+    // const removeDuplicates = (matches, favoriteTeam) => {
+    //     const uniqueMatches = [];
+    //     const matchKeys = new Set();
+
+    //     matches.forEach((match) => {
+    //         const matchKey = `${match.homeTeam}-${match.awayTeam}-${match.homeGoals}-${match.awayGoals}`;
+
+    //         if (!matchKeys.has(matchKey) && (match.homeTeam === favoriteTeam || match.awayTeam === favoriteTeam)) {
+    //             uniqueMatches.push(match);
+    //             matchKeys.add(matchKey);
+    //         }
+    //     });
+
+    //     return uniqueMatches;
+    // };
+
+
+    useEffect(() => {
+        const filterMatches = () => {
+            const teamName = loggedInUser.team.name;
+            switch (filter) {
+                case 'wins':
+                    setFilteredMatches(favoriteTeamMatches.filter(match =>
+                        (match.homeTeam === teamName && match.homeGoals > match.awayGoals) ||
+                        (match.awayTeam === teamName && match.awayGoals > match.homeGoals)
+                    ));
+                    break;
+                case 'draws':
+                    setFilteredMatches(favoriteTeamMatches.filter(match =>
+                        (match.homeTeam === teamName || match.awayTeam === teamName) && match.homeGoals === match.awayGoals
+                    ));
+                    break;
+                case 'losses':
+                    setFilteredMatches(favoriteTeamMatches.filter(match =>
+                        (match.homeTeam === teamName && match.homeGoals < match.awayGoals) ||
+                        (match.awayTeam === teamName && match.awayGoals < match.homeGoals)
+                    ));
+                    break;
+                default:
+                    setFilteredMatches(favoriteTeamMatches);
+            }
+            console.log("logwam");
+        };
+        filterMatches();
+    }, [filter, favoriteTeamMatches, loggedInUser]);
+    
+
+    // useEffect(() => {
+    //     const storedMatches = JSON.parse(localStorage.getItem("seasonHistory")) || [];
+    //     const uniqueMatches = removeDuplicates(storedMatches, userFavoriteTeam);
+    //     localStorage.setItem("matches", JSON.stringify(uniqueMatches));
+
+    //     const filteredMatches = filterMatches(uniqueMatches, filter, userFavoriteTeam);
+    //     setFilteredMatches(filteredMatches);
+    // }, [filter, userFavoriteTeam]);
+    
+    
 
 
 
@@ -241,23 +330,23 @@ const ProfilePage = () => {
 
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
-    
+
         const reader = new FileReader();
         reader.readAsDataURL(file);
-    
+
         reader.onload = () => {
             const base64String = reader.result;
             // dispatch(changeProfilePic(base64String)); // Remove this line
             setProfilePic(base64String); // Add this line
-    
+
             // Save the profile picture in the loggedInUser object
             const updatedLoggedInUser = { ...loggedInUser, profilePic: base64String };
             setLoggedInUser(updatedLoggedInUser);
-    
+
             // Save the updatedLoggedInUser object in the local storage
             localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedInUser));
         };
-    
+
         reader.onerror = (error) => {
             console.error('Error converting file to base64:', error);
         };
@@ -284,7 +373,7 @@ const ProfilePage = () => {
                 loggedInUser?.profile?.lastName &&
                 loggedInUser?.profile?.dateOfBirth &&
                 loggedInUser?.profile?.favoriteTeam &&
-                loggedInUser?.profilePic; 
+                loggedInUser?.profilePic;
 
             setIsEditing(!isProfileComplete);
 
@@ -427,9 +516,9 @@ const ProfilePage = () => {
                         ) : (
                             <>
                                 <Grid item xs={12}>
-                                    <h2>{firstName}</h2>
-                                    <h2>{lastName}</h2>
-                                    <h2>{dateOfBirth}</h2>
+                                    <h2>First-name: {firstName}</h2>
+                                    <h2>Last-name: {lastName}</h2>
+                                    <h2>Dat-of-birth: {dateOfBirth}</h2>
                                     <h2> Favourite team: {favoriteTeam}</h2>
                                     <img src={favoriteTeamLogo} alt={favoriteTeam} width="100" />
                                 </Grid>
@@ -444,8 +533,33 @@ const ProfilePage = () => {
                 </Grid>
                 <Grid item xs={6} className="profile-card">
                     <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '100%' }}>
-                        <h2>History</h2>
-                        <p>Your history content goes here.</p>
+                        <FormControl fullWidth>
+                            <InputLabel>Filter</InputLabel>
+                            <Select
+                                value={filter}
+                                onChange={(e) => setFilter(e.target.value)}
+                                label="Filter"
+                            >
+                                <MenuItem value="all">All</MenuItem>
+                                <MenuItem value="wins">Wins</MenuItem>
+                                <MenuItem value="draws">Draws</MenuItem>
+                                <MenuItem value="losses">Losses</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <div className="history-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                            <h3>Matches involving {userFavoriteTeam}:</h3>
+                            {filteredMatches.length ? (
+                                <ul>
+                                    {filteredMatches.map((match, index) => (
+                                        <li key={index} className="history-matches">
+                                            {match.homeTeam} {match.homeGoals} - {match.awayGoals} {match.awayTeam}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No matches found for {userFavoriteTeam}.</p>
+                            )}
+                        </div>
                     </div>
                 </Grid>
             </Grid>
