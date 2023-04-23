@@ -25,7 +25,7 @@
         cursor: pointer;
     }
 
-    .modal-name{
+    .modal-name {
         margin: 20px auto;
         font-size: 2em;
         width: 600px;
@@ -41,9 +41,6 @@
     border-radius: $borderRadius;
 }
 
-
-
-
 .container-modal {
     display: flex;
     flex-direction: row;
@@ -52,17 +49,26 @@
     width: 600px;
     height: 150px;
     padding: 10px;
-  }
-  
-  .left-column-modal {
+}
+
+.left-column-modal {
     display: flex;
     flex-direction: column;
     margin-left: 5px;
-  }
-  
-  .right-column-modal {
+    justify-content: center;
+    align-items: center;
+}
+.left-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-right: 55px;
+    margin-top: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-column-modal {
     display: flex;
     flex-direction: column;
     width: calc(50% - 20px);
-  }
-  
+}
