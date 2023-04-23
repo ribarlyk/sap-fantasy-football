@@ -12,6 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../LiftingStates/UserContext";
+import { useProfileContext } from "../LiftingStates/ProfileContext";
 import { useEffect } from "react";
 import "./Navigation.scss";
 
@@ -22,6 +23,9 @@ function ResponsiveAppBar() {
     const navigate = useNavigate(); //TODO Проверка дали има юзър за да смени вюто на навигацията
     // const [isSigned, setIsSigned] = React.useState(false);
     // isSigned = false;
+    // const [loggedUser, setLoggedUser] = useProfileContext();
+    const [avatarSrc, setAvatar] = React.useState("");
+    const [loggedUser, setLoggedUser] = React.useState(null);
 
 
 
@@ -42,9 +46,20 @@ function ResponsiveAppBar() {
     };
 
     useEffect(() => {
-        const user = localStorage.getItem("loggedUser");
+        const user = JSON.parse(localStorage.getItem("loggedUser"));
         setIsSigned(user !== null);
+        console.log(user);
+        setLoggedUser(user);
     }, []);
+
+    useEffect(() => {
+        if (loggedUser) {
+            console.log(loggedUser.profilePic);
+            setAvatar(loggedUser.profilePic);
+        } else {
+            setAvatar("");
+        }
+    }, [loggedUser])
 
     const handleLogout = () => {
         localStorage.removeItem("loggedUser");
@@ -119,6 +134,13 @@ function ResponsiveAppBar() {
                             className="logout-profile-btns"
                             sx={{ flexGrow: 0 }}
                         >
+                            {isSigned && (
+                                <Avatar
+                                    alt="Profile"
+                                    src={avatarSrc}
+                                    sx={{ marginRight: "8px" }}
+                                />
+                            )}
                             <Button
                                 key="Profile"
                                 onClick={handleCloseNavMenu}

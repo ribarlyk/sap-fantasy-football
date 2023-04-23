@@ -192,11 +192,15 @@
 
 // export default ProfilePage;
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Grid, TextField, Avatar, Button, FormControl, InputLabel, Select, MenuItem, Paper } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProfilePic } from '../store/profileSlice';
 import './Profile.scss';
+import { ProfileProvider } from '../LiftingStates/ProfileContext';
+import { useProfileContext } from '../LiftingStates/ProfileContext';
+
+
 
 
 const teams = [
@@ -236,6 +240,10 @@ const ProfilePage = () => {
     const [userFavoriteTeam, setUserFavoriteTeam] = useState('');
     const [filter, setFilter] = useState('all');
     const [filteredMatches, setFilteredMatches] = useState(favoriteTeamMatches);
+    const [{ loggedUser, setLoggedUser, updateProfilePic }] = useProfileContext();
+    const [tempProfilePic, setTempProfilePic] = useState('');
+
+
     // const [lastRoundMatches, setLastRoundMatches] = useState([]);
 
 
@@ -328,29 +336,60 @@ const ProfilePage = () => {
 
     const dispatch = useDispatch();
 
-    const handleFileInputChange = (event) => {
-        const file = event.target.files[0];
+    // const handleFileInputChange = (event) => {
+    //     const file = event.target.files[0];
 
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+    //     const reader = new FileReader();
+    //     reader.readAsDataURL(file);
 
-        reader.onload = () => {
-            const base64String = reader.result;
-            // dispatch(changeProfilePic(base64String)); // Remove this line
-            setProfilePic(base64String); // Add this line
+    //     reader.onload = () => {
+    //         const base64String = reader.result;
+    //         // dispatch(changeProfilePic(base64String)); // Remove this line
+    //         setProfilePic(base64String); // Add this line
 
-            // Save the profile picture in the loggedInUser object
-            const updatedLoggedInUser = { ...loggedInUser, profilePic: base64String };
-            setLoggedInUser(updatedLoggedInUser);
+    //         // Save the profile picture in the loggedInUser object
+    //         const updatedLoggedInUser = { ...loggedInUser, profilePic: base64String };
+    //         setLoggedInUser(updatedLoggedInUser);
 
-            // Save the updatedLoggedInUser object in the local storage
-            localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedInUser));
-        };
+    //         // Save the updatedLoggedInUser object in the local storage
+    //         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedInUser));
+    //     };
 
-        reader.onerror = (error) => {
-            console.error('Error converting file to base64:', error);
-        };
+    //     reader.onerror = (error) => {
+    //         console.error('Error converting file to base64:', error);
+    //     };
+    // };
+
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfilePic(reader.result);
+                setTempProfilePic(e.target.result);
+
+                // Updating the loggedInUser object
+                const updatedLoggedInUser = { ...loggedInUser, profilePic: reader.result };
+                setLoggedInUser(updatedLoggedInUser);
+    
+                // Saving the updatedLoggedInUser object in the local storage
+                localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedInUser));
+    
+                // Updating the "users" array in local storage
+                const users = JSON.parse(localStorage.getItem("users")) || [];
+                const updatedUsers = users.map(user => {
+                    if (user.username === loggedInUser.username) {
+                        // Update the user with the profile picture
+                        return updatedLoggedInUser;
+                    }
+                    return user;
+                });
+                localStorage.setItem("users", JSON.stringify(updatedUsers));
+            };
+            reader.readAsDataURL(file);
+        }
     };
+    
 
     const handleSaveEdit = () => {
         setIsEditing(false);
@@ -388,6 +427,11 @@ const ProfilePage = () => {
         // handleSaveEdit();
         setIsEditing(false);
         console.log(isEditing);
+
+        if (tempProfilePic) {
+            setProfilePic(tempProfilePic);
+            updateProfilePic(loggedInUser.username, tempProfilePic);
+        }
 
         const updatedProfile = {
             firstName,
