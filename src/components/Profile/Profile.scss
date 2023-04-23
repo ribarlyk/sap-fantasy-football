@@ -1,6 +1,17 @@
-.profile-container{
+.profile-container {
     height:100vh;
-    background-color: darkgreen;
+    background-color: white;
     margin: 200px auto;
 
+}
+
+.profile-card {
+    padding: 40px;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.profile-main-container {
+    padding: 20px;
 }

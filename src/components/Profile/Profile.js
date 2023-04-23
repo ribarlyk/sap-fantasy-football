@@ -1,5 +1,6 @@
 import "./Profile.scss";
 import { motion } from "framer-motion"
+import ProfilePage from "../Profile/ProfileComponent";
 
 export default function Profile() {
     return (
@@ -7,7 +8,7 @@ export default function Profile() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}>
-            <h1>PROFILE PAGE</h1>
+             <ProfilePage />
         </motion.div>
     );
 }

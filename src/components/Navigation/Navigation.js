@@ -175,7 +175,7 @@ function ResponsiveAppBar() {
                                 display: { xs: "none", md: "flex" },
                             }}
                         >
-                            <Button
+                            {/* <Button
                                 key="My Team"
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: "white", display: "block" }}
@@ -189,7 +189,7 @@ function ResponsiveAppBar() {
                                 >
                                     News
                                 </Link>
-                            </Button>
+                            </Button> */}
                             <Button
                                 key="Table"
                                 onClick={handleCloseNavMenu}

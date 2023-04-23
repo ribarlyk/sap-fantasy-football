@@ -18,7 +18,7 @@ export default function MatchDay() {
         let count = JSON.parse(localStorage.getItem("loggedUser")).count;
 
         const savedCount = count ?? 0;
-        return savedCount > 8 ? 0 : savedCount;
+        return savedCount >= 8 ? 0 : savedCount;
     };
 
     const [count, setCount] = useState(getCountFromLocalStorage());
@@ -132,8 +132,12 @@ export default function MatchDay() {
         // setUserTeam(updateLeagueResults);
 
         // Update the userTeam state
+        if(count <= 8) {
+            setCount(count + 1);
 
-        setCount(count + 1);
+        } else {
+            setCount(0);
+        }
         // const newCount = await getCountAsync(); // Replace this with your async function to get the new count
         // setCount(newCount);
         const updatedUserTeam = { ...userTeam, count: count + 1 };
@@ -210,7 +214,6 @@ export default function MatchDay() {
 
     const handleNextRound = () => {
         // debugger;
-        // updateLoggedUserCount();
         setShowNextRoundButton(false);
         setShowMatchInfo(false);
         setMatchStarted(false);

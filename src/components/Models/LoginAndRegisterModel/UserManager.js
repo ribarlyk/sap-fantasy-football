@@ -70,6 +70,8 @@ class User {
     this.fixtures = null;
     this.leagueResults = null;
     this.count = 0;
+    this.profile = null;
+    this.profilePic = null;
   }
 }
 
