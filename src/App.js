@@ -2,6 +2,7 @@ import Header from "./components/Header/Header";
 import { BrowserRouter as Router } from "react-router-dom";
 import AnimatetRoutes from "./components/Navigation/MainNavigation";
 import { UserProvider } from "../src/components/LiftingStates/UserContext";
+import { ProfileProvider } from "./components/LiftingStates/ProfileContext";
 import { ResultProvider } from "../src/components/LiftingStates/ResultContext";
 import { Provider } from 'react-redux';
 import store from "../src/components/store/store"
@@ -12,13 +13,15 @@ function App() {
         <div className="App">
             <Provider store={store}>
                 <UserProvider>
-                    <ResultProvider>
-                        <Router>
-                            <Header />
-                            <AnimatetRoutes />
-                            <Footer />
-                        </Router>
-                    </ResultProvider>
+                    <ProfileProvider>
+                        <ResultProvider>
+                            <Router>
+                                <Header />
+                                <AnimatetRoutes />
+                                <Footer />
+                            </Router>
+                        </ResultProvider>
+                    </ProfileProvider>
                 </UserProvider>
             </Provider>
         </div>
