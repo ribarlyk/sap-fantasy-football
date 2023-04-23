@@ -130,4 +130,26 @@
 
 .btn-container-matchday {
     display: flex;
+    margin: 50px;
+    align-items: center;
+}
+
+.season-end-container {
+    .wrapper-table-podium {
+        display: flex;
+        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
+
+        gap: 20px;
+        .team-badges-podium-container {
+            position: relative;
+            .team-badges-podium {
+                width: 400px;
+                height: 150px;
+                background-color: #1976d2;
+                position: absolute;
+            }
+        }
+    }
 }

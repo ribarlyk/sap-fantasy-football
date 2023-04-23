@@ -9,6 +9,7 @@ import Table from "../Standings/Table";
 import Confet from "./Confetti/Confetti";
 import ReactConfetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
+import WinnerPodium from "./WinnerPodium/WinnerPodium";
 
 export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
@@ -106,11 +107,10 @@ export default function MatchDay() {
 
     useEffect(() => {
         if (!showStartButton && showNextRoundButton && count >= 9) {
-          setShowConfet(true);
-          setTimeout(() => setShowConfet(false), 8000); 
+            setShowConfet(true);
+            setTimeout(() => setShowConfet(false), 8000);
         }
-      }, [showStartButton, showNextRoundButton, count]);
-
+    }, [showStartButton, showNextRoundButton, count]);
 
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
@@ -355,20 +355,15 @@ export default function MatchDay() {
     useEffect(() => {
         getUserTeamAndOpponent();
     }, []);
-    useEffect(()=>{
+    useEffect(() => {
         setHistory((prev) => [...prev, results]);
         sessionStorage.setItem(
             "myHistory",
             JSON.stringify([...history, results])
         );
-    },[results])
+    }, [results]);
     const handleFinishMatch = () => {
-
         updateTable(test, myMatchStats);
-
-        
-            
-        
 
         if (homeTeam && awayTeam) {
             const updatedHomeTeam = {
@@ -623,43 +618,61 @@ export default function MatchDay() {
                     Finish Match
                 </Button>
             )}
-            {!showStartButton && showNextRoundButton && count < 9&& (
+            {!showStartButton && showNextRoundButton && count < 9 && (
                 <Button variant="contained" onClick={handleNextRound}>
                     Next Round
                 </Button>
             )}
             {!showStartButton &&
                 showNextRoundButton &&
-                (count < 9 ? null : (
+                (count < 1 ? null : (
                     <div className="season-end-container">
                         <h1>Championship Over</h1>
-                        <h2>Top 3</h2>
-                        <Table
-                            leagueResults={leagueResults
-                                .sort(
+                        <h2>Final Standings</h2>
+                        <div className="wrapper-table-podium">
+                            <Table
+                                leagueResults={leagueResults.sort(
                                     (a, b) =>
                                         (b?.team?.points ||
                                             0 ||
                                             b?.points ||
                                             0) -
                                         (a?.team?.points || 0 || a?.points || 0)
-                                )
-                                .slice(0, 3)}
-                        />
+                                )}
+                            />
+                            <WinnerPodium
+                                className="team-badges-podium-container"
+                                leagueResults={leagueResults
+                                    .sort(
+                                        (a, b) =>
+                                            (b?.team?.points ||
+                                                0 ||
+                                                b?.points ||
+                                                0) -
+                                            (a?.team?.points ||
+                                                0 ||
+                                                a?.points ||
+                                                0)
+                                    )
+                                    .slice(0, 3)}
+                            />
+                        </div>
+
                         <div className="btn-container-matchday">
                             {/* <Button
                                 variant="contained"
                                 onClick={handleNewSeason}
                             >
                                 New Season
-                            </Button> */}   
+                            </Button> */}
                             <Button
+                                className="my-season-btn"
                                 variant="contained"
                                 onClick={handleMySeason}
                             >
                                 My Season
                             </Button>
-                             {showConfet && <Confet />}
+                            {showConfet && <Confet />}
                         </div>
                     </div>
                 ))}
