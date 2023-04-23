@@ -31,11 +31,17 @@ export default function MatchDay() {
     const [showFinishButton, setShowFinishButton] = useState(false);
 
     const [round, setRound] = useState(
-        JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count] ||
-            JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count]
+        JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
+            JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count]
     );
+    console.log(count);
+    console.log(
+        JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
+            JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count]
+    );
+    console.log(JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count]);
     // JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count] ?? 0 // tova bachkashe predi tova
-    const [legOne, setLegOne] = useState(round.splice(0, 5));
+    const [legOne, setLegOne] = useState(round?.splice(0, 5));
     const [homeTeam, setHomeTeam] = useState(null);
     // new Team(
     //     legOne[count][0]?.team?.name || legOne[count][0]?.name,
@@ -105,13 +111,21 @@ export default function MatchDay() {
     );
     const [showConfet, setShowConfet] = useState(false);
 
-    useEffect(() => {
-        if (!showStartButton && showNextRoundButton && count >= 9) {
-            setShowConfet(true);
-            setTimeout(() => setShowConfet(false), 8000);
-        }
-    }, [showStartButton, showNextRoundButton, count]);
+    // useEffect(() => {
+    //     if (!showStartButton && showNextRoundButton && count >= 9) {
+    //         setShowConfet(true);
+    //         setTimeout(() => setShowConfet(false), 8000);
+    //     }
+    // }, [showStartButton, showNextRoundButton, count]);
 
+    useEffect(() => {
+        setRound(
+            JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
+                JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[
+                    count
+                ]
+        );
+    }, [count]);
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
             for (let j = 0; j < fixtures[i].length; j++) {
@@ -230,7 +244,8 @@ export default function MatchDay() {
         setMatchStatistic(null);
         setLogs([]);
         getUserTeamAndOpponent();
-        // updateLoggedUserCount(); // викаше се два пъти
+        // navigate('/standings')
+        //  updateLoggedUserCount()  //я да видя кво става тука
     };
     useEffect(() => {
         let timerId = setInterval(() => {
@@ -290,8 +305,11 @@ export default function MatchDay() {
         let results = [];
         let match;
         const myTeamName = userTeam.team.name;
-
+        console.log(round);
+        console.log(legOne);
         for (let i = 0; i < legOne.length; i++) {
+            console.log(legOne[i][0]?.team?.name || legOne[i][0].name);
+            console.log(legOne[i][1]?.team?.name || legOne[i][1].name);
             if (
                 (legOne[i][0]?.team?.name || legOne[i][0].name) ===
                     myTeamName ||
@@ -311,7 +329,7 @@ export default function MatchDay() {
 
             match = new MatchSimulator(homeTeam, awayTeam);
             const stats = match?.matchStatistic;
-
+            console.log(stats);
             results.push(stats);
         }
 
@@ -329,7 +347,7 @@ export default function MatchDay() {
         setMatchStarted(true);
         setShowMatchInfo(true);
         setShowFinishButton(true);
-        // console.log(simulateAllGamesFromTheLeg());   // може и да чупи нещатата
+        console.log(simulateAllGamesFromTheLeg()); // може и да чупи нещатата
         setTest(simulateAllGamesFromTheLeg());
         updateLoggedUserCount();
 
@@ -364,7 +382,7 @@ export default function MatchDay() {
     }, [results]);
     const handleFinishMatch = () => {
         updateTable(test, myMatchStats);
-
+        console.log(test);
         if (homeTeam && awayTeam) {
             const updatedHomeTeam = {
                 ...homeTeam,
@@ -390,6 +408,7 @@ export default function MatchDay() {
     };
     function updateTable(testa, myMatchStats) {
         testa = [...testa, myMatchStats];
+        console.log(testa);
         setResults(testa);
         let leagueTeamsToBeExportedToLocalStorage = league?.slice();
         for (let i = 0; i < testa.length; i++) {
@@ -625,7 +644,7 @@ export default function MatchDay() {
             )}
             {!showStartButton &&
                 showNextRoundButton &&
-                (count < 1 ? null : (
+                (count < 9 ? null : (
                     <div className="season-end-container">
                         <h1>Championship Over</h1>
                         <h2>Final Standings</h2>

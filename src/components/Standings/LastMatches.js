@@ -34,16 +34,16 @@ export default function LastMatches({ results }) {
     const [gamesHistory, setGamesHistory] = useState(
         JSON.parse(sessionStorage.getItem("seasonHistory")) || []
     );
-
+        console.log(results)
     useEffect(() => {
         if (results.length > 0 && !gamesHistory.some(game => game[0].homeTeam === results[0].homeTeam)) {
             setGamesHistory((prev) => [...prev, results]);
         }
-    }, [results]);
+    }, []);
 
     useEffect(() => {
         sessionStorage.setItem("seasonHistory", JSON.stringify(gamesHistory));
-    }, [gamesHistory]);
+    }, []);
 
     return (
         <>
