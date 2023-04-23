@@ -6,7 +6,7 @@ export const useUserContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
   const [isSigned, setIsSigned] = useState(false);
-  const [username, setUsername] = useState(''); 
+  const [username, setUsername] = useState(JSON.parse(localStorage.getItem("loggedUser"))); 
 //   get the user and set the team to him 
 
   return (

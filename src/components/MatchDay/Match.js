@@ -4,7 +4,11 @@ import { Team, Statistic } from "./simulatorBeta";
 import { useState, useEffect, useRef } from "react";
 import { useResultsContext } from "../LiftingStates/ResultContext";
 import Button from "@mui/material/Button";
-import { Kitesurfing } from "@mui/icons-material";
+import { Kitesurfing, LockPerson } from "@mui/icons-material";
+import Table from "../Standings/Table";
+import Confet from "./Confetti/Confetti";
+import ReactConfetti from "react-confetti";
+import { useNavigate } from "react-router-dom";
 
 export default function MatchDay() {
     const [matchStarted, setMatchStarted] = useState(false);
@@ -26,9 +30,10 @@ export default function MatchDay() {
     const [showFinishButton, setShowFinishButton] = useState(false);
 
     const [round, setRound] = useState(
-        JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count] ?? 0
+        JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count] ||
+            JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count]
     );
-
+    // JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count] ?? 0 // tova bachkashe predi tova
     const [legOne, setLegOne] = useState(round.splice(0, 5));
     const [homeTeam, setHomeTeam] = useState(null);
     // new Team(
@@ -93,6 +98,19 @@ export default function MatchDay() {
     const [homeLogo, setHomeLogo] = useState("");
     const [awayLogo, setAwayLogo] = useState("");
     const [myMatchStats, setMyMatchStats] = useState([]);
+    const navigate = useNavigate();
+    const [history, setHistory] = useState(
+        JSON.parse(sessionStorage.getItem("myHistory")) || []
+    );
+    const [showConfet, setShowConfet] = useState(false);
+
+    useEffect(() => {
+        if (!showStartButton && showNextRoundButton && count >= 9) {
+          setShowConfet(true);
+          setTimeout(() => setShowConfet(false), 8000); 
+        }
+      }, [showStartButton, showNextRoundButton, count]);
+
 
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
@@ -125,9 +143,8 @@ export default function MatchDay() {
         // setUserTeam(updateLeagueResults);
 
         // Update the userTeam state
-        if(count <= 8) {
+        if (count <= 8) {
             setCount(count + 1);
-
         } else {
             setCount(0);
         }
@@ -306,6 +323,7 @@ export default function MatchDay() {
     //moved down the code
 
     const handleStartMatch = () => {
+        sessionStorage.removeItem("loggedUser");
         setTimer(0);
         setTimerActive(true);
         setMatchStarted(true);
@@ -337,8 +355,20 @@ export default function MatchDay() {
     useEffect(() => {
         getUserTeamAndOpponent();
     }, []);
+    useEffect(()=>{
+        setHistory((prev) => [...prev, results]);
+        sessionStorage.setItem(
+            "myHistory",
+            JSON.stringify([...history, results])
+        );
+    },[results])
     const handleFinishMatch = () => {
+
         updateTable(test, myMatchStats);
+
+        
+            
+        
 
         if (homeTeam && awayTeam) {
             const updatedHomeTeam = {
@@ -434,6 +464,56 @@ export default function MatchDay() {
         localStorage.setItem("loggedUser", JSON.stringify(updateLeagueResults));
     }
 
+    // const handleNewSeason = () => {
+    //     // handleNextRound();
+    //     // setResults([]);clearva lastmatches
+    //     // navigate("/standings");
+
+    //     const user = JSON.parse(localStorage.getItem("loggedUser"));
+    //     user.fixtures = null;
+    //     user.league = [];
+    //     user.team.conceededgoals = 0;
+    //     user.team.draws = 0;
+    //     user.team.loses = 0;
+    //     user.team.points = 0;
+    //     user.team.scoredgoals = 0;
+    //     user.team.wins = 0;
+    //     user.leagueResults = null;
+    //     user.count = 0;
+    //     setCount(0);
+    //     setResults([]);
+    //     sessionStorage.setItem(
+    //         "loggedUser",
+    //         JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
+    //     );
+
+    //     localStorage.setItem("loggedUser", JSON.stringify(user));
+    //     navigate("/standings");                   //the logic is being executed from handleMySeason func
+    // };
+
+    const handleMySeason = () => {
+        const user = JSON.parse(localStorage.getItem("loggedUser"));
+        user.fixtures = null;
+        user.league = [];
+        user.team.conceededgoals = 0;
+        user.team.draws = 0;
+        user.team.loses = 0;
+        user.team.points = 0;
+        user.team.scoredgoals = 0;
+        user.team.wins = 0;
+        user.leagueResults = null;
+        user.count = 0;
+        setCount(0);
+        // setResults([]);
+        sessionStorage.setItem(
+            "loggedUser",
+            JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
+        );
+
+        localStorage.setItem("loggedUser", JSON.stringify(user));
+        navigate("/my-season");
+    };
+
     return (
         <div className="match-container">
             {!matchStarted && (
@@ -448,7 +528,11 @@ export default function MatchDay() {
             {matchSimulator?.matchStatistic && showMatchInfo && (
                 <>
                     <div className="result-teams-container">
-                        <h4 className="match-timer">{timer <20 ? `Time: ${timer} seconds`: 'Match Finished' }</h4>
+                        <h4 className="match-timer">
+                            {timer < 20
+                                ? `Time: ${timer} seconds`
+                                : "Match Finished"}
+                        </h4>
 
                         <div className="result-teams-container-wrapper">
                             <div className="home-team-container">
@@ -464,7 +548,7 @@ export default function MatchDay() {
                             <span>-</span>
                             <div className="away-team-container">
                                 <h2>{awayGoals}</h2>
-                                
+
                                 <h2>{awayTeamName}</h2>
                                 <img
                                     width="100"
@@ -472,7 +556,6 @@ export default function MatchDay() {
                                     src={awayLogo}
                                     alt="logo"
                                 ></img>
-                              
                             </div>
                         </div>
                     </div>
@@ -540,11 +623,46 @@ export default function MatchDay() {
                     Finish Match
                 </Button>
             )}
-            {!showStartButton && showNextRoundButton && (
+            {!showStartButton && showNextRoundButton && count < 9&& (
                 <Button variant="contained" onClick={handleNextRound}>
                     Next Round
                 </Button>
             )}
+            {!showStartButton &&
+                showNextRoundButton &&
+                (count < 9 ? null : (
+                    <div className="season-end-container">
+                        <h1>Championship Over</h1>
+                        <h2>Top 3</h2>
+                        <Table
+                            leagueResults={leagueResults
+                                .sort(
+                                    (a, b) =>
+                                        (b?.team?.points ||
+                                            0 ||
+                                            b?.points ||
+                                            0) -
+                                        (a?.team?.points || 0 || a?.points || 0)
+                                )
+                                .slice(0, 3)}
+                        />
+                        <div className="btn-container-matchday">
+                            {/* <Button
+                                variant="contained"
+                                onClick={handleNewSeason}
+                            >
+                                New Season
+                            </Button> */}   
+                            <Button
+                                variant="contained"
+                                onClick={handleMySeason}
+                            >
+                                My Season
+                            </Button>
+                             {showConfet && <Confet />}
+                        </div>
+                    </div>
+                ))}
         </div>
     );
 }

@@ -7,7 +7,7 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import swapPlayersImage from "../../../assets/images/jerseys/swapplayers.png";
-
+import ChartComponent from "../Chart/Chart";
 const style = {
     position: "relative",
     top: "50%",
@@ -27,7 +27,7 @@ const styleTwo = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 600,
-    height: 150,
+    height: 250,
     bgcolor: "#ffffff",
     border: "1px solid #000",
     boxShadow: 24,
@@ -117,25 +117,32 @@ export default function BasicModal({
                                 {playerStats.firstname} {playerStats.lastname}
                             </h2>
                             <div className="container-modal">
-                                <img
-                                    width="100"
-                                    height="100"
-                                    src={playerStats.photo}
-                                    alt="player-photo"
-                                ></img>
-                                <div class="left-column-modal">
-                                    <div>Age: {playerStats.age}</div>
-                                    <div>
-                                        Nationality: {playerStats.nationality}
+                                <div className="left-wrapper">
+                                    <img
+                                        width="100"
+                                        height="100"
+                                        src={playerStats.photo}
+                                        alt="player-photo"
+                                    ></img>
+                                    <div class="left-column-modal">
+                                        <div>Age: {playerStats.age}</div>
+                                        <div>
+                                            Nationality:{" "}
+                                            {playerStats.nationality}
+                                        </div>
+                                        <div>
+                                            Height: {playerStats.height || 180}
+                                        </div>
                                     </div>
-                                    <div>Height: {playerStats.height}</div>
                                 </div>
+
                                 <div class="right-column-modal">
-                                    <div>Agression: {stats.agression}</div>
+                                    {/* <div>Agression: {stats.agression}</div>
                                     <div>Attack: {stats.attack}</div>
                                     <div>Defense: {stats.defense}</div>
                                     <div>Pace: {stats.pace}</div>
-                                    <div>Speed: {stats.speed}</div>
+                                    <div>Speed: {stats.speed}</div> */}
+                                    <ChartComponent stats={stats} />
                                 </div>
                             </div>
                         </div>
