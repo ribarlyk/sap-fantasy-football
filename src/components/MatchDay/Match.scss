@@ -1,5 +1,5 @@
 .match-container {
-    height: 100vh;
+    min-height: 100vh;
     margin: 150px auto;
     display: flex;
     justify-content: center;
@@ -52,15 +52,19 @@
 
 .table-match {
     width: 700px;
-    border-spacing: 10px;
+    // border-spacing: 10px;
+    border-collapse: collapse;
+
     *border-collapse: expression("separate", cellSpacing= "10px");
     th {
         text-align: center;
+        color: #ffffff
     }
     td {
         text-align: center;
         margin: 12px 12px 12px 12px;
         padding: 12px 12px 12px 12px;
+        font-weight: 700;
     }
 }
 

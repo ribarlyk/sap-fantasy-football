@@ -146,7 +146,7 @@ export default function Pitch() {
         return (
             <>
                 <div className="header-data"> {heading}</div>
-                <table className={containerClass}>
+                <table id="table-pitch" className={containerClass}>
                     <tbody>
                         {!loading ? (
                             <tr>
