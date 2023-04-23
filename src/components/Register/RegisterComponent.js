@@ -75,10 +75,16 @@ export default function SignUpSide() {
         }
     };
     
-
-
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (!usernameValid) {
+            setErrorMessage("Username is not valid");
+            return;
+        }
+        if (!passwordValid) {
+            setErrorMessage("Password is not valid");
+            return;
+        }
         if (password === confirmPassword) {
             userManager
                 .register({ username, password })
@@ -88,7 +94,7 @@ export default function SignUpSide() {
                     setTimeout(() => {
                         // Redirect to the login page
                         navigate('/login');
-                    }, 3000);
+                    }, 2000);
                 })
                 .catch((error) => {
                     setErrorMessage("Registration error: " + error);
@@ -97,7 +103,7 @@ export default function SignUpSide() {
             setErrorMessage("Passwords do not match");
         }
     };
-
+    
 
     const handleShowPasswordChange = (event) => {
         setShowPassword(event.target.checked);

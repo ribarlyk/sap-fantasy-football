@@ -89,24 +89,25 @@ flex-direction: column;
 
   
   *::-webkit-scrollbar {
-    width: 10px;
-    height: 1px;
+
+    width: 10px !important;
+    height: 1px !important;
   }
   
   *::-webkit-scrollbar-track {
-    background: #fffdfd;
+    background: #fffdfd !important;
   }
   
   *::-webkit-scrollbar-thumb {
-    background-color: #1976d2;
-    border-radius: 10px;
-    border: 2px solid #ffffff;
-    height: 1px;
+    background-color: #1976d2 !important;
+    border-radius: 10px !important;
+    border: 2px solid #ffffff !important;
+    height: 1px !important;
 
 
   }
   
   *::-webkit-scrollbar-thumb:hover {
-    background-color: #021050;
+    background-color: #021050 !important;
   }
   

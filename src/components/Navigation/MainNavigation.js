@@ -33,7 +33,7 @@ export default function AnimatetRoutes() {
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/news" element={<News />} />
+                {/* <Route path="/news" element={<News />} /> */}
                 <Route path="/rules" element={<Rules />} />
                 <Route path="*" element={<Error />} />
             </Routes>
