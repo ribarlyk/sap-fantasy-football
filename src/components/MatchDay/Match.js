@@ -28,9 +28,11 @@ export default function MatchDay() {
     // });
 
     const [showFinishButton, setShowFinishButton] = useState(false);
-
+    
+    
     const [round, setRound] = useState(
-         JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count] ||  JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count] 
+        JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count] ||
+            JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count]
     );
     // JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count] ?? 0 // tova bachkashe predi tova
     const [legOne, setLegOne] = useState(round.splice(0, 5));
@@ -132,9 +134,8 @@ export default function MatchDay() {
         // setUserTeam(updateLeagueResults);
 
         // Update the userTeam state
-        if(count <= 8) {
+        if (count <= 8) {
             setCount(count + 1);
-
         } else {
             setCount(0);
         }
@@ -313,7 +314,7 @@ export default function MatchDay() {
     //moved down the code
 
     const handleStartMatch = () => {
-        sessionStorage.removeItem('loggedUser')
+        sessionStorage.removeItem("loggedUser");
         setTimer(0);
         setTimerActive(true);
         setMatchStarted(true);
@@ -441,7 +442,7 @@ export default function MatchDay() {
         setUserTeam(updateLeagueResults);
         localStorage.setItem("loggedUser", JSON.stringify(updateLeagueResults));
     }
-    
+
     const handleNewSeason = () => {
         // handleNextRound();
         // setResults([]);clearva lastmatches
@@ -458,11 +459,14 @@ export default function MatchDay() {
         user.team.wins = 0;
         user.leagueResults = null;
         user.count = 0;
-
-        sessionStorage.setItem("loggedUser", JSON.stringify(JSON.parse(localStorage.getItem("loggedUser"))));
+        setCount(0);
+        sessionStorage.setItem(
+            "loggedUser",
+            JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
+        );
 
         localStorage.setItem("loggedUser", JSON.stringify(user));
-       navigate("/standings");
+        navigate("/standings");
     };
     return (
         <div className="match-container">
