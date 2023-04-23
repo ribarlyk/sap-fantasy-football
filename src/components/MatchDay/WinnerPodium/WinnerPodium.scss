@@ -1,0 +1,37 @@
+.background-container {
+    margin: 50px auto;
+    background: url(https://img.freepik.com/premium-vector/winner-podium-transparent-background-falling-serpentine-graphics_279501-46.jpg?w=600);
+    width: 600px;
+    height: 400px;
+    position: relative;
+    .badges-top3-container{
+        position: absolute;
+        width: 420px;
+        height: 50px;
+        top:110px;
+        right: 95px;
+        display: flex;
+        justify-content: space-between;
+        .nd-place-badge{
+           width: 100px;
+           height: 100px;
+           top: -17px;
+            position: relative;
+        }
+        .rd-place-badge{
+            width: 100px;
+            height: 100px;
+            top: -10px;
+            left: 10px;
+            position: relative;
+         }
+         .st-place-badge{
+            width: 150px;
+            height: 150px;
+            top: -100px;
+            left: 10px;
+            position: relative;
+         }
+         
+    }
+}
