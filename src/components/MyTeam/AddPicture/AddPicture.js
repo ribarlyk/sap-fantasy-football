@@ -11,7 +11,6 @@ export default function AddPicture({ logoHandler }) {
             setImage(reader.result);
             localStorage.setItem("image", reader.result);
         };
-        // logoHandler(reader.result);
         reader.readAsDataURL(file);
     };
 
@@ -32,7 +31,6 @@ export default function AddPicture({ logoHandler }) {
                         title="&nbsp;"
                     />
                 </>
-                // <input type="file" onChange={handleImageChange} className="add-picture-btn" title="&nbsp;"/>
             )}
         </div>
     );

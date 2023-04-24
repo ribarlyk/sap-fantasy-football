@@ -20,7 +20,6 @@ export default function Standings() {
     );
     const [results, setResults] = useResultsContext();
     const [isLoaded, setIsLoaded] = useState(false);
-        
 
     useEffect(() => {
         async function fetchTeams() {
@@ -32,7 +31,6 @@ export default function Standings() {
             }
         }
         fetchTeams();
-
     }, []);
 
     useEffect(() => {
@@ -40,7 +38,6 @@ export default function Standings() {
         setLeague(leagueTwo);
         const updateLeague = { ...userTeam, league: leagueTwo };
         setUserTeam(updateLeague);
-        // Update users in local storage
         const users = JSON.parse(localStorage.getItem("users"));
         const updatedUsers = users.map((user) => {
             if (user.username === userTeam.username) {
@@ -53,26 +50,22 @@ export default function Standings() {
         localStorage.setItem("loggedUser", JSON.stringify(updateLeague));
         localStorage.setItem("users", JSON.stringify(updatedUsers));
         localStorage.setItem("teams", JSON.stringify(teams));
-
     }, [teams]);
 
     useEffect(() => {
-
         const timeoutIt = setTimeout(() => {
             setIsLoaded(true);
         }, 3000);
 
-        // Clean up the timeout when the component is unmounted
         return () => {
             clearTimeout(timeoutIt);
         };
     }, []);
 
-
     const timeoutIt = setTimeout(() => {
         setIsLoaded(true);
     }, 3000);
-    
+
     return (
         <div className="standings-container">
             <div className="fixtures-container">
@@ -83,7 +76,9 @@ export default function Standings() {
                             <h1>Fixtures</h1>
                             <GeneratePairings
                                 teams={
-                                    JSON.parse(localStorage.getItem("loggedUser")).league
+                                    JSON.parse(
+                                        localStorage.getItem("loggedUser")
+                                    ).league
                                 }
                             />
 
@@ -96,7 +91,7 @@ export default function Standings() {
                             <Table
                                 league={league}
                                 leagueResults={leagueResults}
-                                style='standings-table-tbody'
+                                style="standings-table-tbody"
                             />
                         </div>
                     </>
@@ -110,4 +105,3 @@ export default function Standings() {
         </div>
     );
 }
-

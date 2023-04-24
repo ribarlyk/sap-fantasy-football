@@ -1,53 +1,48 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-
-
 function hasTeam() {
     const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-  
+
     if (loggedUser && loggedUser.team) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
-  }
+}
 
-  function isLogged() {
+function isLogged() {
     const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-  
+
     if (loggedUser) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
-  }
+}
 
-  function hasLeagueAndFix() {
+function hasLeagueAndFix() {
     const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-  
+
     if (loggedUser.fixtures && loggedUser.team) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
-  }
+}
 
-  export const MatchProtectedRoute = () => {
+export const MatchProtectedRoute = () => {
     const isAuth = hasLeagueAndFix();
-    return isAuth ? <Outlet/> : <Navigate to="/standings"/>
-  }
+    return isAuth ? <Outlet /> : <Navigate to="/standings" />;
+};
 
- export const TeamProtectedRoutes = () => {
+export const TeamProtectedRoutes = () => {
     const isAuth = isLogged();
-    return isAuth ? <Outlet/> : <Navigate to="/login"/>
-  }
+    return isAuth ? <Outlet /> : <Navigate to="/login" />;
+};
 
-
-  const ProtectedRoutes = () => {
+const ProtectedRoutes = () => {
     const isAuth = hasTeam();
-    return isAuth ? <Outlet/> : <Navigate to="/my-team"/>
-  }
+    return isAuth ? <Outlet /> : <Navigate to="/my-team" />;
+};
 
-  export default ProtectedRoutes
-
-  
+export default ProtectedRoutes;

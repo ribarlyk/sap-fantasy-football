@@ -156,8 +156,6 @@
     );
 }
 .row-two-change {
-    // opacity: 50%;
-    // background-color: #37003c;
     .card-jersey {
         background-color: #214e3474;
         border-radius: $borderRadius;
@@ -205,8 +203,6 @@
 }
 
 .row-three-change {
-    // opacity: 50%;
-    // background-color: #37003c;
     .card-jersey {
         background-color: #214e3474;
         border-radius: $borderRadius;
@@ -253,8 +249,6 @@
     );
 }
 .row-four-change {
-    // opacity: 50%;
-
     .card-jersey {
         background-color: #214e3474;
         border-radius: $borderRadius;
@@ -268,15 +262,7 @@
             0% {
                 background-color: #1976d2;
             }
-            // 25% {
-            //   background-color: #262155;
-            // }
-            // 50% {
-            //   background-color: #5f4022;
-            // }
-            // 75% {
-            //   background-color: #722323;
-            // }
+
             100% {
                 background-color: #ffffff;
             }
@@ -316,14 +302,15 @@
 .container {
     display: flex;
     justify-content: center;
-    margin: 200px 
-    // auto;
+    margin: 200px;
 }
 
 .players-container {
     display: flex;
     flex-direction: column;
     margin-left: 15px;
+    max-width: 420px;
+    width: 400px;
 }
 
 .player-name-container {
@@ -382,11 +369,6 @@
 .save-team-button {
     width: 400px;
     height: 2rem;
-    // background-image: linear-gradient(
-    //     to right,
-    //     rgb(0, 255, 135),
-    //     rgb(2, 239, 255)
-    // );
     background-color: #1976d2;
     font-size: 19px;
     border: 1px solid #37003c;
@@ -417,8 +399,6 @@
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom: 2px solid #ffffff;
-
-   
 
     .logo-container {
         min-width: 150px;

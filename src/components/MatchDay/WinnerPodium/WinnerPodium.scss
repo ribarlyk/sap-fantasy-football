@@ -4,34 +4,33 @@
     width: 600px;
     height: 400px;
     position: relative;
-    .badges-top3-container{
+    .badges-top3-container {
         position: absolute;
         width: 420px;
         height: 50px;
-        top:110px;
+        top: 110px;
         right: 95px;
         display: flex;
         justify-content: space-between;
-        .nd-place-badge{
-           width: 100px;
-           height: 100px;
-           top: -17px;
+        .nd-place-badge {
+            width: 100px;
+            height: 100px;
+            top: -17px;
             position: relative;
         }
-        .rd-place-badge{
+        .rd-place-badge {
             width: 100px;
             height: 100px;
             top: -10px;
             left: 10px;
             position: relative;
-         }
-         .st-place-badge{
+        }
+        .st-place-badge {
             width: 150px;
             height: 150px;
             top: -100px;
             left: 10px;
             position: relative;
-         }
-         
+        }
     }
 }

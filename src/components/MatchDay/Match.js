@@ -11,9 +11,7 @@ import WinnerPodium from "./WinnerPodium/WinnerPodium";
 
 export default function MatchDay() {
     const getCountFromLocalStorage = useCallback(() => {
-        console.time("maikati");
         let count = JSON.parse(localStorage.getItem("loggedUser")).count;
-        console.timeEnd("maikati");
         const savedCount = count ?? 0;
         return savedCount >= 8 ? 0 : savedCount;
     });
@@ -120,29 +118,15 @@ export default function MatchDay() {
     };
 
     const updateLoggedUserCount = () => {
-        // setleagueResults(leagueTeamsToBeExportedToLocalStorage)
 
-        // const updateLeagueResults = { ...userTeam, leagueResults: leagueTeamsToBeExportedToLocalStorage }hand
-
-        // setUserTeam(updateLeagueResults);
-
-        // Update the userTeam state
         if (count <= 8) {
             setCount(count + 1);
         } else {
             setCount(0);
         }
-        // const newCount = await getCountAsync(); // Replace this with your async function to get the new count
-        // setCount(newCount);
+    
         const updatedUserTeam = { ...userTeam, count: count + 1 };
-
-        // const updatedUserTeam = { ...userTeam, count: count };
-
         setUserTeam(updatedUserTeam);
-
-        // Save the updated userTeam object in local storage
-
-        // Save the updated userTeam object in the users array in local storage
         const users = JSON.parse(localStorage.getItem("users"));
         const updatedUsers = users.map((user) => {
             if (user.username === userTeam.username) {
@@ -206,10 +190,6 @@ export default function MatchDay() {
         }
     };
 
-   
-      
-      
-
     const handleNextRound = () => {
         setShowNextRoundButton(false);
         setShowMatchInfo(false);
@@ -217,7 +197,6 @@ export default function MatchDay() {
         setMatchStatistic(null);
         setLogs([]);
         getUserTeamAndOpponent();
-
     };
 
     useEffect(() => {
@@ -265,8 +244,6 @@ export default function MatchDay() {
             JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count]
         ).slice(0, 5);
         for (let i = 0; i < legOne.length; i++) {
-            console.log(legOne[i][0]?.team?.name || legOne[i][0].name);
-            console.log(legOne[i][1]?.team?.name || legOne[i][1].name);
             if (
                 (legOne[i][0]?.team?.name || legOne[i][0].name) ===
                     myTeamName ||
@@ -286,7 +263,6 @@ export default function MatchDay() {
 
             match = new MatchSimulator(homeTeam, awayTeam);
             const stats = match?.matchStatistic;
-            console.log(stats);
             results.push(stats);
         }
 
@@ -365,8 +341,6 @@ export default function MatchDay() {
 
             setHomeTeam(updatedHomeTeam);
             setAwayTeam(updatedAwayTeam);
-
-            // setMatchStarted(false);
             setShowFinishButton(false);
             setShowStartButton(false);
             setShowNextRoundButton(true);

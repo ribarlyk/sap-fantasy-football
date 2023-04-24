@@ -35,7 +35,6 @@
 
 .table-table {
     border-collapse: collapse;
-    // border-spacing: 10px;
     *border-collapse: expression("separate", cellSpacing= "10px");
     td {
         text-align: center;
@@ -66,21 +65,7 @@
 thead {
     background-color: #1976d2 !important;
 }
-// header-table-row {
-//     border-collapse: collapse;
-//     width: 100%;
-//     max-width: 100%;
-//     table-layout: fixed;
-//   }
 
-//   thead {
-//     background-color: #f2f2f2;
-//   }
-
-//   tr {
-//     background-color: #fff;
-//     border: 1px solid #ddd;
-//   }
 .standings-table-tbody tr:first-child {
     background-color: rgba(1, 255, 18, 0.445);
 }

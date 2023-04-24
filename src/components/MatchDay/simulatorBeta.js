@@ -5,7 +5,6 @@ export class Team {
     }
 }
 
-
 export class Statistic {
     constructor(homeTeam, awayTeam) {
         this.homeTeam = homeTeam;
@@ -44,8 +43,14 @@ export default class MatchSimulator {
         this.logCallback = logCallback;
     }
     determineFavoriteTeam() {
-        const homeTotalRating = Object.values(this.homeTeamRating).reduce((acc, val) => acc + val, 0);
-        const awayTotalRating = Object.values(this.awayTeamRating).reduce((acc, val) => acc + val, 0);
+        const homeTotalRating = Object.values(this.homeTeamRating).reduce(
+            (acc, val) => acc + val,
+            0
+        );
+        const awayTotalRating = Object.values(this.awayTeamRating).reduce(
+            (acc, val) => acc + val,
+            0
+        );
 
         if (homeTotalRating > awayTotalRating) {
             this.homeTeam.isFavorite = true;
@@ -58,20 +63,20 @@ export default class MatchSimulator {
         }
     }
 
-    // hasIncreasedProbability = false;
-    // FUNC THAT CALCULATES THE ATRIBUTES 
     average(attribute, players) {
-        const sum = players?.reduce((acc, player) => acc + player[attribute], 0);
+        const sum = players?.reduce(
+            (acc, player) => acc + player[attribute],
+            0
+        );
         return sum / players?.length;
     }
-    // hasIncreasedProbability = false;
 
     calculateTeamRating(team) {
-        const aggressionRating = this.average('agression', team.players);
-        const attackRating = this.average('attack', team.players);
-        const speedRating = this.average('speed', team.players);
-        const defenseRating = this.average('defense', team.players);
-        const paceRating = this.average('pace', team.players);
+        const aggressionRating = this.average("agression", team.players);
+        const attackRating = this.average("attack", team.players);
+        const speedRating = this.average("speed", team.players);
+        const defenseRating = this.average("defense", team.players);
+        const paceRating = this.average("pace", team.players);
 
         return {
             agression: aggressionRating,
@@ -82,10 +87,11 @@ export default class MatchSimulator {
         };
     }
 
-
-
     simulateMatch() {
-        this.matchStatistic = new Statistic(this.homeTeam.name, this.awayTeam.name);
+        this.matchStatistic = new Statistic(
+            this.homeTeam.name,
+            this.awayTeam.name
+        );
         let timer;
         const homeTeamRating = this.calculateTeamRating(this.homeTeam);
         const awayTeamRating = this.calculateTeamRating(this.awayTeam);
@@ -94,9 +100,11 @@ export default class MatchSimulator {
         timer = setInterval(() => {
             seconds++;
             if (seconds === 18) {
-                this.log(`Match over: ${this.matchStatistic.homeTeam} ${this.matchStatistic.homeGoals} - ${this.matchStatistic.awayGoals} ${this.matchStatistic.awayTeam}`);
+                this.log(
+                    `Match over: ${this.matchStatistic.homeTeam} ${this.matchStatistic.homeGoals} - ${this.matchStatistic.awayGoals} ${this.matchStatistic.awayTeam}`
+                );
                 this.isMatchOver = true;
-                clearInterval(timer)
+                clearInterval(timer);
             } else {
                 if (seconds % 10 === 0) {
                     if (Math.random() < 0.5) {
@@ -104,27 +112,53 @@ export default class MatchSimulator {
                     } else {
                         this.simulatePossessionAlternate(this.matchStatistic);
                     }
-                    this.log( `${seconds} Possession: ${this.matchStatistic.homeTeam} ${this.matchStatistic.homePossession}% - ${this.matchStatistic.awayPossession}% ${this.matchStatistic.awayTeam}`);
+                    this.log(
+                        `${seconds} Possession: ${this.matchStatistic.homeTeam} ${this.matchStatistic.homePossession}% - ${this.matchStatistic.awayPossession}% ${this.matchStatistic.awayTeam}`
+                    );
                 }
                 const stat = Math.floor(Math.random() * 10);
                 switch (stat) {
                     case 0:
-                        this.simulateShotsOnTarget(this.matchStatistic, seconds);
+                        this.simulateShotsOnTarget(
+                            this.matchStatistic,
+                            seconds
+                        );
                         break;
                     case 1:
-                        this.simulateFoul(this.matchStatistic, homeTeamRating, awayTeamRating, seconds);
+                        this.simulateFoul(
+                            this.matchStatistic,
+                            homeTeamRating,
+                            awayTeamRating,
+                            seconds
+                        );
                         break;
                     case 2:
-                        this.simulateShotsOnTargetAlternate(this.matchStatistic, seconds);
+                        this.simulateShotsOnTargetAlternate(
+                            this.matchStatistic,
+                            seconds
+                        );
                         break;
                     case 3:
-                        this.simulateGoal(this.matchStatistic, homeTeamRating, awayTeamRating, seconds);
+                        this.simulateGoal(
+                            this.matchStatistic,
+                            homeTeamRating,
+                            awayTeamRating,
+                            seconds
+                        );
                         break;
                     case 4:
-                        this.simulateSubstitutions(this.matchStatistic, seconds);
+                        this.simulateSubstitutions(
+                            this.matchStatistic,
+                            seconds
+                        );
                         break;
                     case 5:
-                        this.simulateCornerKick(this.matchStatistic, homeTeamRating, awayTeamRating, seconds);
+                        this.simulateCornerKick(
+                            this.matchStatistic,
+                            homeTeamRating,
+                            awayTeamRating,
+                            seconds
+                        );
                         break;
                     case 6:
                         this.simulateThrowIn(this.matchStatistic, seconds);
@@ -151,62 +185,66 @@ export default class MatchSimulator {
     }
 
     simulateGoal(matchStatistic, homeTeamRating, awayTeamRating, seconds) {
-        let homeGoalProbability = (homeTeamRating.attack + homeTeamRating.speed) / 2;
-        let awayGoalProbability = (awayTeamRating.attack + awayTeamRating.speed) / 2;
+        let homeGoalProbability =
+            (homeTeamRating.attack + homeTeamRating.speed) / 2;
+        let awayGoalProbability =
+            (awayTeamRating.attack + awayTeamRating.speed) / 2;
 
-        let chanceToScore = Math.random(); // Random value between 0 and 1
+        let chanceToScore = Math.random();
         if (chanceToScore < 0.5) {
-            // 40% chance for both teams to score
-            homeGoalProbability *= 1.20;
-            awayGoalProbability *= 1.20;
+            homeGoalProbability *= 1.2;
+            awayGoalProbability *= 1.2;
         } else if (chanceToScore < 0.7) {
-            // 30% chance for only one team to score
-            let favoriteTeam = this.homeTeam.isFavorite ? 'home' : 'away';
+            let favoriteTeam = this.homeTeam.isFavorite ? "home" : "away";
             if (Math.random() < 0.5 + this.favoriteTeamAdvantage) {
-                // Adjusted chance for the favorite team to score
-                if (favoriteTeam === 'home') {
+                if (favoriteTeam === "home") {
                     homeGoalProbability *= 1.25;
                 } else {
                     awayGoalProbability *= 1.25;
                 }
             } else {
-                // Adjusted chance for the underdog to score
-                if (favoriteTeam === 'away') {
+                if (favoriteTeam === "away") {
                     awayGoalProbability *= 1.25;
                 } else {
                     homeGoalProbability *= 1.25;
                 }
             }
-        } // else 30% chance for no goals to be scored
+        }
 
         if (Math.random() < homeGoalProbability / 10) {
             matchStatistic.homeGoals++;
-            this.log(`${seconds} Goal! ${matchStatistic.homeTeam} scored!`)
-           return `Goal! ${matchStatistic.homeTeam} scored!`
+            this.log(`${seconds} Goal! ${matchStatistic.homeTeam} scored!`);
+            return `Goal! ${matchStatistic.homeTeam} scored!`;
         } else if (Math.random() < awayGoalProbability / 10) {
             matchStatistic.awayGoals++;
-            this.log(`${seconds} Goal! ${matchStatistic.awayTeam} scored!`)
-            return `Goal! ${matchStatistic.awayTeam} scored!`
+            this.log(`${seconds} Goal! ${matchStatistic.awayTeam} scored!`);
+            return `Goal! ${matchStatistic.awayTeam} scored!`;
         } else {
-            return `${seconds} No action`
+            return `${seconds} No action`;
         }
     }
 
+    simulateCornerKick(
+        matchStatistic,
+        homeTeamRating,
+        awayTeamRating,
+        seconds
+    ) {
+        let team =
+            Math.floor(Math.random() * 2) === 0
+                ? matchStatistic.homeTeam
+                : matchStatistic.awayTeam;
+        let scoringChance =
+            team === matchStatistic.homeTeam
+                ? homeTeamRating.attack + homeTeamRating.speed
+                : awayTeamRating.attack + awayTeamRating.speed;
 
-    simulateCornerKick(matchStatistic, homeTeamRating, awayTeamRating, seconds) {
-        let team = Math.floor(Math.random() * 2) === 0 ? matchStatistic.homeTeam : matchStatistic.awayTeam;
-        let scoringChance = team === matchStatistic.homeTeam
-            ? homeTeamRating.attack + homeTeamRating.speed
-            : awayTeamRating.attack + awayTeamRating.speed;
-
-        // Increment the corresponding corner kick property in matchStatistic
         if (team === matchStatistic.homeTeam) {
             matchStatistic.homeCornerKicks++;
         } else {
             matchStatistic.awayCornerKicks++;
         }
 
-        // Simulate the chance of scoring a goal
         this.log(`${seconds} Corner ${team}`);
 
         let chanceOfGoal = Math.random();
@@ -219,20 +257,25 @@ export default class MatchSimulator {
                 matchStatistic.awayGoals++;
             }
         } else {
-            // Simulate the defending team's outcome
             let defendingChance = Math.random();
             if (defendingChance <= 0.5) {
-                this.log(`${seconds} The goalkeeper catches the ball from the corner kick`);
+                this.log(
+                    `${seconds} The goalkeeper catches the ball from the corner kick`
+                );
             } else {
-                this.log(`${seconds} One of the defenders clears the ball from the corner kick`);
+                this.log(
+                    `${seconds} One of the defenders clears the ball from the corner kick`
+                );
             }
         }
     }
 
     simulateShotsOnTarget(matchStatistic, seconds) {
-        let team = Math.floor(Math.random() * 2) === 0 ? matchStatistic.homeTeam : matchStatistic.awayTeam;
+        let team =
+            Math.floor(Math.random() * 2) === 0
+                ? matchStatistic.homeTeam
+                : matchStatistic.awayTeam;
 
-        // Increment the corresponding shots on target property in matchStatistic
         if (team === matchStatistic.homeTeam) {
             matchStatistic.homeShotsOnTarget++;
         } else {
@@ -240,11 +283,13 @@ export default class MatchSimulator {
         }
 
         this.log(`${seconds} Shot on target ${team}`);
-
     }
 
     simulateThrowIn(matchStatistic, seconds) {
-        const team = Math.floor(Math.random() * 2) === 0 ? matchStatistic.homeTeam : matchStatistic.awayTeam;
+        const team =
+            Math.floor(Math.random() * 2) === 0
+                ? matchStatistic.homeTeam
+                : matchStatistic.awayTeam;
 
         if (team === matchStatistic.homeTeam) {
             matchStatistic.homeThrowIns++;
@@ -256,7 +301,10 @@ export default class MatchSimulator {
     }
 
     simulateSubstitutions(matchStatistic, seconds) {
-        const team = Math.floor(Math.random() * 2) === 0 ? matchStatistic.homeTeam : matchStatistic.awayTeam;
+        const team =
+            Math.floor(Math.random() * 2) === 0
+                ? matchStatistic.homeTeam
+                : matchStatistic.awayTeam;
 
         if (team === matchStatistic.homeTeam) {
             matchStatistic.homeSubstitutions++;
@@ -268,7 +316,10 @@ export default class MatchSimulator {
     }
 
     simulateShotsOnTargetAlternate(matchStatistic, seconds) {
-        const team = Math.floor(Math.random() * 2) === 0 ? matchStatistic.homeTeam : matchStatistic.awayTeam;
+        const team =
+            Math.floor(Math.random() * 2) === 0
+                ? matchStatistic.homeTeam
+                : matchStatistic.awayTeam;
 
         if (team === matchStatistic.homeTeam) {
             matchStatistic.homeShotsOnTarget++;
@@ -280,12 +331,15 @@ export default class MatchSimulator {
     }
 
     simulateFoul(matchStatistic, homeTeamRating, awayTeamRating, seconds) {
-        const team = Math.floor(Math.random() * 2) === 0 ? matchStatistic.homeTeam : matchStatistic.awayTeam;
-        const aggression = team === matchStatistic.homeTeam
-            ? homeTeamRating.aggression
-            : awayTeamRating.aggression;
+        const team =
+            Math.floor(Math.random() * 2) === 0
+                ? matchStatistic.homeTeam
+                : matchStatistic.awayTeam;
+        const aggression =
+            team === matchStatistic.homeTeam
+                ? homeTeamRating.aggression
+                : awayTeamRating.aggression;
 
-        // Increment the corresponding fouls property in matchStatistic
         if (team === matchStatistic.homeTeam) {
             matchStatistic.homeFouls++;
         } else {
@@ -294,20 +348,19 @@ export default class MatchSimulator {
 
         this.log(`${seconds} Foul committed by ${team}`);
 
-        // Simulate the chance of getting a yellow or red card
-        const chanceOfCard = Math.random(); // 0-1  4
+        const chanceOfCard = Math.random();
         if (chanceOfCard <= aggression / 100) {
-            const cardType = Math.random() < 0.9 ? 'yellow' : 'red';
+            const cardType = Math.random() < 0.9 ? "yellow" : "red";
             this.log(`${seconds} ${team} receives a ${cardType} card.`);
 
             if (team === matchStatistic.homeTeam) {
-                if (cardType === 'yellow') {
+                if (cardType === "yellow") {
                     matchStatistic.homeYellowCards++;
                 } else {
                     matchStatistic.homeRedCards++;
                 }
             } else {
-                if (cardType === 'yellow') {
+                if (cardType === "yellow") {
                     matchStatistic.awayYellowCards++;
                 } else {
                     matchStatistic.awayRedCards++;
@@ -323,5 +376,4 @@ export default class MatchSimulator {
             this.logCallback(message, seconds);
         }
     }
-
 }

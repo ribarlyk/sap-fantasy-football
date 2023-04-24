@@ -20,19 +20,14 @@ function ResponsiveAppBar() {
     const [isSigned, setIsSigned] = useUserContext();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const navigate = useNavigate(); //TODO Проверка дали има юзър за да смени вюто на навигацията
-    // const [isSigned, setIsSigned] = React.useState(false);
-    // isSigned = false;
-    const [{ loggedUser, setLoggedUser, updateProfilePic }] = useProfileContext();
+    const navigate = useNavigate();
+    const [{ loggedUser, setLoggedUser, updateProfilePic }] =
+        useProfileContext();
     const profilePicUrl = loggedUser?.profilePic;
     const [avatarSrc, setAvatar] = React.useState("");
-    // const [loggedUser, setLoggedUser] = React.useState(null);
-
-
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
-        console.log("asd");
     };
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -47,14 +42,11 @@ function ResponsiveAppBar() {
     };
 
     useEffect(() => {
-        // const user = JSON.parse(localStorage.getItem("loggedUser"));
         setIsSigned(loggedUser !== null);
-        // updateProfilePic(user?.profilePic)
         setLoggedUser(loggedUser);
     }, []);
 
     useEffect(() => {
-
         if (loggedUser) {
             setAvatar(profilePicUrl);
         } else {
@@ -62,17 +54,10 @@ function ResponsiveAppBar() {
         }
     }, [loggedUser]);
 
-
-    // useEffect(() => {
-    //     const user = JSON.parse(localStorage.getItem("loggedUser"));
-    //     setAvatar(loggedUser?.profilePic);
-    // }, [loggedUser]);
-
-
     const handleLogout = () => {
         localStorage.removeItem("loggedUser");
         setIsSigned(false);
-        setAvatar('');
+        setAvatar("");
         handleCloseUserMenu();
         navigate("/");
     };
@@ -177,10 +162,7 @@ function ResponsiveAppBar() {
                                         color: "white",
                                         textDecoration: "none",
                                     }}
-                                    textAlign="center"
-                                    onClick={(e) => {
-                                        console.log("logout");
-                                    }}
+                                    onClick={(e) => {}}
                                 >
                                     Logout
                                 </Link>
@@ -206,21 +188,6 @@ function ResponsiveAppBar() {
                                 display: { xs: "none", md: "flex" },
                             }}
                         >
-                            {/* <Button
-                                key="My Team"
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: "white", display: "block" }}
-                            >
-                                <Link
-                                    to="/news"
-                                    style={{
-                                        color: "white",
-                                        textDecoration: "none",
-                                    }}
-                                >
-                                    News
-                                </Link>
-                            </Button> */}
                             <Button
                                 key="Table"
                                 onClick={handleCloseNavMenu}

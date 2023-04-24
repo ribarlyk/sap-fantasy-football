@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 export default function ShirtButton({
     name,
     jersey,
@@ -10,10 +8,7 @@ export default function ShirtButton({
     setIsChange,
 }) {
     const onPlayerClickHandler = (e) => {
-        
-        console.log(position)
         if (localStorageTeam && onPlayerChangeHandler()) {
-
             const playerIn = onPlayerChangeHandler();
             const playerOut = e.target.nextElementSibling.textContent;
             let newTeamList =

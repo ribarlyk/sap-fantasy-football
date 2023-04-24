@@ -1,6 +1,5 @@
 import "./MySeason.scss";
 import { useResultsContext } from "../../LiftingStates/ResultContext";
-import { useUserContext } from "../../LiftingStates/UserContext";
 import { useEffect, useState } from "react";
 import uniqid from "uniqid";
 import Button from "@mui/material/Button";
@@ -9,7 +8,6 @@ import ApexChart from "../Chart/ChartMyHistory";
 
 export default function MySeason() {
     const [results, setResults] = useResultsContext();
-    const [user, setUser, username, setUsername] = useUserContext();
 
     const navigate = useNavigate();
     const [history, setHistory] = useState(
@@ -17,23 +15,21 @@ export default function MySeason() {
     );
     const [uniqHistory, setUniqHistory] = useState([[{}]]);
     useEffect(() => {
-        const flatArray = history.flat(); // Flatten the nested array into a 1D array
+        const flatArray = history.flat();
         const uniqueFlatArray = [
             ...new Set(flatArray.map((obj) => JSON.stringify(obj))),
-        ].map((str) => JSON.parse(str)); // Get unique objects using a Set
+        ].map((str) => JSON.parse(str));
         const uniqueNestedArray = uniqueFlatArray.reduce((acc, obj) => {
-            // Regroup the unique objects into a nested array
             const index = acc.findIndex((arr) =>
                 arr.some((item) => item.id === obj.id)
-            ); // Check if there's already an array with this object
+            );
             if (index !== -1) {
-                acc[index].push(obj); // Add object to existing array
+                acc[index].push(obj);
             } else {
-                acc.push([obj]); // Create new array with object
+                acc.push([obj]);
             }
             return acc;
         }, []);
-        console.log(uniqueNestedArray);
         setUniqHistory(uniqueNestedArray);
     }, [history]);
 
@@ -129,7 +125,6 @@ export default function MySeason() {
     return (
         <div className="my-season-container-wrapper">
             <div className="my-season-container">
-                {/* {history.map((game) => game).filter((game) => game.homeTeam)} */}
                 <div className="table-chart-container">
                     <div className="chart-container">
                         <ApexChart history={history} />
