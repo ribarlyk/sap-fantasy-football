@@ -18,7 +18,7 @@ export default function AddPicture({ logoHandler }) {
     return (
         <div>
             {image ? (
-                <img src={image} alt="Selected" />
+                <img src={image} alt="Selected" width = "50px" height = "50px" />
             ) : (
                 <>
                     <label htmlFor="file-upload" className="custom-file-upload">

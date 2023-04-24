@@ -30,16 +30,18 @@ export default function MySeason() {
     const nameList = (
         <table className="my-team-history">
             <thead>
-                <th>HomeTeam</th>
-                <th>AwayTeam</th>
-                <th>Result</th>
-                <th>Possession</th>
-                <th>YellowCards</th>
-                <th>RedCards</th>
-                <th>ThrowIns</th>
-                <th>ShotsOnTarget</th>
-                <th>CornerKicks</th>
-                <th>Fouls</th>
+                <tr>
+                    <th>HomeTeam</th>
+                    <th>AwayTeam</th>
+                    <th>Result</th>
+                    <th>Possession</th>
+                    <th>YellowCards</th>
+                    <th>RedCards</th>
+                    <th>ThrowIns</th>
+                    <th>ShotsOnTarget</th>
+                    <th>CornerKicks</th>
+                    <th>Fouls</th>
+                </tr>
             </thead>
             <tbody>
                 {history
@@ -119,7 +121,7 @@ export default function MySeason() {
                 <div className="table-chart-container">
                     {nameList}
                     <div className="chart-container">
-                        <ApexChart />
+                        <ApexChart history={history}/>
                     </div>
                 </div>
 

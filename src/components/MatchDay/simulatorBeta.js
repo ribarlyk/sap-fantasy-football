@@ -93,7 +93,7 @@ export default class MatchSimulator {
         let seconds = 0;
         timer = setInterval(() => {
             seconds++;
-            if (seconds === 20) {
+            if (seconds === 18) {
                 this.log(`Match over: ${this.matchStatistic.homeTeam} ${this.matchStatistic.homeGoals} - ${this.matchStatistic.awayGoals} ${this.matchStatistic.awayTeam}`);
                 this.isMatchOver = true;
                 clearInterval(timer)
@@ -295,7 +295,7 @@ export default class MatchSimulator {
         this.log(`${seconds} Foul committed by ${team}`);
 
         // Simulate the chance of getting a yellow or red card
-        const chanceOfCard = Math.random();
+        const chanceOfCard = Math.random(); // 0-1  4
         if (chanceOfCard <= aggression / 100) {
             const cardType = Math.random() < 0.9 ? 'yellow' : 'red';
             this.log(`${seconds} ${team} receives a ${cardType} card.`);
