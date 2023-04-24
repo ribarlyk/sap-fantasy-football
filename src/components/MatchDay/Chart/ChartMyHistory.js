@@ -12,7 +12,7 @@ export default function ApexChart({ history }) {
             bar: {
                 borderRadius: 10,
                 dataLabels: {
-                    position: "top", // top, center, bottom
+                    position: "top",
                 },
             },
         },
@@ -92,10 +92,10 @@ export default function ApexChart({ history }) {
             data: dataParcer(),
         },
     ]);
-    
+
     function dataParcer() {
         const user = JSON.parse(sessionStorage.getItem("loggedUser"));
-       
+
         let homeGames = history.map((arr) =>
             arr
                 .filter((game) => game.homeTeam === user.team.name)
@@ -112,9 +112,13 @@ export default function ApexChart({ history }) {
         awayGames = awayGames
             .filter((array) => array.length > 0)
             .map((bango) => bango[0]);
-            awayGames.reduce((a, b) => a + b.awayYellowCards, 0);
-        let scoredGoals =  homeGames.reduce((a, b) => a + b.homeGoals , 0) + awayGames.reduce((a, b) => a + b.awayGoals, 0);
-        let conceededgoals =  homeGames.reduce((a, b) => a + b.awayGoals , 0) + awayGames.reduce((a, b) => a + b.homeGoals, 0);
+        awayGames.reduce((a, b) => a + b.awayYellowCards, 0);
+        let scoredGoals =
+            homeGames.reduce((a, b) => a + b.homeGoals, 0) +
+            awayGames.reduce((a, b) => a + b.awayGoals, 0);
+        let conceededgoals =
+            homeGames.reduce((a, b) => a + b.awayGoals, 0) +
+            awayGames.reduce((a, b) => a + b.homeGoals, 0);
         let yellowCards =
             homeGames.reduce((a, b) => a + b.homeYellowCards, 0) +
             awayGames.reduce((a, b) => a + b.awayYellowCards, 0);
@@ -134,8 +138,7 @@ export default function ApexChart({ history }) {
             (a, b) => a + b.homeShotsOnTarget,
             0
         );
-     
-       
+
         return [
             scoredGoals,
             conceededgoals,

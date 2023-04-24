@@ -4,8 +4,7 @@ import SignUpSide from "./RegisterComponent";
 export default function Register() {
     return (
         <div className="register-container">
-            <SignUpSide/>
-
+            <SignUpSide />
         </div>
     );
 }

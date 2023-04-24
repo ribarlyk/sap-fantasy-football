@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import ClubBadges from "../Badges/ClubBadges";
 import ResponsiveAppBar from "../Navigation/Navigation";
@@ -43,7 +42,6 @@ export default function Header() {
                     height="180px"
                     alt=""
                     className={`logo ${shrinkHeader ? "shrink" : ""}`}
-                    // className="pl-logo"
                 />
             </Link>
 

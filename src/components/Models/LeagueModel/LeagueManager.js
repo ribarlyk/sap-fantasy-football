@@ -86,7 +86,6 @@ class TeamGenerator {
             teamsArray.push(teams[i]);
         }
         return teamsArray;
-        // return players;
     }
 }
 

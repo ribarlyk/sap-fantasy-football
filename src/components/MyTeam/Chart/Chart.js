@@ -25,7 +25,6 @@ const ChartComponent = ({ stats }) => {
         ],
         chart: {
             height: 270,
-            // width:340,
             type: "radar",
 
             toolbar: {
@@ -38,9 +37,7 @@ const ChartComponent = ({ stats }) => {
                 size: 6,
             },
         },
-        // title: {
-        //     text: "Basic Radar Chart",
-        // },
+        
         xaxis: {
             categories: [
                 "Attack",

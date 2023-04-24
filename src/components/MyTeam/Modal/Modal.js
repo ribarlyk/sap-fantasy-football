@@ -48,8 +48,6 @@ export default function BasicModal({
     const handleClose = () => setOpen(false);
 
     const switchPlayerHandler = () => {
-        console.log(stats);
-        console.log(playerStats);
         setOpen(false);
         onPlayerChangeHandler(true, name);
     };
@@ -137,11 +135,6 @@ export default function BasicModal({
                                 </div>
 
                                 <div class="right-column-modal">
-                                    {/* <div>Agression: {stats.agression}</div>
-                                    <div>Attack: {stats.attack}</div>
-                                    <div>Defense: {stats.defense}</div>
-                                    <div>Pace: {stats.pace}</div>
-                                    <div>Speed: {stats.speed}</div> */}
                                     <ChartComponent stats={stats} />
                                 </div>
                             </div>

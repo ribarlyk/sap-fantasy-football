@@ -1,6 +1,5 @@
 import "./MySeason.scss";
 import { useResultsContext } from "../../LiftingStates/ResultContext";
-import { useUserContext } from "../../LiftingStates/UserContext";
 import { useEffect, useState } from "react";
 import uniqid from "uniqid";
 import Button from "@mui/material/Button";
@@ -9,23 +8,32 @@ import ApexChart from "../Chart/ChartMyHistory";
 
 export default function MySeason() {
     const [results, setResults] = useResultsContext();
-    const [user, setUser, username, setUsername] = useUserContext();
 
     const navigate = useNavigate();
     const [history, setHistory] = useState(
         JSON.parse(sessionStorage.getItem("myHistory")) || []
     );
+    const [uniqHistory, setUniqHistory] = useState([[{}]]);
+    useEffect(() => {
+        const flatArray = history.flat();
+        const uniqueFlatArray = [
+            ...new Set(flatArray.map((obj) => JSON.stringify(obj))),
+        ].map((str) => JSON.parse(str));
+        const uniqueNestedArray = uniqueFlatArray.reduce((acc, obj) => {
+            const index = acc.findIndex((arr) =>
+                arr.some((item) => item.id === obj.id)
+            );
+            if (index !== -1) {
+                acc[index].push(obj);
+            } else {
+                acc.push([obj]);
+            }
+            return acc;
+        }, []);
+        setUniqHistory(uniqueNestedArray);
+    }, [history]);
 
-    // useEffect(() => {
-    //     setHistory((prev) => [...prev, results]);
-    //     sessionStorage.setItem(
-    //         "myHistory",
-    //         JSON.stringify([...history, results])
-    //     );
-    // }, []);
     const latestUserData = JSON.parse(sessionStorage.getItem("loggedUser"));
-
-    console.log(latestUserData);
 
     const nameList = (
         <table className="my-team-history">
@@ -44,7 +52,7 @@ export default function MySeason() {
                 </tr>
             </thead>
             <tbody>
-                {history
+                {uniqHistory
                     .map((arr) =>
                         arr
                             .filter(
@@ -55,7 +63,7 @@ export default function MySeason() {
                             )
                             .map((game) => {
                                 return (
-                                    <tr>
+                                    <tr key={uniqid()}>
                                         <td
                                             key={uniqid()}
                                             className="team-name-data"
@@ -117,10 +125,9 @@ export default function MySeason() {
     return (
         <div className="my-season-container-wrapper">
             <div className="my-season-container">
-                {/* {history.map((game) => game).filter((game) => game.homeTeam)} */}
                 <div className="table-chart-container">
                     <div className="chart-container">
-                        <ApexChart history={history}/>
+                        <ApexChart history={history} />
                     </div>
                     {nameList}
                 </div>

@@ -15,8 +15,8 @@ import SearchBar from "../SearchBar/SearchBar";
 import TeamName from "../TeamName/TeamName";
 import { fetchData } from "../../utils/fetch";
 import AddPicture from "../AddPicture/AddPicture";
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function Pitch() {
     const [loggedUser, setLoggedUser] = useState(
@@ -103,36 +103,13 @@ export default function Pitch() {
             .catch((err) => {
                 setLoading(!loading);
             });
-    }, [page, input]); // да се изкара в папкa service и да се ползва axios
+    }, [page, input]);
 
-    // const updateUserTeam = (user, team) => {
-    //     // Update the user's team in the users array
-    //     console.log(user, team);
-    //     let users = JSON.parse(localStorage.getItem("users")) || [];
-    //     const userIndex = users.findIndex((u) => u.username === user.username);
-    //     if (userIndex !== -1) {
-    //         users[userIndex].team =
-    //             users[userIndex].team != null
-    //                 ? [...users[userIndex].team]
-    //                 : team;
-    //         localStorage.setItem("users", JSON.stringify(users));
-    //     }
-
-    //     const updatedLoggedUser = { ...user, team };
-    //     console.log(updatedLoggedUser);
-    //     localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
-    //     setLoggedUser(updatedLoggedUser);
-    // };
     const updateUserTeam = (user, team) => {
-        // Update the user's team in the users array
-        console.log(user, team);
         let users = JSON.parse(localStorage.getItem("users")) || [];
         const userIndex = users.findIndex((u) => u.username === user.username);
         if (userIndex !== -1) {
             users[userIndex].team = team;
-            // users[userIndex].team != null
-            //     ? [...users[userIndex].team]
-            //     : team;
             localStorage.setItem("users", JSON.stringify(users));
         }
 
@@ -184,18 +161,6 @@ export default function Pitch() {
                                             </td>
                                             <td>{x.player.age || 10} $</td>
                                             <td>
-                                                {/* <button
-                                                    className="add-remove-btn"
-                                                    onClick={(e) => {
-                                                        onPlayerClickHandler(
-                                                            e,
-                                                            x
-                                                        );
-                                                    }}
-                                                >
-                                                    Add
-                                                </button> */}
-
                                                 {!myLogo ? (
                                                     <button
                                                         ref={buttonRef}
@@ -249,7 +214,6 @@ export default function Pitch() {
 
     const onPlayerClickHandler = (event, player) => {
         setAddOrRemove(event.target.textContent);
-        console.log(event.target.textContent);
 
         let sumToBuy = player.player.age || 10;
         let position = player.statistics[0].games.position;
@@ -263,7 +227,7 @@ export default function Pitch() {
             );
         } else {
             setClickedPlayers([...clickedPlayers, player]);
-        } //new add-on for add/remove btn
+        }
 
         if (position === "Goalkeeper") {
             playersAddRemoveHandler(
@@ -320,21 +284,17 @@ export default function Pitch() {
         if (budget - sumToBuy < 0) {
             alert("not enought money");
         } else if (substitute.length > 4) {
-            alert("team already chosen"); //todo popup instead of alert
+            alert("team already chosen");
         }
     };
 
     const budgetSetHandler = (sumToBuy) => {
         let updatedBudget;
-        console.log(addOrRemove);
         if (addOrRemove === "Add") {
             updatedBudget = Number(budget) - Number(sumToBuy);
-            console.log("=");
         } else {
             updatedBudget = Number(budget) + Number(sumToBuy);
-            console.log("=12");
         }
-        console.log(updatedBudget);
         setBudget(updatedBudget);
         localStorage.setItem("budget", JSON.stringify(updatedBudget));
 
@@ -352,7 +312,6 @@ export default function Pitch() {
                 return user;
             }
         });
-        console.log(updatedLoggedUser);
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         localStorage.setItem("users", JSON.stringify(updatedUsers));
     };
@@ -379,19 +338,6 @@ export default function Pitch() {
         setOpenSnackbar(true);
     };
 
-    // if (myTeam.length > 0) {
-    //     let teams = JSON.parse(localStorage.getItem("loggedUser")).team || [
-    //         ...goalkeeper,
-    //         ...defender,
-    //         ...midfielder,
-    //         ...attacker,
-    //         ...substitute,
-    //     ];
-    //     const user = JSON.parse(localStorage.getItem("loggedUser"));
-    //     user.team = teams;
-    //     localStorage.setItem("loggedUser", JSON.stringify(user));
-    // }
-
     const onPlayerChangeHandler = (bool, playerRotate) => {
         setNameClass(bool);
         setPlayerIn(playerRotate);
@@ -400,9 +346,6 @@ export default function Pitch() {
     };
 
     const rowGenerator = (pos, styleClass, localIndex, stateIndex) => {
-        // console.log(loggedUser
-        //     );
-        // console.log(loggedUser?.team?.players[localIndex]?.statistics[0]?.games?.position);
         return (
             <div className={styleClass}>
                 {isTeamSaved ? (
@@ -441,15 +384,12 @@ export default function Pitch() {
                             loggedUser.team.length
                                 ? loggedUser.team
                                 : loggedUser.team.players
-                        } // updated prop name
+                        }
                         position={
                             loggedUser?.team[localIndex]?.statistics[0]?.games
                                 ?.position ||
                             loggedUser?.team?.players[localIndex]?.statistics[0]
                                 ?.games?.position
-                            //      &&
-                            // loggedUser.team?.players?.players[localIndex]
-                            //     ?.statistics[0]?.games?.position
                         }
                         name={
                             loggedUser.team[localIndex]?.player?.name ??
@@ -517,27 +457,30 @@ export default function Pitch() {
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
         localStorage.setItem("users", JSON.stringify(updatedUsers));
     };
-    // const logoHandler = (result) => {
-    //     setMyLogo(result);
-    // };
     return (
         <>
             <div className="container">
                 <div className="pitch-container">
                     <div className="budget-container">
                         <div className="logo-container">
-                            {myLogo ? (
-                                <img src={myLogo} alt="my-logo"></img>
-                            ) : (
-                                <AddPicture className="add-picture" />
-                            )}
+                            {isTeamSaved ? (
+                                myLogo ? (
+                                    <img src={myLogo} alt="my-logo"></img>
+                                ) : (
+                                    <AddPicture className="add-picture" />
+                                )
+                            ) : null}
                         </div>
                         <div className="team-name-container">
-                            {teamName ? (
-                                <h2>Team Name : {teamName}</h2>
-                            ) : (
-                                <TeamName teamNameHandler={teamNameHandler} />
-                            )}
+                            {isTeamSaved ? (
+                                teamName ? (
+                                    <h2>Team Name : {teamName}</h2>
+                                ) : (
+                                    <TeamName
+                                        teamNameHandler={teamNameHandler}
+                                    />
+                                )
+                            ) : null}
                         </div>
 
                         <h2>Budget: {budget}/450 $</h2>
@@ -612,7 +555,6 @@ export default function Pitch() {
                             </div>
                         </div>
                     </div>
-                    {/* {true ? <PopUpSuccess /> : null} TODO massege for saving team*/}
                     {isTeamChoosen ? (
                         <button
                             onClick={() => {
@@ -624,9 +566,6 @@ export default function Pitch() {
                             Save Team
                         </button>
                     ) : null}
-                    {/* {isTeamChoosen
-                        ? <button className="set-captain" >Set Captain</button>
-                        : null} TODO SET CAPTAIN OPTIONAL*/}
                 </div>
                 <div className="players-container">
                     <SearchBar
@@ -658,7 +597,7 @@ export default function Pitch() {
                 open={openSnackbar}
                 autoHideDuration={2000}
                 onClose={() => setOpenSnackbar(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
             >
                 <Alert
                     onClose={() => setOpenSnackbar(false)}

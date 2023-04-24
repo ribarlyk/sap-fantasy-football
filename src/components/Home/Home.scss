@@ -24,8 +24,6 @@
     width: 100%;
     height: auto;
     transition: transform 0.2s ease-in-out;
-
-  
 }
 
 .item {
@@ -35,12 +33,20 @@
     border-radius: 5px;
     transition: transform 0.2s ease-in-out;
     overflow: hidden;
+
+    a {
+        text-decoration: none;
+        color: black;
+        &:hover {
+            color: #ffffff;
+        }
+    }
+
     &:hover {
         background-color: #1976d2;
         color: #ffffff;
         cursor: pointer;
         transition: all 0.7s ease-in-out;
         transform: scale(1.1);
-
     }
 }

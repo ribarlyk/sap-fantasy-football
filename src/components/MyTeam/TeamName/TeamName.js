@@ -3,10 +3,8 @@ import "./TeamName.scss";
 
 const TeamName = ({ teamNameHandler }) => {
     const [inputValue, setInputValue] = useState("");
-    // const [isNameSaved, setIsNameSaved] = useState(false);
 
     const handleClick = (e) => {
-        // setIsNameSaved(true);
         teamNameHandler(inputValue,true);
     };
 
