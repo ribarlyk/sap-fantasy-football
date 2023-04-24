@@ -208,6 +208,10 @@ export default function MatchDay() {
         }
     };
 
+   
+      
+      
+
     const handleNextRound = () => {
         setShowNextRoundButton(false);
         setShowMatchInfo(false);
@@ -215,6 +219,7 @@ export default function MatchDay() {
         setMatchStatistic(null);
         setLogs([]);
         getUserTeamAndOpponent();
+
     };
 
     useEffect(() => {

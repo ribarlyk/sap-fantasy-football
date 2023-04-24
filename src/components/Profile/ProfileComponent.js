@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { Container, Grid, TextField, Avatar, Button, FormControl, InputLabel, Select, MenuItem, Paper } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProfilePic } from '../store/profileSlice';
@@ -36,11 +36,11 @@ const ProfilePage = () => {
     const [firstName, setFirstName] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.profile?.firstName || '');
     const [lastName, setLastName] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.profile?.lastName || '');
     const [dateOfBirth, setDateOfBirth] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.profile?.dateOfBirth || '');
-    const [favoriteTeam, setFavoriteTeam] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.profile?.favoriteTeam ||'');
+    const [favoriteTeam, setFavoriteTeam] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.profile?.favoriteTeam || '');
     const [favoriteTeamLogo, setFavoriteTeamLogo] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.profile?.favoriteTeamLogo || '');
     const [isEditing, setIsEditing] = useState(JSON.parse(localStorage.getItem("loggedUser"))?.profile?.isEditing ? true : false);
     const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("loggedUser")));
-    
+
     const [profilePic, setProfilePic] = useState(loggedInUser?.profilePic || '');
     const [favoriteTeamMatches, setFavoriteTeamMatches] = useState([]);
     const [userFavoriteTeam, setUserFavoriteTeam] = useState('');
@@ -48,6 +48,16 @@ const ProfilePage = () => {
     const [filteredMatches, setFilteredMatches] = useState(favoriteTeamMatches);
     const [{ loggedUser, setLoggedUser, updateProfilePic }] = useProfileContext();
     const [tempProfilePic, setTempProfilePic] = useState('');
+    const [uniqueMatches, setUniqueMatches] = useState([]);
+    // const [seasonMatches, setSeasonMatches] = useState([]);
+    const [selectedSeason, setSelectedSeason] = useState('');    
+    const [seasonMatches, setSeasonMatches] = useState({});
+
+
+
+
+
+
 
 
     // const [lastRoundMatches, setLastRoundMatches] = useState([]);
@@ -78,6 +88,51 @@ const ProfilePage = () => {
 
     }, []);
 
+    const handleSeasonChange = (event) => {
+        setSelectedSeason(event.target.value);
+      };
+
+    useEffect(() => {
+        const uniqueMatchSet = new Set();
+        const uniqueMatches = [];
+        let season = 1; // Start from season 1
+        const roundsPerSeason = 8; // Change this value to 16 or 24 depending on your requirement
+
+        filteredMatches.forEach(match => {
+            const matchKey = `${match.homeTeam}-${match.homeGoals}-${match.awayGoals}-${match.awayTeam}`;
+            if (!uniqueMatchSet.has(matchKey)) {
+                uniqueMatchSet.add(matchKey);
+                uniqueMatches.push(match);
+            }
+        });
+
+        const seasonMatches = uniqueMatches.reduce((acc, match, index) => {
+            if (index >= 0 && index % roundsPerSeason === 0 && index !== 0) {
+                season++;
+            }
+
+            if (!acc[season]) {
+                acc[season] = [];
+            }
+
+            const existingMatchIndex = acc[season].findIndex(
+                existingMatch =>
+                    existingMatch.homeTeam === match.homeTeam &&
+                    existingMatch.awayTeam === match.awayTeam
+            );
+
+            if (existingMatchIndex === -1) {
+                acc[season].push(match);
+            }
+
+            return acc;
+        }, {});
+
+        setSeasonMatches(seasonMatches);
+    }, [filteredMatches]);
+
+
+
     useEffect(() => {
         const filterMatches = () => {
             const teamName = loggedInUser?.team?.name;
@@ -107,6 +162,9 @@ const ProfilePage = () => {
         filterMatches();
     }, [filter, favoriteTeamMatches, loggedInUser]);
 
+
+
+
     // const profilePic = useSelector(state => state.profile.profilePic);
 
     const dispatch = useDispatch();
@@ -118,7 +176,7 @@ const ProfilePage = () => {
             reader.onloadend = () => {
                 setProfilePic(reader.result);
                 setTempProfilePic(e.target.result);
-                
+
                 // Updating the loggedInUser object
                 const updatedLoggedInUser = { ...loggedInUser, profilePic: reader.result };
                 setLoggedInUser(updatedLoggedInUser);
@@ -148,32 +206,32 @@ const ProfilePage = () => {
         setIsEditing(false);
     };
 
-    // useEffect(() => {
-    //     const updateUserData = () => {
+    useEffect(() => {
+        const updateUserData = () => {
 
-            
-    //         // setFirstName(loggedInUser?.profile?.firstName);
-    //         // setLastName(loggedInUser?.profile?.lastName);
-    //         // setDateOfBirth(loggedInUser?.profile?.dateOfBirth);
-    //         // setFavoriteTeam(loggedInUser?.profile?.favoriteTeam);
-    //         // setFavoriteTeamLogo(teams?.find((team) => team?.name === loggedInUser?.profile?.favoriteTeam)?.logo || '');
-    //         //   setIsEditing(loggedInUser?.profile?.isEditing);
 
-    //         const isProfileComplete = loggedInUser?.profile?.firstName &&
-    //             loggedInUser?.profile?.lastName &&
-    //             loggedInUser?.profile?.dateOfBirth &&
-    //             loggedInUser?.profile?.favoriteTeam &&
-    //             loggedInUser?.profilePic;
+            setFirstName(loggedInUser?.profile?.firstName);
+            setLastName(loggedInUser?.profile?.lastName);
+            setDateOfBirth(loggedInUser?.profile?.dateOfBirth);
+            setFavoriteTeam(loggedInUser?.profile?.favoriteTeam);
+            setFavoriteTeamLogo(teams?.find((team) => team?.name === loggedInUser?.profile?.favoriteTeam)?.logo || '');
+            setIsEditing(loggedInUser?.profile?.isEditing);
 
-    //         setIsEditing(!isProfileComplete);
+            const isProfileComplete = loggedInUser?.profile?.firstName &&
+                loggedInUser?.profile?.lastName &&
+                loggedInUser?.profile?.dateOfBirth &&
+                loggedInUser?.profile?.favoriteTeam &&
+                loggedInUser?.profilePic;
 
-    //         // setLoggedInUser(loggedInUser);
-    //         // setLoggedUser(loggedInUser)
-    //     };
-        
-    //     updateUserData()
-    //     console.log(isEditing);
-    // }, [loggedInUser]);
+            setIsEditing(!isProfileComplete);
+
+            setLoggedInUser(loggedInUser);
+            setLoggedUser(loggedInUser)
+        };
+
+        updateUserData()
+        console.log(isEditing);
+    }, [profilePic]);
 
     const handleSave = () => {
         // debugger;
@@ -202,7 +260,7 @@ const ProfilePage = () => {
         setDateOfBirth(updatedLoggedInUser?.profile?.dateOfBirth);
         setFavoriteTeam(updatedLoggedInUser?.profile?.favoriteTeam);
         setFavoriteTeamLogo(teams?.find((team) => team?.name === updatedLoggedInUser?.profile?.favoriteTeam)?.logo || '');
-        
+
         setLoggedInUser(updatedLoggedInUser);
         setLoggedUser(updatedLoggedInUser)
 
@@ -311,6 +369,7 @@ const ProfilePage = () => {
                                             ))}
                                         </Select>
                                     </FormControl>
+
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button variant="contained" color="primary" onClick={handleSave}>
@@ -321,7 +380,7 @@ const ProfilePage = () => {
                         ) : (
                             <>
                                 <Grid item xs={12}>
-                                    <h2>First-name: {firstName}</h2> 
+                                    <h2>First-name: {firstName}</h2>
                                     <h2>Last-name: {lastName}</h2>
                                     <h2>Dat-of-birth: {dateOfBirth}</h2>
                                     <h2> Favourite team: {favoriteTeam}</h2>
@@ -339,6 +398,19 @@ const ProfilePage = () => {
                 <Grid item xs={6} className="profile-card">
                     <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '100%' }}>
                         <FormControl fullWidth>
+                            <InputLabel>Season</InputLabel>
+                            <Select value={selectedSeason} onChange={handleSeasonChange} label="Season">
+                                <MenuItem value="">
+                                    <em>Select...</em>
+                                </MenuItem>
+                                {Object.keys(seasonMatches).map((season) => (
+                                    <MenuItem key={season} value={season}>
+                                        {season}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth>
                             <InputLabel>Filter</InputLabel>
                             <Select
                                 value={filter}
@@ -353,18 +425,37 @@ const ProfilePage = () => {
                         </FormControl>
                         <div className="history-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                             <h3>Matches involving {userFavoriteTeam}:</h3>
-                            {filteredMatches.length ? (
-                                <ul>
-                                    {filteredMatches.map((match, index) => (
-                                        <li key={index} className="history-matches">
-                                            {match.homeTeam} {match.homeGoals} - {match.awayGoals} {match.awayTeam}
-                                        </li>
-                                    ))}
-                                </ul>
+                            {Object.keys(seasonMatches).length ? (
+                                Object.keys(seasonMatches)
+                                    .filter((season) => !selectedSeason || season === selectedSeason)
+                                    .map((season) => (
+                                        <div key={season}>
+                                            <h3>Season {season}:</h3>
+                                            <ul>
+                                                {seasonMatches[season]
+                                                    .filter((match) => {
+                                                        if (filter === 'all') return true;
+                                                        const isWin = (match.homeGoals > match.awayGoals && match.homeTeam === userFavoriteTeam) || (match.awayGoals > match.homeGoals && match.awayTeam === userFavoriteTeam);
+                                                        const isDraw = match.homeGoals === match.awayGoals;
+                                                        const isLoss = (match.homeGoals < match.awayGoals && match.homeTeam === userFavoriteTeam) || (match.awayGoals < match.homeGoals && match.awayTeam === userFavoriteTeam);
+                                                        if (filter === 'wins' && isWin) return true;
+                                                        if (filter === 'draws' && isDraw) return true;
+                                                        if (filter === 'losses' && isLoss) return true;
+                                                        return false;
+                                                    })
+                                                    .map((match, index) => (
+                                                        <li key={index} className="history-matches">
+                                                            {match.homeTeam} {match.homeGoals} - {match.awayGoals} {match.awayTeam}
+                                                        </li>
+                                                    ))}
+                                            </ul>
+                                        </div>
+                                    ))
                             ) : (
                                 <p>No matches found for {userFavoriteTeam}.</p>
                             )}
                         </div>
+
                     </div>
                 </Grid>
             </Grid>
