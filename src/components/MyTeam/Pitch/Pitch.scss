@@ -316,7 +316,8 @@
 .container {
     display: flex;
     justify-content: center;
-    margin: 200px auto;
+    margin: 200px 
+    // auto;
 }
 
 .players-container {
@@ -417,15 +418,18 @@
     border-top-left-radius: 20px;
     border-bottom: 2px solid #ffffff;
 
-    h1 {
-        margin-right: 100px;
-    }
+   
 
     .logo-container {
         min-width: 150px;
+        width: 150px;
+        max-width: 150px;
     }
     .team-name-container {
+        flex-grow: 1;
         width: 440px;
+        max-width: 440px;
+        box-sizing: border-box;
     }
 }
 

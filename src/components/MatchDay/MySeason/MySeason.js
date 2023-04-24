@@ -119,10 +119,10 @@ export default function MySeason() {
             <div className="my-season-container">
                 {/* {history.map((game) => game).filter((game) => game.homeTeam)} */}
                 <div className="table-chart-container">
-                    {nameList}
                     <div className="chart-container">
                         <ApexChart history={history}/>
                     </div>
+                    {nameList}
                 </div>
 
                 <Button onClick={handleNextSeason} variant="contained">

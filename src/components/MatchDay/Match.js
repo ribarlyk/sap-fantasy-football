@@ -10,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 import WinnerPodium from "./WinnerPodium/WinnerPodium";
 
 export default function MatchDay() {
-
-
     const getCountFromLocalStorage = useCallback(() => {
         console.time("maikati");
         let count = JSON.parse(localStorage.getItem("loggedUser")).count;
@@ -24,7 +22,7 @@ export default function MatchDay() {
     const [count, setCount] = useState(getCountFromLocalStorage());
     const [showFinishButton, setShowFinishButton] = useState(false);
     const [round, setRound] = useState(
-            JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
+        JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
             JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count]
     );
     const [legOne, setLegOne] = useState(round?.slice(0, 5));
@@ -52,21 +50,21 @@ export default function MatchDay() {
     const [logs, setLogs] = useState([]);
     const [allResults, setAllResults] = useState([]);
     const [fixtures, setFixtures] = useState(
-            JSON.parse(localStorage.getItem("loggedUser")).fixtures
+        JSON.parse(localStorage.getItem("loggedUser")).fixtures
     );
     const [userTeam, setUserTeam] = useState(
-            JSON.parse(localStorage.getItem("loggedUser"))
+        JSON.parse(localStorage.getItem("loggedUser"))
     );
     const [showNextRoundButton, setShowNextRoundButton] = useState(false);
     const [showMatchInfo, setShowMatchInfo] = useState(false);
     const [showStartButton, setShowStartButton] = useState(true);
     const [league, setLeague] = useState(
-            JSON.parse(localStorage.getItem("loggedUser")).leagueResults ||
+        JSON.parse(localStorage.getItem("loggedUser")).leagueResults ||
             JSON.parse(localStorage.getItem("loggedUser")).league ||
             []
     );
     const [leagueResults, setleagueResults] = useState(
-            JSON.parse(localStorage.getItem("loggedUser")).leagueResults || []
+        JSON.parse(localStorage.getItem("loggedUser")).leagueResults || []
     );
     const [results, setResults] = useResultsContext();
     const [test, setTest] = useState([]);
@@ -466,13 +464,13 @@ export default function MatchDay() {
         setCount(0);
 
         sessionStorage.setItem(
-            "loggedUser", JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
+            "loggedUser",
+            JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
         );
 
-        localStorage.setItem(
-            "loggedUser", JSON.stringify(user));
+        localStorage.setItem("loggedUser", JSON.stringify(user));
 
-            navigate("/my-season");
+        navigate("/my-season");
     };
 
     return (
@@ -542,9 +540,9 @@ export default function MatchDay() {
                                     <td>{homeFouls}</td>
                                 </tr>
                                 <tr>
-                                    <td>{awayPossession}</td>
-                                    <td>Possession</td>
                                     <td>{homePossession}</td>
+                                    <td>Possession</td>
+                                    <td>{awayPossession}</td>
                                 </tr>
                                 <tr>
                                     <td>{awayYellowCards}</td>
