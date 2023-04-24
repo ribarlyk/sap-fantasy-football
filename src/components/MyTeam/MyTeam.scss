@@ -1,8 +1,9 @@
 .team-container{
+    box-sizing: border-box;
     min-width: 450px;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    margin: 20px; 
 }
