@@ -19,7 +19,6 @@ export default function AnimatetRoutes() {
     const location = useLocation();
 
     return (
-        <AnimatePresence>
             <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Home />} />
                 <Route element={<TeamProtectedRoutes />}>
@@ -39,6 +38,5 @@ export default function AnimatetRoutes() {
                 <Route path="*" element={<Error />} />
                 <Route path="/my-season" element={<MySeason/>}/>
             </Routes>
-        </AnimatePresence >
     )
 }

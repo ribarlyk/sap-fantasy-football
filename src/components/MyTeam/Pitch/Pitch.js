@@ -15,6 +15,8 @@ import SearchBar from "../SearchBar/SearchBar";
 import TeamName from "../TeamName/TeamName";
 import { fetchData } from "../../utils/fetch";
 import AddPicture from "../AddPicture/AddPicture";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 export default function Pitch() {
     const [loggedUser, setLoggedUser] = useState(
@@ -54,6 +56,8 @@ export default function Pitch() {
     const [clickedPlayers, setClickedPlayers] = useState([]);
     const buttonRef = useRef(null);
     const [addOrRemove, setAddOrRemove] = useState(null);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+
     useEffect(() => {
         const team = JSON.parse(localStorage.getItem("loggedUser"));
         setMyTeam(team.team || []);
@@ -371,6 +375,8 @@ export default function Pitch() {
         updateUserTeam(loggedUser, currentTeam, budget, teamName);
 
         setIsTeamSaved(!isTeamSaved);
+
+        setOpenSnackbar(true);
     };
 
     // if (myTeam.length > 0) {
@@ -648,6 +654,19 @@ export default function Pitch() {
                     />
                 </div>
             </div>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={2000}
+                onClose={() => setOpenSnackbar(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert
+                    onClose={() => setOpenSnackbar(false)}
+                    severity="success"
+                >
+                    Team saved successfully!
+                </Alert>
+            </Snackbar>
         </>
     );
 }

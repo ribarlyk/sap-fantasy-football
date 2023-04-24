@@ -1,52 +1,35 @@
 import "./Match.scss";
 import MatchSimulator from "./simulatorBeta";
 import { Team, Statistic } from "./simulatorBeta";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useResultsContext } from "../LiftingStates/ResultContext";
 import Button from "@mui/material/Button";
-import { Kitesurfing, LockPerson } from "@mui/icons-material";
 import Table from "../Standings/Table";
 import Confet from "./Confetti/Confetti";
-import ReactConfetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
 import WinnerPodium from "./WinnerPodium/WinnerPodium";
 
 export default function MatchDay() {
-    const [matchStarted, setMatchStarted] = useState(false);
-    const [matchStatistic, setMatchStatistic] = useState(null);
 
-    const getCountFromLocalStorage = () => {
+
+    const getCountFromLocalStorage = useCallback(() => {
+        console.time("maikati");
         let count = JSON.parse(localStorage.getItem("loggedUser")).count;
-
+        console.timeEnd("maikati");
         const savedCount = count ?? 0;
         return savedCount >= 8 ? 0 : savedCount;
-    };
-
+    });
+    const [matchStarted, setMatchStarted] = useState(false);
+    const [matchStatistic, setMatchStatistic] = useState(null);
     const [count, setCount] = useState(getCountFromLocalStorage());
-
-    //     const savedCount = localStorage.getItem("count");
-    // return savedCount > 8 ? 0 : parseInt(savedCount);
-    // });
-
     const [showFinishButton, setShowFinishButton] = useState(false);
-
     const [round, setRound] = useState(
-        JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count] ||
-            JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count]
+            JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
+            JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count]
     );
-    // JSON.parse(localStorage.getItem("loggedUser"))?.fixtures[count] ?? 0 // tova bachkashe predi tova
-    const [legOne, setLegOne] = useState(round.splice(0, 5));
+    const [legOne, setLegOne] = useState(round?.slice(0, 5));
     const [homeTeam, setHomeTeam] = useState(null);
-    // new Team(
-    //     legOne[count][0]?.team?.name || legOne[count][0]?.name,
-    //     legOne[count][0]?.team?.players?.slice(0, 11) || legOne[count][0]?.players?.slice(0, 11)
-    // )
-
     const [awayTeam, setAwayTeam] = useState(null);
-    // new Team(
-    //     legOne[count][1]?.team?.name || legOne[count][1]?.name,
-    //     legOne[count][1]?.team?.players?.slice(0, 11) || legOne[count][1]?.players?.slice(0, 11)
-    // )
     const [awayTeamName, setAwayTeamName] = useState("");
     const [awayCorners, setAwayCorners] = useState(0);
     const [awayFouls, setAwayFouls] = useState(0);
@@ -66,30 +49,24 @@ export default function MatchDay() {
     const [homeThrowIns, setHomeThrowIns] = useState(0);
     const [homeYellowCards, setHomeYellowCards] = useState(0);
     const [matchSimulator, setMatchSimulator] = useState(null);
-    // const [awayBadge, setAwayBadge] = useState(0);
-    // const [homeBadge, setHomeBadge] = useState(0);
-    // const [matchSeconds, setMatchSeconds] = useState(0);
     const [logs, setLogs] = useState([]);
     const [allResults, setAllResults] = useState([]);
     const [fixtures, setFixtures] = useState(
-        JSON.parse(localStorage.getItem("loggedUser")).fixtures
+            JSON.parse(localStorage.getItem("loggedUser")).fixtures
     );
     const [userTeam, setUserTeam] = useState(
-        JSON.parse(localStorage.getItem("loggedUser"))
+            JSON.parse(localStorage.getItem("loggedUser"))
     );
-    const [currentRound, setCurrentRound] = useState(1);
-    const [nextRound, setNextRound] = useState(false);
     const [showNextRoundButton, setShowNextRoundButton] = useState(false);
     const [showMatchInfo, setShowMatchInfo] = useState(false);
     const [showStartButton, setShowStartButton] = useState(true);
     const [league, setLeague] = useState(
-        JSON.parse(localStorage.getItem("loggedUser")).leagueResults ||
+            JSON.parse(localStorage.getItem("loggedUser")).leagueResults ||
             JSON.parse(localStorage.getItem("loggedUser")).league ||
             []
     );
     const [leagueResults, setleagueResults] = useState(
-        // JSON.parse(localStorage.getItem("loggedUser")).leagueResults ||
-        JSON.parse(localStorage.getItem("loggedUser")).leagueResults || []
+            JSON.parse(localStorage.getItem("loggedUser")).leagueResults || []
     );
     const [results, setResults] = useResultsContext();
     const [test, setTest] = useState([]);
@@ -108,9 +85,18 @@ export default function MatchDay() {
     useEffect(() => {
         if (!showStartButton && showNextRoundButton && count >= 9) {
             setShowConfet(true);
-            setTimeout(() => setShowConfet(false), 8000);
+            setTimeout(() => setShowConfet(false), 20000);
         }
     }, [showStartButton, showNextRoundButton, count]);
+
+    useEffect(() => {
+        setRound(
+            JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
+                JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[
+                    count
+                ]
+        );
+    }, [count]);
 
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
@@ -223,26 +209,15 @@ export default function MatchDay() {
     };
 
     const handleNextRound = () => {
-        // debugger;
         setShowNextRoundButton(false);
         setShowMatchInfo(false);
         setMatchStarted(false);
         setMatchStatistic(null);
         setLogs([]);
         getUserTeamAndOpponent();
-        // updateLoggedUserCount(); // викаше се два пъти
     };
-    useEffect(() => {
-        let timerId = setInterval(() => {
-            setTimer((prev) => {
-                if (prev >= 20) {
-                    clearInterval(timerId);
-                    return prev;
-                }
-                return prev + 1;
-            });
-        }, 500);
 
+    useEffect(() => {
         setAwayCorners(matchSimulator?.matchStatistic.awayCornerKicks);
         setAwayFouls(matchSimulator?.matchStatistic.awayFouls);
         setAwayGoals(matchSimulator?.matchStatistic.awayGoals);
@@ -251,7 +226,6 @@ export default function MatchDay() {
         setAwayShotsOnTarget(matchSimulator?.matchStatistic.awayShotsOnTarget);
         setAwayTeamName(matchSimulator?.matchStatistic.awayTeam);
         setAwayYellowCards(matchSimulator?.matchStatistic.awayYellowCards);
-
         setHomeCorners(matchSimulator?.matchStatistic.homeCornerKicks);
         setHomeFouls(matchSimulator?.matchStatistic.homeFouls);
         setHomeGoals(matchSimulator?.matchStatistic.homeGoals);
@@ -263,13 +237,6 @@ export default function MatchDay() {
         setHomeThrowIns(matchSimulator?.matchStatistic.homeThrowIns);
         setAwayThrowIns(matchSimulator?.matchStatistic.awayThrowIns);
         setMyMatchStats(matchSimulator?.matchStatistic);
-        return () => {
-            clearInterval(timerId);
-        };
-
-        // return () => {
-        //     clearInterval(intervalId);
-        // };
     }, [
         matchSimulator?.matchStatistic.awayGoals,
         matchSimulator?.matchStatistic.homeGoals,
@@ -290,8 +257,13 @@ export default function MatchDay() {
         let results = [];
         let match;
         const myTeamName = userTeam.team.name;
-
+        let legOne = (
+            JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
+            JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count]
+        ).slice(0, 5);
         for (let i = 0; i < legOne.length; i++) {
+            console.log(legOne[i][0]?.team?.name || legOne[i][0].name);
+            console.log(legOne[i][1]?.team?.name || legOne[i][1].name);
             if (
                 (legOne[i][0]?.team?.name || legOne[i][0].name) ===
                     myTeamName ||
@@ -311,7 +283,7 @@ export default function MatchDay() {
 
             match = new MatchSimulator(homeTeam, awayTeam);
             const stats = match?.matchStatistic;
-
+            console.log(stats);
             results.push(stats);
         }
 
@@ -320,16 +292,23 @@ export default function MatchDay() {
         return results;
     };
 
-    //moved down the code
-
     const handleStartMatch = () => {
+        let timerId = setInterval(() => {
+            setTimer((prev) => {
+                if (prev >= 20) {
+                    clearInterval(timerId);
+                    return prev;
+                }
+                return prev + 1;
+            });
+        }, 700);
+
         sessionStorage.removeItem("loggedUser");
         setTimer(0);
         setTimerActive(true);
         setMatchStarted(true);
         setShowMatchInfo(true);
         setShowFinishButton(true);
-        // console.log(simulateAllGamesFromTheLeg());   // може и да чупи нещатата
         setTest(simulateAllGamesFromTheLeg());
         updateLoggedUserCount();
 
@@ -347,6 +326,10 @@ export default function MatchDay() {
             setMatchStatistic(matchSim.matchStatistic);
             return matchSim;
         });
+
+        return () => {
+            clearInterval(timerId);
+        };
     };
     const logCallback = (message) => {
         setLogs((prevLogs) => [...prevLogs, message]);
@@ -355,6 +338,7 @@ export default function MatchDay() {
     useEffect(() => {
         getUserTeamAndOpponent();
     }, []);
+
     useEffect(() => {
         setHistory((prev) => [...prev, results]);
         sessionStorage.setItem(
@@ -362,9 +346,9 @@ export default function MatchDay() {
             JSON.stringify([...history, results])
         );
     }, [results]);
+
     const handleFinishMatch = () => {
         updateTable(test, myMatchStats);
-
         if (homeTeam && awayTeam) {
             const updatedHomeTeam = {
                 ...homeTeam,
@@ -388,9 +372,11 @@ export default function MatchDay() {
             console.log("HomeTeam or AwayTeam is null");
         }
     };
+
     function updateTable(testa, myMatchStats) {
         testa = [...testa, myMatchStats];
         setResults(testa);
+
         let leagueTeamsToBeExportedToLocalStorage = league?.slice();
         for (let i = 0; i < testa.length; i++) {
             let homeTeam = testa[i].homeTeam;
@@ -459,35 +445,9 @@ export default function MatchDay() {
         localStorage.setItem("loggedUser", JSON.stringify(updateLeagueResults));
     }
 
-    // const handleNewSeason = () => {
-    //     // handleNextRound();
-    //     // setResults([]);clearva lastmatches
-    //     // navigate("/standings");
-
-    //     const user = JSON.parse(localStorage.getItem("loggedUser"));
-    //     user.fixtures = null;
-    //     user.league = [];
-    //     user.team.conceededgoals = 0;
-    //     user.team.draws = 0;
-    //     user.team.loses = 0;
-    //     user.team.points = 0;
-    //     user.team.scoredgoals = 0;
-    //     user.team.wins = 0;
-    //     user.leagueResults = null;
-    //     user.count = 0;
-    //     setCount(0);
-    //     setResults([]);
-    //     sessionStorage.setItem(
-    //         "loggedUser",
-    //         JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
-    //     );
-
-    //     localStorage.setItem("loggedUser", JSON.stringify(user));
-    //     navigate("/standings");                   //the logic is being executed from handleMySeason func
-    // };
-
     const handleMySeason = () => {
         const user = JSON.parse(localStorage.getItem("loggedUser"));
+
         user.fixtures = null;
         user.league = [];
         user.team.conceededgoals = 0;
@@ -499,14 +459,15 @@ export default function MatchDay() {
         user.leagueResults = null;
         user.count = 0;
         setCount(0);
-        // setResults([]);
+
         sessionStorage.setItem(
-            "loggedUser",
-            JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
+            "loggedUser", JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")))
         );
 
-        localStorage.setItem("loggedUser", JSON.stringify(user));
-        navigate("/my-season");
+        localStorage.setItem(
+            "loggedUser", JSON.stringify(user));
+
+            navigate("/my-season");
     };
 
     return (
@@ -625,7 +586,7 @@ export default function MatchDay() {
             )}
             {!showStartButton &&
                 showNextRoundButton &&
-                (count < 1 ? null : (
+                (count < 9 ? null : (
                     <div className="season-end-container">
                         <h1>Championship Over</h1>
                         <h2>Final Standings</h2>
@@ -659,12 +620,6 @@ export default function MatchDay() {
                         </div>
 
                         <div className="btn-container-matchday">
-                            {/* <Button
-                                variant="contained"
-                                onClick={handleNewSeason}
-                            >
-                                New Season
-                            </Button> */}
                             <Button
                                 className="my-season-btn"
                                 variant="contained"

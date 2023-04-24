@@ -2,8 +2,8 @@ import "./WinnerPodium.scss";
 import { useEffect, useState } from "react";
 export default function WinnerPodium({ leagueResults }) {
     const [badges, setBadges] = useState([]);
-
-    let badgesa = leagueResults.map((team) => team.team.logo)
+    console.log(leagueResults)
+    let badgesa = leagueResults.map((team) => team?.team?.logo || team?.logo)
     // useEffect(() => {
     //     setBadges(() => ));
     // }, []);
