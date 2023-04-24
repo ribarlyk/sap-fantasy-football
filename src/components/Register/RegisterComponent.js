@@ -110,7 +110,7 @@ export default function SignUpSide() {
     };
 
     const handleConfirmPasswordChange = (event) => {
-        setConfirmPassword(event.target.value);
+        setConfirmPassword(event.target.value.trim());
     };
 
     return (

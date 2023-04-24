@@ -133,34 +133,34 @@ const ProfilePage = () => {
 
 
 
-    useEffect(() => {
-        const filterMatches = () => {
-            const teamName = loggedInUser?.team?.name;
-            switch (filter) {
-                case 'wins':
-                    setFilteredMatches(favoriteTeamMatches.filter(match =>
-                        (match.homeTeam === teamName && match.homeGoals > match.awayGoals) ||
-                        (match.awayTeam === teamName && match.awayGoals > match.homeGoals)
-                    ));
-                    break;
-                case 'draws':
-                    setFilteredMatches(favoriteTeamMatches.filter(match =>
-                        (match.homeTeam === teamName || match.awayTeam === teamName) && match.homeGoals === match.awayGoals
-                    ));
-                    break;
-                case 'losses':
-                    setFilteredMatches(favoriteTeamMatches.filter(match =>
-                        (match.homeTeam === teamName && match.homeGoals < match.awayGoals) ||
-                        (match.awayTeam === teamName && match.awayGoals < match.homeGoals)
-                    ));
-                    break;
-                default:
-                    setFilteredMatches(favoriteTeamMatches);
-            }
-            console.log("logwam");
-        };
-        filterMatches();
-    }, [filter, favoriteTeamMatches, loggedInUser]);
+    // useEffect(() => {
+    //     const filterMatches = () => {
+    //         const teamName = loggedInUser?.team?.name;
+    //         switch (filter) {
+    //             case 'wins':
+    //                 setFilteredMatches(favoriteTeamMatches.filter(match =>
+    //                     (match.homeTeam === teamName && match.homeGoals > match.awayGoals) ||
+    //                     (match.awayTeam === teamName && match.awayGoals > match.homeGoals)
+    //                 ));
+    //                 break;
+    //             case 'draws':
+    //                 setFilteredMatches(favoriteTeamMatches.filter(match =>
+    //                     (match.homeTeam === teamName || match.awayTeam === teamName) && match.homeGoals === match.awayGoals
+    //                 ));
+    //                 break;
+    //             case 'losses':
+    //                 setFilteredMatches(favoriteTeamMatches.filter(match =>
+    //                     (match.homeTeam === teamName && match.homeGoals < match.awayGoals) ||
+    //                     (match.awayTeam === teamName && match.awayGoals < match.homeGoals)
+    //                 ));
+    //                 break;
+    //             default:
+    //                 setFilteredMatches(favoriteTeamMatches);
+    //         }
+    //         console.log("logwam");
+    //     };
+    //     filterMatches();
+    // }, [filter, favoriteTeamMatches, loggedInUser]);
 
 
 
@@ -255,11 +255,11 @@ const ProfilePage = () => {
         // Updating the loggedInUser object
         const updatedLoggedInUser = { ...loggedInUser, profile: updatedProfile };
 
-        setFirstName(updatedLoggedInUser?.profile?.firstName);
-        setLastName(updatedLoggedInUser?.profile?.lastName);
-        setDateOfBirth(updatedLoggedInUser?.profile?.dateOfBirth);
-        setFavoriteTeam(updatedLoggedInUser?.profile?.favoriteTeam);
-        setFavoriteTeamLogo(teams?.find((team) => team?.name === updatedLoggedInUser?.profile?.favoriteTeam)?.logo || '');
+        // setFirstName(updatedLoggedInUser?.profile?.firstName);
+        // setLastName(updatedLoggedInUser?.profile?.lastName);
+        // setDateOfBirth(updatedLoggedInUser?.profile?.dateOfBirth);
+        // setFavoriteTeam(updatedLoggedInUser?.profile?.favoriteTeam);
+        // setFavoriteTeamLogo(teams?.find((team) => team?.name === updatedLoggedInUser?.profile?.favoriteTeam)?.logo || '');
 
         setLoggedInUser(updatedLoggedInUser);
         setLoggedUser(updatedLoggedInUser)
@@ -382,7 +382,7 @@ const ProfilePage = () => {
                                 <Grid item xs={12}>
                                     <h2>First-name: {firstName}</h2>
                                     <h2>Last-name: {lastName}</h2>
-                                    <h2>Dat-of-birth: {dateOfBirth}</h2>
+                                    <h2>Date-of-birth: {dateOfBirth}</h2>
                                     <h2> Favourite team: {favoriteTeam}</h2>
                                     <img src={favoriteTeamLogo} alt={favoriteTeam} width="100" />
                                 </Grid>
@@ -397,19 +397,6 @@ const ProfilePage = () => {
                 </Grid>
                 <Grid item xs={6} className="profile-card">
                     <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '100%' }}>
-                        <FormControl fullWidth>
-                            <InputLabel>Season</InputLabel>
-                            <Select value={selectedSeason} onChange={handleSeasonChange} label="Season">
-                                <MenuItem value="">
-                                    <em>Select...</em>
-                                </MenuItem>
-                                {Object.keys(seasonMatches).map((season) => (
-                                    <MenuItem key={season} value={season}>
-                                        {season}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
                         <FormControl fullWidth>
                             <InputLabel>Filter</InputLabel>
                             <Select
@@ -427,13 +414,13 @@ const ProfilePage = () => {
                             <h3>Matches involving {userFavoriteTeam}:</h3>
                             {Object.keys(seasonMatches).length ? (
                                 Object.keys(seasonMatches)
-                                    .filter((season) => !selectedSeason || season === selectedSeason)
                                     .map((season) => (
                                         <div key={season}>
                                             <h3>Season {season}:</h3>
                                             <ul>
                                                 {seasonMatches[season]
                                                     .filter((match) => {
+                                                        console.log(match);
                                                         if (filter === 'all') return true;
                                                         const isWin = (match.homeGoals > match.awayGoals && match.homeTeam === userFavoriteTeam) || (match.awayGoals > match.homeGoals && match.awayTeam === userFavoriteTeam);
                                                         const isDraw = match.homeGoals === match.awayGoals;

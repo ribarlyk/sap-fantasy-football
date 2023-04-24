@@ -96,7 +96,7 @@ export default function SignInSide() {
     };
 
     const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
+        setPassword(event.target.value.trim());
     };
 
     const handleShowPasswordChange = (event) => {
