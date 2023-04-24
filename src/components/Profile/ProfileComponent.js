@@ -8,7 +8,6 @@ import { useProfileContext } from '../LiftingStates/ProfileContext';
 
 
 
-
 const teams = [
     { name: 'Arsenal', logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeUQ42UcCuWB0vWYBhSN0cKgoK0DkyZCCYp8_IGEeWPw&s" },
     { name: 'Liverpool', logo: "https://www.freepnglogos.com/uploads/liverpool-logo-0.png" },
@@ -61,7 +60,7 @@ const ProfilePage = () => {
         if (userTeamName) {
             setUserFavoriteTeam(userTeamName);
 
-            const matches = JSON.parse(sessionStorage.getItem('seasonHistory'));
+            const matches = JSON.parse(sessionStorage.getItem('myHistory'));
 
             if (matches) {
                 const allRoundsFilteredMatches = matches.reduce((acc, round) => {
