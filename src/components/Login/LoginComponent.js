@@ -12,10 +12,11 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import useUseUserManager from '../Models/LoginAndRegisterModel/UserManager';
 import { useUserContext } from "../LiftingStates/UserContext";
+import { useProfileContext } from '../LiftingStates/ProfileContext';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
@@ -43,12 +44,14 @@ export default function SignInSide() {
     const userManager = useUseUserManager();
     const navigate = useNavigate();
     const [isSigned, setIsSigned] = useUserContext();
+    const [ { loggedUser, setLoggedUser, updateProfilePic } ] = useProfileContext();
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const [snackbarMessage, setSnackbarMessage] = useState('');
+
 
     const isButtonDisabled = !username || !password;
 
@@ -61,6 +64,8 @@ export default function SignInSide() {
     //     });
     // };
 
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
         userManager
@@ -71,6 +76,7 @@ export default function SignInSide() {
                 setSnackbarSeverity('success');
                 setSnackbarMessage('Logged in successfully!');
                 setSnackbarOpen(true);
+
                 setTimeout(() => {
                     // Redirect to the home page
                     navigate('/');

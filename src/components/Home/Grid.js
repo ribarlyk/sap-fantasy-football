@@ -8,6 +8,8 @@ import "./Home.scss";
 import ScorebatEmbed from "./WidgetApi";
 import LiveScoreEmbed from "./LifescoreWidget";
 import Header from "./Headers";
+import { useProfileContext } from "../LiftingStates/ProfileContext";
+import { useEffect } from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -18,6 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function BasicGrid() {
+
     return (
         <Box
             sx={{

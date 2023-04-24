@@ -23,9 +23,10 @@ function ResponsiveAppBar() {
     const navigate = useNavigate(); //TODO Проверка дали има юзър за да смени вюто на навигацията
     // const [isSigned, setIsSigned] = React.useState(false);
     // isSigned = false;
-    // const [loggedUser, setLoggedUser] = useProfileContext();
+    const [{ loggedUser, setLoggedUser, updateProfilePic }] = useProfileContext();
+    const profilePicUrl = loggedUser?.profilePic;
     const [avatarSrc, setAvatar] = React.useState("");
-    const [loggedUser, setLoggedUser] = React.useState(null);
+    // const [loggedUser, setLoggedUser] = React.useState(null);
 
 
 
@@ -49,21 +50,30 @@ function ResponsiveAppBar() {
         const user = JSON.parse(localStorage.getItem("loggedUser"));
         setIsSigned(user !== null);
         console.log(user);
+        // updateProfilePic(user?.profilePic)
         setLoggedUser(user);
     }, []);
 
     useEffect(() => {
+
         if (loggedUser) {
-            console.log(loggedUser.profilePic);
-            setAvatar(loggedUser.profilePic);
+            setAvatar(profilePicUrl);
         } else {
             setAvatar("");
         }
-    }, [loggedUser])
+    }, [loggedUser]);
+
+
+    // useEffect(() => {
+    //     const user = JSON.parse(localStorage.getItem("loggedUser"));
+    //     setAvatar(loggedUser?.profilePic);
+    // }, [loggedUser]);
+
 
     const handleLogout = () => {
         localStorage.removeItem("loggedUser");
         setIsSigned(false);
+        setAvatar('');
         handleCloseUserMenu();
         navigate("/");
     };

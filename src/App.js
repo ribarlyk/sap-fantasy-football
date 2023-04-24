@@ -9,11 +9,12 @@ import store from "../src/components/store/store"
 
 import Footer from "./components/Footer/Footer";
 function App() {
+
     return (
         <div className="App">
             <Provider store={store}>
-                <UserProvider>
-                    <ProfileProvider>
+                <ProfileProvider>
+                    <UserProvider>
                         <ResultProvider>
                             <Router>
                                 <Header />
@@ -21,8 +22,9 @@ function App() {
                                 <Footer />
                             </Router>
                         </ResultProvider>
-                    </ProfileProvider>
-                </UserProvider>
+                    </UserProvider>
+                </ProfileProvider>
+
             </Provider>
         </div>
     );

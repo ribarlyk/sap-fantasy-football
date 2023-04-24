@@ -9,7 +9,7 @@ export const ProfileProvider = ({ children }) => {
   
     const updateProfilePic = (username, newProfilePic) => {
         setLoggedUser(prevLoggedUser => {
-            if (prevLoggedUser.username === username) {
+            if (prevLoggedUser?.username === username) {
                 const updatedLoggedUser = { ...prevLoggedUser, profilePic: newProfilePic };
                 localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedUser));
                 return updatedLoggedUser;
@@ -19,8 +19,37 @@ export const ProfileProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={[ { loggedUser, setLoggedUser, updateProfilePic } ]}>
+        <UserContext.Provider value={[ { loggedUser, setLoggedUser, updateProfilePic,   } ]}>
             {children}
         </UserContext.Provider>
     );
 };
+
+
+
+// import { createContext, useContext, useState } from 'react';
+
+// const ProfileContext = createContext();
+
+// export const useProfileContext = () => {
+//     return useContext(ProfileContext);
+// };
+
+// export const ProfileProvider = ({ children }) => {
+//     const [profilePic, setProfilePic] = useState('');
+
+//     const updateProfilePic = (username, newProfilePic) => {
+//         setProfilePic(newProfilePic);
+//     };
+
+//     const value = {
+//         profilePic,
+//         updateProfilePic
+//     };
+
+//     return (
+//         <ProfileContext.Provider value={value}>
+//             {children}
+//         </ProfileContext.Provider>
+//     );
+// };
