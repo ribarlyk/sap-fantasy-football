@@ -57,7 +57,7 @@ export default function BasicGrid() {
                     <Item className="item">
                         <img
                             className="introImg"
-                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
+                            src="https://content.api.news/v3/images/bin/c39a58e6d51b051b8fc2fea931764a4e"
                         ></img>
                         <p>
                             Lorem Ipsum is simply dummy text of the printing and
@@ -79,7 +79,7 @@ export default function BasicGrid() {
                     <Item className="item">
                         <img
                             className="introImg"
-                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
+                            src="https://media.cnn.com/api/v1/images/stellar/prod/221221005245-01-messi-world-cup-celebration-121822-restricted.jpg?c=16x9&q=h_720,w_1280,c_fill"
                         ></img>
                         <p>
                             Lorem Ipsum is simply dummy text of the printing and
@@ -101,7 +101,7 @@ export default function BasicGrid() {
                     <Item className="item">
                         <img
                             className="introImg"
-                            src="https://static.bnr.bg/gallery/cr/cc732a63aede78677d483cffedab513b.jpg"
+                            src="https://trud.bg/public/images/articles/2022-05/ce702cc0cffc31148b74cc47c4c87a2f_1280x853_5529045805076222814_original.jpg"
                         ></img>
                         <p>
                             Lorem Ipsum is simply dummy text of the printing and

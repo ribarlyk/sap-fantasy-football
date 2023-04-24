@@ -15,17 +15,29 @@ export default function MySeason() {
     const [history, setHistory] = useState(
         JSON.parse(sessionStorage.getItem("myHistory")) || []
     );
+    const [uniqHistory, setUniqHistory] = useState([[{}]]);
+    useEffect(() => {
+        const flatArray = history.flat(); // Flatten the nested array into a 1D array
+        const uniqueFlatArray = [
+            ...new Set(flatArray.map((obj) => JSON.stringify(obj))),
+        ].map((str) => JSON.parse(str)); // Get unique objects using a Set
+        const uniqueNestedArray = uniqueFlatArray.reduce((acc, obj) => {
+            // Regroup the unique objects into a nested array
+            const index = acc.findIndex((arr) =>
+                arr.some((item) => item.id === obj.id)
+            ); // Check if there's already an array with this object
+            if (index !== -1) {
+                acc[index].push(obj); // Add object to existing array
+            } else {
+                acc.push([obj]); // Create new array with object
+            }
+            return acc;
+        }, []);
+        console.log(uniqueNestedArray);
+        setUniqHistory(uniqueNestedArray);
+    }, [history]);
 
-    // useEffect(() => {
-    //     setHistory((prev) => [...prev, results]);
-    //     sessionStorage.setItem(
-    //         "myHistory",
-    //         JSON.stringify([...history, results])
-    //     );
-    // }, []);
     const latestUserData = JSON.parse(sessionStorage.getItem("loggedUser"));
-
-    console.log(latestUserData);
 
     const nameList = (
         <table className="my-team-history">
@@ -44,7 +56,7 @@ export default function MySeason() {
                 </tr>
             </thead>
             <tbody>
-                {history
+                {uniqHistory
                     .map((arr) =>
                         arr
                             .filter(
@@ -55,7 +67,7 @@ export default function MySeason() {
                             )
                             .map((game) => {
                                 return (
-                                    <tr>
+                                    <tr key={uniqid()}>
                                         <td
                                             key={uniqid()}
                                             className="team-name-data"
@@ -120,7 +132,7 @@ export default function MySeason() {
                 {/* {history.map((game) => game).filter((game) => game.homeTeam)} */}
                 <div className="table-chart-container">
                     <div className="chart-container">
-                        <ApexChart history={history}/>
+                        <ApexChart history={history} />
                     </div>
                     {nameList}
                 </div>

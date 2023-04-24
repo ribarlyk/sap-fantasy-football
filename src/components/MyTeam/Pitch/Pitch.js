@@ -15,8 +15,8 @@ import SearchBar from "../SearchBar/SearchBar";
 import TeamName from "../TeamName/TeamName";
 import { fetchData } from "../../utils/fetch";
 import AddPicture from "../AddPicture/AddPicture";
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function Pitch() {
     const [loggedUser, setLoggedUser] = useState(
@@ -526,18 +526,24 @@ export default function Pitch() {
                 <div className="pitch-container">
                     <div className="budget-container">
                         <div className="logo-container">
-                            {myLogo ? (
-                                <img src={myLogo} alt="my-logo"></img>
-                            ) : (
-                                <AddPicture className="add-picture" />
-                            )}
+                            {isTeamSaved ? (
+                                myLogo ? (
+                                    <img src={myLogo} alt="my-logo"></img>
+                                ) : (
+                                    <AddPicture className="add-picture" />
+                                )
+                            ) : null}
                         </div>
                         <div className="team-name-container">
-                            {teamName ? (
-                                <h2>Team Name : {teamName}</h2>
-                            ) : (
-                                <TeamName teamNameHandler={teamNameHandler} />
-                            )}
+                            {isTeamSaved ? (
+                                teamName ? (
+                                    <h2>Team Name : {teamName}</h2>
+                                ) : (
+                                    <TeamName
+                                        teamNameHandler={teamNameHandler}
+                                    />
+                                )
+                            ) : null}
                         </div>
 
                         <h2>Budget: {budget}/450 $</h2>
@@ -658,7 +664,7 @@ export default function Pitch() {
                 open={openSnackbar}
                 autoHideDuration={2000}
                 onClose={() => setOpenSnackbar(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
             >
                 <Alert
                     onClose={() => setOpenSnackbar(false)}
