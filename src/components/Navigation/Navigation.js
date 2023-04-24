@@ -47,11 +47,10 @@ function ResponsiveAppBar() {
     };
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("loggedUser"));
-        setIsSigned(user !== null);
-        console.log(user);
+        // const user = JSON.parse(localStorage.getItem("loggedUser"));
+        setIsSigned(loggedUser !== null);
         // updateProfilePic(user?.profilePic)
-        setLoggedUser(user);
+        setLoggedUser(loggedUser);
     }, []);
 
     useEffect(() => {

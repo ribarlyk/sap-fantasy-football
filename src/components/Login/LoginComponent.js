@@ -79,7 +79,7 @@ export default function SignInSide() {
 
                 setTimeout(() => {
                     // Redirect to the home page
-                    navigate('/');
+                    navigate('/profile');
                 }, 1500);
             })
             .catch((error) => {

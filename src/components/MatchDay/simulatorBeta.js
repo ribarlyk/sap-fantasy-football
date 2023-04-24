@@ -155,7 +155,7 @@ export default class MatchSimulator {
         let awayGoalProbability = (awayTeamRating.attack + awayTeamRating.speed) / 2;
 
         let chanceToScore = Math.random(); // Random value between 0 and 1
-        if (chanceToScore < 0.4) {
+        if (chanceToScore < 0.5) {
             // 40% chance for both teams to score
             homeGoalProbability *= 1.20;
             awayGoalProbability *= 1.20;
