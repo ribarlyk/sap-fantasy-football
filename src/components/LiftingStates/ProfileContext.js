@@ -35,29 +35,3 @@ export const ProfileProvider = ({ children }) => {
     );
 };
 
-// import { createContext, useContext, useState } from 'react';
-
-// const ProfileContext = createContext();
-
-// export const useProfileContext = () => {
-//     return useContext(ProfileContext);
-// };
-
-// export const ProfileProvider = ({ children }) => {
-//     const [profilePic, setProfilePic] = useState('');
-
-//     const updateProfilePic = (username, newProfilePic) => {
-//         setProfilePic(newProfilePic);
-//     };
-
-//     const value = {
-//         profilePic,
-//         updateProfilePic
-//     };
-
-//     return (
-//         <ProfileContext.Provider value={value}>
-//             {children}
-//         </ProfileContext.Provider>
-//     );
-// };

@@ -13,13 +13,17 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../LiftingStates/UserContext";
 import { useProfileContext } from "../LiftingStates/ProfileContext";
-import { useEffect } from "react";
+ import { useResultsContext } from "../LiftingStates/ResultContext";
+
+import { useEffect,useState } from "react";
 import "./Navigation.scss";
 
 function ResponsiveAppBar() {
     const [isSigned, setIsSigned] = useUserContext();
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [results, setResults,navBoolean,setNavBoolean] = useResultsContext();
+
     const navigate = useNavigate();
     const [{ loggedUser, setLoggedUser, updateProfilePic }] =
         useProfileContext();
@@ -250,7 +254,7 @@ function ResponsiveAppBar() {
     return (
         <div className="nav-bar-container">
             {" "}
-            {isSigned ? userNavigation : guestNavigation}{" "}
+          { navBoolean ? null: isSigned ? userNavigation : guestNavigation}
         </div>
     );
 }

@@ -64,7 +64,7 @@ export default function MatchDay() {
     const [leagueResults, setleagueResults] = useState(
         JSON.parse(localStorage.getItem("loggedUser")).leagueResults || []
     );
-    const [results, setResults] = useResultsContext();
+    const [results, setResults,navBoolean,setNavBoolean] = useResultsContext();
     const [test, setTest] = useState([]);
     const [timer, setTimer] = useState(0);
     const [timerActive, setTimerActive] = useState(false);
@@ -95,9 +95,6 @@ export default function MatchDay() {
                 ]
         );
     }, [count]);
-
- 
-    
 
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
@@ -144,6 +141,7 @@ export default function MatchDay() {
     };
 
     const setNextRoundTeams = (userPosition, opponentPosition) => {
+        console.log("s")
         const nextHomeTeam =
             fixtures[userPosition[0]][userPosition[1]][userPosition[2]];
         const nextAwayTeam =
@@ -280,6 +278,7 @@ export default function MatchDay() {
     };
 
     const handleStartMatch = () => {
+        setNavBoolean(true)
         let timerId = setInterval(() => {
             setTimer((prev) => {
                 if (prev >= 20) {
@@ -299,7 +298,6 @@ export default function MatchDay() {
         setTest(simulateAllGamesFromTheLeg());
         updateLoggedUserCount();
         // setMatchCreated(true)
-
 
         const logCallback = (message) => {
             setLogs((prevLogs) => [...prevLogs, message]);
@@ -326,30 +324,24 @@ export default function MatchDay() {
 
     useEffect(() => {
         getUserTeamAndOpponent();
+
     }, []);
-
-    // useEffect(() => {
-    //     setHistory((prev) => [...prev, results]);
-    //     sessionStorage.setItem(
-    //         "myHistory",
-    //         JSON.stringify([...history, results])
-    //     );
-    // }, [results]);
-
+ 
     useEffect(() => {
         if (isMounted && matchCreated) {
-          const prevHistory = JSON.parse(sessionStorage.getItem("myHistory")) || [];
-          const updatedHistory = [...prevHistory, results];
-          sessionStorage.setItem("myHistory", JSON.stringify(updatedHistory));
-          setHistory(updatedHistory);
-          setMatchCreated(false);
+            const prevHistory =
+                JSON.parse(sessionStorage.getItem("myHistory")) || [];
+            const updatedHistory = [...prevHistory, results];
+            sessionStorage.setItem("myHistory", JSON.stringify(updatedHistory));
+            setHistory(updatedHistory);
+            setMatchCreated(false);
         } else {
-          setIsMounted(true);
+            setIsMounted(true);
         }
-      }, [results, matchCreated]);
+    }, [results, matchCreated]);
 
-    const handleFinishMatch = () => {
-        // clearInterval(intervalId);
+    function handleFinishMatch() {
+        setNavBoolean(false)
 
         updateTable(test, myMatchStats);
         if (homeTeam && awayTeam) {
@@ -369,8 +361,7 @@ export default function MatchDay() {
             setShowStartButton(false);
             setShowNextRoundButton(true);
             setTimerActive(false);
-            setMatchCreated(true)
-
+            setMatchCreated(true);
         } else {
             console.log("HomeTeam or AwayTeam is null");
         }
@@ -450,7 +441,7 @@ export default function MatchDay() {
 
     const handleMySeason = () => {
         const user = JSON.parse(localStorage.getItem("loggedUser"));
-        
+
         window.scrollTo({
             top: 0,
         });
@@ -582,7 +573,11 @@ export default function MatchDay() {
                 </>
             )}
             {showFinishButton && matchStarted && (
-                <Button  variant="contained" onClick={handleFinishMatch} disabled={timer < 20}>
+                <Button
+                    variant="contained"
+                    onClick={handleFinishMatch}
+                    disabled={timer < 20}
+                >
                     Finish Match
                 </Button>
             )}
