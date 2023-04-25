@@ -331,26 +331,25 @@ export default class MatchSimulator {
     }
 
     simulateFoul(matchStatistic, homeTeamRating, awayTeamRating, seconds) {
+
         const team =
             Math.floor(Math.random() * 2) === 0
                 ? matchStatistic.homeTeam
                 : matchStatistic.awayTeam;
         const aggression =
             team === matchStatistic.homeTeam
-                ? homeTeamRating.aggression
-                : awayTeamRating.aggression;
+                ? homeTeamRating.agression
+                : awayTeamRating.agression;
 
         if (team === matchStatistic.homeTeam) {
             matchStatistic.homeFouls++;
         } else {
             matchStatistic.awayFouls++;
         }
-
         this.log(`${seconds} Foul committed by ${team}`);
-
         const chanceOfCard = Math.random();
-        if (chanceOfCard <= aggression / 100) {
-            const cardType = Math.random() < 0.9 ? "yellow" : "red";
+        if (chanceOfCard.toFixed(2) <= (aggression / 10).toFixed(2)) {
+            const cardType = Math.random() < 0.7 ? "yellow" : "red";
             this.log(`${seconds} ${team} receives a ${cardType} card.`);
 
             if (team === matchStatistic.homeTeam) {

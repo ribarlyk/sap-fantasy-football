@@ -64,6 +64,9 @@ export default function SignInSide() {
                 setSnackbarSeverity("success");
                 setSnackbarMessage("Logged in successfully!");
                 setSnackbarOpen(true);
+                window.scrollTo({
+                    top: 0
+                })
 
                 setTimeout(() => {
                     navigate("/profile");

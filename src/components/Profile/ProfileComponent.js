@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import {
     Container,
     Grid,
@@ -20,11 +22,11 @@ import { useProfileContext } from "../LiftingStates/ProfileContext";
 const teams = [
     {
         name: "Arsenal",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeUQ42UcCuWB0vWYBhSN0cKgoK0DkyZCCYp8_IGEeWPw&s",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToJgJkWwmSScqfnn2fUbesDw4arWE86f7RSLLlVzKnTA&s",
     },
     {
         name: "Liverpool",
-        logo: "https://www.freepnglogos.com/uploads/liverpool-logo-0.png",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHFMjY7USf0KsauKDB_eTdlByujAnsdZswxx9BAuZBKQ&s",
     },
     {
         name: "Manchester United",
@@ -32,7 +34,7 @@ const teams = [
     },
     {
         name: "Newcastle",
-        logo: "https://1000logos.net/wp-content/uploads/2021/05/Newcastle-United-logo.png",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfcmxJMfvSxI6yMipyrBWf1LKyBPg1naWDvweXPxTFsg&s",
     },
     {
         name: "Aston Villa ",
@@ -40,7 +42,7 @@ const teams = [
     },
     {
         name: "Leeds United",
-        logo: "https://cdn.freebiesupply.com/logos/large/2x/leeds-united-afc-3-logo-png-transparent.png",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2Wgo15RQcCQh4UriDzxuMIhZ1J7UePf_msYJPLIpm9Q&s",
     },
     {
         name: "Chelsea",
@@ -56,7 +58,7 @@ const teams = [
     },
     {
         name: "Nottingham Forest",
-        logo: "https://cdn.freebiesupply.com/logos/large/2x/nottingham-forest-fc-logo-png-transparent.png",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjiX1_ZweIyiIQvezrCemAU3pXR6UpJyZMD2QV6rzSvA&s",
     },
     {
         name: "Southampton",
@@ -68,7 +70,7 @@ const teams = [
     },
     {
         name: "Crystal Palace",
-        logo: "https://www.clipartmax.com/png/middle/327-3279028_free-crystal-palace-f-c-logo-png-transparent-images-logo-png-crystal.png",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0NNc0bvjphak4EsKjlVUtgwehUzEImg1i-cgOjDyZ&s",
     },
     {
         name: "Brighton",
@@ -102,18 +104,16 @@ const teams = [
 
 const ProfilePage = () => {
     const [firstName, setFirstName] = useState(
-        JSON.parse(localStorage.getItem("loggedUser"))?.profile?.firstName || ""
+        JSON.parse(localStorage.getItem("loggedUser"))?.profile?.firstName || null
     );
     const [lastName, setLastName] = useState(
-        JSON.parse(localStorage.getItem("loggedUser"))?.profile?.lastName || ""
+        JSON.parse(localStorage.getItem("loggedUser"))?.profile?.lastName || null
     );
     const [dateOfBirth, setDateOfBirth] = useState(
-        JSON.parse(localStorage.getItem("loggedUser"))?.profile?.dateOfBirth ||
-            ""
+        JSON.parse(localStorage.getItem("loggedUser"))?.profile?.dateOfBirth || null
     );
     const [favoriteTeam, setFavoriteTeam] = useState(
-        JSON.parse(localStorage.getItem("loggedUser"))?.profile?.favoriteTeam ||
-            ""
+        JSON.parse(localStorage.getItem("loggedUser"))?.profile?.favoriteTeam || null
     );
     const [favoriteTeamLogo, setFavoriteTeamLogo] = useState(
         JSON.parse(localStorage.getItem("loggedUser"))?.profile
@@ -142,8 +142,11 @@ const ProfilePage = () => {
     // const [seasonMatches, setSeasonMatches] = useState([]);
     const [selectedSeason, setSelectedSeason] = useState("");
     const [seasonMatches, setSeasonMatches] = useState({});
+    const currentDate = new Date().toISOString().split("T")[0];
+    const [canEditImage, setCanEditImage] = useState(true);
+    const [alertOpen, setAlertOpen] = useState(false);
 
-    // const [lastRoundMatches, setLastRoundMatches] = useState([]);
+
 
     useEffect(() => {
         const userTeamName = loggedInUser?.team?.name;
@@ -169,12 +172,9 @@ const ProfilePage = () => {
                 setFavoriteTeamMatches(allRoundsFilteredMatches);
             }
         }
-        console.log("logwam2");
     }, []);
 
-    const handleSeasonChange = (event) => {
-        setSelectedSeason(event.target.value);
-    };
+
 
     useEffect(() => {
         const uniqueMatchSet = new Set();
@@ -208,7 +208,6 @@ const ProfilePage = () => {
             if (existingMatchIndex === -1) {
                 acc[season].push(match);
             }
-
             return acc;
         }, {});
 
@@ -241,12 +240,10 @@ const ProfilePage = () => {
                 default:
                     setFilteredMatches(favoriteTeamMatches);
             }
-            console.log("logwam");
         };
         filterMatches();
     }, [filter, favoriteTeamMatches, loggedInUser]);
 
-    // const profilePic = useSelector(state => state.profile.profilePic);
 
     const dispatch = useDispatch();
 
@@ -288,10 +285,6 @@ const ProfilePage = () => {
         }
     };
 
-    const handleSaveEdit = () => {
-        setIsEditing(false);
-    };
-
     useEffect(() => {
         const updateUserData = () => {
             setFirstName(loggedInUser?.profile?.firstName);
@@ -317,15 +310,16 @@ const ProfilePage = () => {
             setLoggedInUser(loggedInUser);
             setLoggedUser(loggedInUser);
         };
-
         updateUserData();
-        console.log(isEditing);
     }, [profilePic]);
 
     const handleSave = () => {
-        // debugger;
-        // handleSaveEdit();
-        console.log(isEditing);
+
+        console.log(firstName, lastName, dateOfBirth, favoriteTeam );
+        if (!firstName || !lastName || !dateOfBirth || !favoriteTeam) {
+            setAlertOpen(true);
+            return;
+        }
 
         if (tempProfilePic) {
             setProfilePic(tempProfilePic);
@@ -341,22 +335,14 @@ const ProfilePage = () => {
             isEditing: false,
         };
 
-        // Updating the loggedInUser object
         const updatedLoggedInUser = {
             ...loggedInUser,
             profile: updatedProfile,
         };
 
-        // setFirstName(updatedLoggedInUser?.profile?.firstName);
-        // setLastName(updatedLoggedInUser?.profile?.lastName);
-        // setDateOfBirth(updatedLoggedInUser?.profile?.dateOfBirth);
-        // setFavoriteTeam(updatedLoggedInUser?.profile?.favoriteTeam);
-        // setFavoriteTeamLogo(teams?.find((team) => team?.name === updatedLoggedInUser?.profile?.favoriteTeam)?.logo || '');
-
         setLoggedInUser(updatedLoggedInUser);
         setLoggedUser(updatedLoggedInUser);
 
-        // Saving the updatedLoggedInUser object in the local storage
         localStorage.setItem("loggedUser", JSON.stringify(updatedLoggedInUser));
 
         // Updating the "users" array in local storage
@@ -370,10 +356,13 @@ const ProfilePage = () => {
         });
         localStorage.setItem("users", JSON.stringify(updatedUsers));
         setIsEditing(false);
+        setCanEditImage(false);
+
     };
 
     const handleEdit = () => {
         setIsEditing(true);
+        setCanEditImage(true);
 
         const updatedProfile = {
             firstName,
@@ -402,19 +391,21 @@ const ProfilePage = () => {
         setFavoriteTeamLogo(team.logo);
     };
 
+
+
     return (
         <Container className="profile-main-container">
             <Grid
                 container
                 spacing={3}
-                sx={{ display: "flex", justifyContent: "center" }}
+                sx={{ display: "flex", justifyContent: "center", position: "relative", zIndex: "0" }}
             >
                 <Grid item xs={6} /* className="profile-card" */>
                     <Grid
                         container
                         spacing={3}
                         className="profile-card"
-                        sx={{ width: "100%", minHeight: "100%" }}
+                        sx={{ width: "100%", minHeight: "700px" }}
                     >
                         <Grid item xs={12}>
                             <label
@@ -427,17 +418,19 @@ const ProfilePage = () => {
                                     sx={{ width: 150, height: 150 }}
                                     className="profilePic"
                                 />
-                                <input
-                                    type="file"
-                                    id="hiddenFileInput"
-                                    onChange={handleFileInputChange}
-                                    style={{ display: "none" }}
-                                />
+                                {canEditImage  && (
+                                    <input
+                                        type="file"
+                                        id="hiddenFileInput"
+                                        onChange={handleFileInputChange}
+                                        style={{ display: "none" }}
+                                    />
+                                )}
                             </label>
-                        </Grid>
+                        </Grid >
                         {isEditing ? (
                             <>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} sx={{ height: "300px" }}>
                                     <TextField
                                         label="First Name"
                                         value={firstName}
@@ -446,6 +439,7 @@ const ProfilePage = () => {
                                         }
                                         fullWidth
                                         sx={{ marginBottom: "20px" }}
+
                                     />
                                     <TextField
                                         label="Last Name"
@@ -459,11 +453,18 @@ const ProfilePage = () => {
                                     <TextField
                                         type="date"
                                         value={dateOfBirth}
-                                        onChange={(e) =>
-                                            setDateOfBirth(e.target.value)
-                                        }
+                                        onChange={(e) => {
+                                            const selectedDate = e.target.value;
+                                            const today = new Date().toISOString().split("T")[0];
+                                            if (selectedDate > today) {
+                                                setDateOfBirth(today);
+                                            } else {
+                                                setDateOfBirth(selectedDate);
+                                            }
+                                        }}
                                         fullWidth
                                         sx={{ marginBottom: "20px" }}
+                                        max={new Date().toISOString().split("T")[0]}
                                     />
                                     <FormControl
                                         fullWidth
@@ -501,7 +502,7 @@ const ProfilePage = () => {
                             </>
                         ) : (
                             <>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} sx={{ height: "300px" }}>
                                     <h2>First-name: {firstName}</h2>
                                     <h2>Last-name: {lastName}</h2>
                                     <h2>Date-of-birth: {dateOfBirth}</h2>
@@ -561,11 +562,10 @@ const ProfilePage = () => {
                                     )
                                     .map((season) => (
                                         <div key={season}>
-                                            <h3>Season {season}:</h3>
+                                            {/* <h3>Season {season}:</h3> */}
                                             <ul>
                                                 {seasonMatches[season]
                                                     .filter((match) => {
-                                                        console.log(match);
                                                         if (filter === 'all') return true;
                                                         const isWin = (match.homeGoals > match.awayGoals && match.homeTeam === userFavoriteTeam) || (match.awayGoals > match.homeGoals && match.awayTeam === userFavoriteTeam);
                                                         const isDraw = match.homeGoals === match.awayGoals;
@@ -596,6 +596,20 @@ const ProfilePage = () => {
                     </div>
                 </Grid>
             </Grid>
+            <Snackbar
+                open={alertOpen}
+                autoHideDuration={3000}
+                onClose={() => setAlertOpen(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={() => setAlertOpen(false)}
+                    severity="warning"
+                    sx={{ width: "100%" }}
+                >
+                    Please fill in all the fields.
+                </Alert>
+            </Snackbar>
         </Container>
     );
 };
