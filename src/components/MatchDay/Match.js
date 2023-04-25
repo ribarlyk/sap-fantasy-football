@@ -9,6 +9,8 @@ import Confet from "./Confetti/Confetti";
 import { useNavigate } from "react-router-dom";
 import WinnerPodium from "./WinnerPodium/WinnerPodium";
 
+
+
 export default function MatchDay() {
     const getCountFromLocalStorage = useCallback(() => {
         let count = JSON.parse(localStorage.getItem("loggedUser")).count;
@@ -79,6 +81,8 @@ export default function MatchDay() {
     const [showConfet, setShowConfet] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [matchCreated, setMatchCreated] = useState(false);
+    const scrollContainerRef = useRef(null);
+
 
     useEffect(() => {
         if (!showStartButton && showNextRoundButton && count >= 9) {
@@ -95,6 +99,9 @@ export default function MatchDay() {
                 ]
         );
     }, [count]);
+
+    
+    
 
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
@@ -192,6 +199,13 @@ export default function MatchDay() {
         }
     };
 
+    useEffect(() => {
+        if (scrollContainerRef.current) {
+            const container = scrollContainerRef.current;
+            container.scrollTop = container.scrollHeight;
+          }
+      }, [logs]);
+
     const handleNextRound = () => {
         window.scrollTo({
             top: 0,
@@ -281,13 +295,13 @@ export default function MatchDay() {
         setNavBoolean(true)
         let timerId = setInterval(() => {
             setTimer((prev) => {
-                if (prev >= 20) {
+                if (prev >= 90) {
                     clearInterval(timerId);
                     return prev;
                 }
                 return prev + 1;
             });
-        }, 700);
+        }, 200);
 
         sessionStorage.removeItem("loggedUser");
         setTimer(0);
@@ -344,6 +358,7 @@ export default function MatchDay() {
         setNavBoolean(false)
 
         updateTable(test, myMatchStats);
+
         if (homeTeam && awayTeam) {
             const updatedHomeTeam = {
                 ...homeTeam,
@@ -366,6 +381,8 @@ export default function MatchDay() {
             console.log("HomeTeam or AwayTeam is null");
         }
     };
+
+    
 
     function updateTable(testa, myMatchStats) {
         testa = [...testa, myMatchStats];
@@ -483,8 +500,10 @@ export default function MatchDay() {
                 <>
                     <div className="result-teams-container">
                         <h4 className="match-timer">
-                            {timer < 20
-                                ? `Time: ${timer} seconds`
+                            {timer < 90
+                                ? `Time: ${timer} minutes
+                                
+                                    round ${count}` 
                                 : "Match Finished"}
                         </h4>
 
@@ -561,11 +580,11 @@ export default function MatchDay() {
                                 </tr>
                             </tbody>
                         </table>
-                        <div className="logs-container">
+                        <div className="logs-container" ref={scrollContainerRef}>
                             <h3>Comments:</h3>
                             <ul>
                                 {logs.map((log, index) => (
-                                    <li key={index}>{log}</li>
+                                    <li key={index} >{log}</li>
                                 ))}
                             </ul>
                         </div>
@@ -573,11 +592,7 @@ export default function MatchDay() {
                 </>
             )}
             {showFinishButton && matchStarted && (
-                <Button
-                    variant="contained"
-                    onClick={handleFinishMatch}
-                    disabled={timer < 20}
-                >
+                <Button  variant="contained" onClick={handleFinishMatch} disabled={timer < 90}>
                     Finish Match
                 </Button>
             )}
