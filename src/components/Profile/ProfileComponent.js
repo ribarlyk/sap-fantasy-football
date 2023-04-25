@@ -418,7 +418,7 @@ const ProfilePage = () => {
                                     sx={{ width: 150, height: 150 }}
                                     className="profilePic"
                                 />
-                                {canEditImage  && (
+                                {canEditImage && isEditing  && (
                                     <input
                                         type="file"
                                         id="hiddenFileInput"

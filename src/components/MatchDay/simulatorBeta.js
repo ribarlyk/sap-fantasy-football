@@ -99,7 +99,7 @@ export default class MatchSimulator {
         let seconds = 0;
         timer = setInterval(() => {
             seconds++;
-            if (seconds === 18) {
+            if (seconds === 90) {
                 this.log(
                     `Match over: ${this.matchStatistic.homeTeam} ${this.matchStatistic.homeGoals} - ${this.matchStatistic.awayGoals} ${this.matchStatistic.awayTeam}`
                 );
@@ -167,7 +167,7 @@ export default class MatchSimulator {
                         break;
                 }
             }
-        }, 700);
+        }, 200);
     }
 
     simulatePossession(matchStatistic) {
@@ -301,6 +301,10 @@ export default class MatchSimulator {
     }
 
     simulateSubstitutions(matchStatistic, seconds) {
+        if(matchStatistic.homeSubstitutions > 5 || matchStatistic.awaySubstitutions > 5 ) {
+            return
+        }
+
         const team =
             Math.floor(Math.random() * 2) === 0
                 ? matchStatistic.homeTeam
@@ -349,7 +353,7 @@ export default class MatchSimulator {
         this.log(`${seconds} Foul committed by ${team}`);
         const chanceOfCard = Math.random();
         if (chanceOfCard.toFixed(2) <= (aggression / 10).toFixed(2)) {
-            const cardType = Math.random() < 0.7 ? "yellow" : "red";
+            const cardType = Math.random() < 0.9 ? "yellow" : "red";
             this.log(`${seconds} ${team} receives a ${cardType} card.`);
 
             if (team === matchStatistic.homeTeam) {
