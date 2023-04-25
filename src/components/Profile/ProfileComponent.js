@@ -146,6 +146,11 @@ const ProfilePage = () => {
     const [canEditImage, setCanEditImage] = useState(true);
     const [alertOpen, setAlertOpen] = useState(false);
 
+    const handleDateChange = (e) => {
+        const selectedDate = e.target.value;
+        setDateOfBirth(selectedDate);
+    };
+
 
 
     useEffect(() => {
@@ -173,6 +178,8 @@ const ProfilePage = () => {
             }
         }
     }, []);
+
+    const today = new Date().toISOString().split('T')[0];
 
 
 
@@ -315,7 +322,7 @@ const ProfilePage = () => {
 
     const handleSave = () => {
 
-        console.log(firstName, lastName, dateOfBirth, favoriteTeam );
+        console.log(firstName, lastName, dateOfBirth, favoriteTeam);
         if (!firstName || !lastName || !dateOfBirth || !favoriteTeam) {
             setAlertOpen(true);
             return;
@@ -418,7 +425,7 @@ const ProfilePage = () => {
                                     sx={{ width: 150, height: 150 }}
                                     className="profilePic"
                                 />
-                                {canEditImage && isEditing  && (
+                                {canEditImage && isEditing && (
                                     <input
                                         type="file"
                                         id="hiddenFileInput"
@@ -453,18 +460,12 @@ const ProfilePage = () => {
                                     <TextField
                                         type="date"
                                         value={dateOfBirth}
-                                        onChange={(e) => {
-                                            const selectedDate = e.target.value;
-                                            const today = new Date().toISOString().split("T")[0];
-                                            if (selectedDate > today) {
-                                                setDateOfBirth(today);
-                                            } else {
-                                                setDateOfBirth(selectedDate);
-                                            }
-                                        }}
+                                        onChange={handleDateChange}
                                         fullWidth
-                                        sx={{ marginBottom: "20px" }}
-                                        max={new Date().toISOString().split("T")[0]}
+                                        sx={{ marginBottom: '20px' }}
+                                        inputProps={{
+                                            max: today,
+                                        }}
                                     />
                                     <FormControl
                                         fullWidth
