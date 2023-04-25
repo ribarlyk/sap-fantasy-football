@@ -192,15 +192,15 @@ export default class MatchSimulator {
 
         let chanceToScore = Math.random();
         if (chanceToScore < 0.5) {
-            homeGoalProbability *= 1.2;
-            awayGoalProbability *= 1.2;
+            homeGoalProbability *= 1.05;
+            awayGoalProbability *= 1.05;
         } else if (chanceToScore < 0.7) {
             let favoriteTeam = this.homeTeam.isFavorite ? "home" : "away";
             if (Math.random() < 0.5 + this.favoriteTeamAdvantage) {
                 if (favoriteTeam === "home") {
-                    homeGoalProbability *= 1.25;
+                    homeGoalProbability *= 1.2;
                 } else {
-                    awayGoalProbability *= 1.25;
+                    awayGoalProbability *= 1.2;
                 }
             } else {
                 if (favoriteTeam === "away") {

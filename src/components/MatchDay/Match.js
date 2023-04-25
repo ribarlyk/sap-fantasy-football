@@ -23,7 +23,7 @@ export default function MatchDay() {
     const [showFinishButton, setShowFinishButton] = useState(false);
     const [round, setRound] = useState(
         JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
-            JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count]
+        JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[count]
     );
     const [legOne, setLegOne] = useState(round?.slice(0, 5));
     const [homeTeam, setHomeTeam] = useState(null);
@@ -60,13 +60,13 @@ export default function MatchDay() {
     const [showStartButton, setShowStartButton] = useState(true);
     const [league, setLeague] = useState(
         JSON.parse(localStorage.getItem("loggedUser")).leagueResults ||
-            JSON.parse(localStorage.getItem("loggedUser")).league ||
-            []
+        JSON.parse(localStorage.getItem("loggedUser")).league ||
+        []
     );
     const [leagueResults, setleagueResults] = useState(
         JSON.parse(localStorage.getItem("loggedUser")).leagueResults || []
     );
-    const [results, setResults,navBoolean,setNavBoolean] = useResultsContext();
+    const [results, setResults, navBoolean, setNavBoolean] = useResultsContext();
     const [test, setTest] = useState([]);
     const [timer, setTimer] = useState(0);
     const [timerActive, setTimerActive] = useState(false);
@@ -94,14 +94,14 @@ export default function MatchDay() {
     useEffect(() => {
         setRound(
             JSON.parse(localStorage.getItem("loggedUser"))?.fixtures?.[count] ||
-                JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[
-                    count
-                ]
+            JSON.parse(sessionStorage.getItem("loggedUser"))?.fixtures[
+            count
+            ]
         );
     }, [count]);
 
-    
-    
+
+
 
     const findUserAndOpponent = (fixtures, userObject) => {
         for (let i = count; i < fixtures.length; i++) {
@@ -153,7 +153,7 @@ export default function MatchDay() {
             fixtures[userPosition[0]][userPosition[1]][userPosition[2]];
         const nextAwayTeam =
             fixtures[opponentPosition[0]][opponentPosition[1]][
-                opponentPosition[2]
+            opponentPosition[2]
             ];
 
         setHomeLogo(nextHomeTeam?.team?.logo || nextHomeTeam?.logo);
@@ -163,14 +163,14 @@ export default function MatchDay() {
             new Team(
                 nextHomeTeam?.team?.name || nextHomeTeam?.name,
                 nextHomeTeam?.team?.players?.slice(0, 11) ||
-                    nextHomeTeam?.players?.slice(0, 11)
+                nextHomeTeam?.players?.slice(0, 11)
             )
         );
         setAwayTeam(
             new Team(
                 nextAwayTeam?.team?.name || nextAwayTeam?.name,
                 nextAwayTeam?.team?.players?.slice(0, 11) ||
-                    nextAwayTeam?.players?.slice(0, 11)
+                nextAwayTeam?.players?.slice(0, 11)
             )
         );
     };
@@ -203,8 +203,8 @@ export default function MatchDay() {
         if (scrollContainerRef.current) {
             const container = scrollContainerRef.current;
             container.scrollTop = container.scrollHeight;
-          }
-      }, [logs]);
+        }
+    }, [logs]);
 
     const handleNextRound = () => {
         window.scrollTo({
@@ -266,7 +266,7 @@ export default function MatchDay() {
         for (let i = 0; i < legOne.length; i++) {
             if (
                 (legOne[i][0]?.team?.name || legOne[i][0].name) ===
-                    myTeamName ||
+                myTeamName ||
                 (legOne[i][1]?.team?.name || legOne[i][1].name) === myTeamName
             ) {
                 continue;
@@ -340,7 +340,7 @@ export default function MatchDay() {
         getUserTeamAndOpponent();
 
     }, []);
- 
+
     useEffect(() => {
         if (isMounted && matchCreated) {
             const prevHistory =
@@ -382,7 +382,7 @@ export default function MatchDay() {
         }
     };
 
-    
+
 
     function updateTable(testa, myMatchStats) {
         testa = [...testa, myMatchStats];
@@ -500,11 +500,15 @@ export default function MatchDay() {
                 <>
                     <div className="result-teams-container">
                         <h4 className="match-timer">
-                            {timer < 90
-                                ? `Time: ${timer} minutes
-                                
-                                    round ${count}` 
-                                : "Match Finished"}
+                            {timer < 90 ? (
+                                <>
+                                    <div >Time: {timer} minutes</div>
+                                    <br/>
+                                    <div>Round {count}</div>
+                                </>
+                            ) : (
+                                "Match Finished"
+                            )}
                         </h4>
 
                         <div className="result-teams-container-wrapper">
@@ -592,7 +596,7 @@ export default function MatchDay() {
                 </>
             )}
             {showFinishButton && matchStarted && (
-                <Button  variant="contained" onClick={handleFinishMatch} disabled={timer < 90}>
+                <Button variant="contained" onClick={handleFinishMatch} disabled={timer < 90}>
                     Finish Match
                 </Button>
             )}
