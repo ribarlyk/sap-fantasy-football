@@ -117,6 +117,10 @@ export default function MySeason() {
     );
 
     const handleNextSeason = () => {
+        window.scrollTo({
+            top: 0,
+        });
+
         setResults([]);
         sessionStorage.removeItem("myHistory");
         navigate("/standings");

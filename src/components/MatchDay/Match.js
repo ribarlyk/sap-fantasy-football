@@ -118,13 +118,12 @@ export default function MatchDay() {
     };
 
     const updateLoggedUserCount = () => {
-
         if (count <= 8) {
             setCount(count + 1);
         } else {
             setCount(0);
         }
-    
+
         const updatedUserTeam = { ...userTeam, count: count + 1 };
         setUserTeam(updatedUserTeam);
         const users = JSON.parse(localStorage.getItem("users"));
@@ -191,6 +190,10 @@ export default function MatchDay() {
     };
 
     const handleNextRound = () => {
+        window.scrollTo({
+            top: 0,
+        });
+
         setShowNextRoundButton(false);
         setShowMatchInfo(false);
         setMatchStarted(false);
@@ -424,6 +427,10 @@ export default function MatchDay() {
 
     const handleMySeason = () => {
         const user = JSON.parse(localStorage.getItem("loggedUser"));
+        
+        window.scrollTo({
+            top: 0,
+        });
 
         user.fixtures = null;
         user.league = [];

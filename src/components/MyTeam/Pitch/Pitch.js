@@ -161,7 +161,7 @@ export default function Pitch() {
                                             </td>
                                             <td>{x.player.age || 10} $</td>
                                             <td>
-                                                {!myLogo ? (
+                                                {!isTeamSaved ? (
                                                     <button
                                                         ref={buttonRef}
                                                         className="add-remove-btn"
@@ -217,6 +217,7 @@ export default function Pitch() {
 
         let sumToBuy = player.player.age || 10;
         let position = player.statistics[0].games.position;
+        let substitutes = substitute.length;
         setSumBuy(sumToBuy);
 
         if (clickedPlayers.includes(player)) {
@@ -229,72 +230,104 @@ export default function Pitch() {
             setClickedPlayers([...clickedPlayers, player]);
         }
 
-        if (position === "Goalkeeper") {
-            playersAddRemoveHandler(
-                goalkeeper,
-                1,
-                player,
-                goalkeeperJersey,
-                setGoalkeeper
-            );
-        } else if (position === "Defender") {
-            playersAddRemoveHandler(
-                defender,
-                4,
-                player,
-                defenderJersey,
-                setDefender
-            );
-        } else if (position === "Midfielder") {
-            playersAddRemoveHandler(
-                midfielder,
-                4,
-                player,
-                midfielderJersey,
-                setMidfielder
-            );
-        } else if (position === "Attacker") {
-            playersAddRemoveHandler(
-                attacker,
-                2,
-                player,
-                attackerJersey,
-                setAttacker
-            );
+        switch (position) {
+            case "Goalkeeper":
+                playersAddRemoveHandler(
+                    goalkeeper,
+                    1,
+                    player,
+                    goalkeeperJersey,
+                    setGoalkeeper
+                );
+                break;
+            case "Defender":
+                playersAddRemoveHandler(
+                    defender,
+                    4,
+                    player,
+                    defenderJersey,
+                    setDefender
+                );
+                break;
+            case "Midfielder":
+                playersAddRemoveHandler(
+                    midfielder,
+                    4,
+                    player,
+                    midfielderJersey,
+                    setMidfielder
+                );
+                break;
+            case "Attacker":
+                playersAddRemoveHandler(
+                    attacker,
+                    2,
+                    player,
+                    attackerJersey,
+                    setAttacker
+                );
+                break;
+            default: console.log("invalid position")
+                ;break;
         }
+
         player.agression = Math.floor(Math.random() * 10);
         player.pace = Math.floor(Math.random() * 10);
         player.speed = Math.floor(Math.random() * 10);
         player.defense = Math.floor(Math.random() * 10);
         player.attack = Math.floor(Math.random() * 10);
+
         if (
-            goalkeeper.length >= 1 &&
+            goalkeeper.length > 0 &&
             defender.length >= 4 &&
             midfielder.length >= 4 &&
             attacker.length >= 2
         ) {
-            setSubstitute((prev) => [...prev, player]);
-            player.jersey = levski;
+            if (addOrRemove === "Add") {
+                substitutes += 1;
+            } else {
+                substitutes -= 1;
+            }
+
+            playersAddRemoveHandler(
+                substitute,
+                5,
+                player,
+                levski,
+                setSubstitute
+            );
+        }
+        
+        if (substitutes === 5 ) {
+            setIsTeamChoosen(true);
+        } else {
+            setIsTeamChoosen(false);
         }
 
-        if (substitute.length === 4) {
-            setIsTeamChoosen(!isTeamChoosen);
-        }
-
-        if (budget - sumToBuy < 0) {
-            alert("not enought money");
-        } else if (substitute.length > 4) {
-            alert("team already chosen");
+        if (budget - sumToBuy < 0 && substitute.length > 4) {
+            return;
         }
     };
 
     const budgetSetHandler = (sumToBuy) => {
         let updatedBudget;
+
+        if (
+            goalkeeper.length >= 1 &&
+            defender.length >= 4 &&
+            midfielder.length >= 4 &&
+            attacker.length >= 2 &&
+            substitute.length >= 4
+        ) {
+            return;
+        }
+
         if (addOrRemove === "Add") {
             updatedBudget = Number(budget) - Number(sumToBuy);
         } else {
             updatedBudget = Number(budget) + Number(sumToBuy);
         }
+
         setBudget(updatedBudget);
         localStorage.setItem("budget", JSON.stringify(updatedBudget));
 

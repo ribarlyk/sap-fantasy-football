@@ -134,7 +134,7 @@ export default function SignInSide() {
                             alignItems: "center",
                         }}
                     >
-                        <Avatar sx={{ m: 0, bgcolor: "primary.main" }}>
+                        <Avatar sx={{ m: 0, bgcolor: "primary.main" }} src="https://aux.iconspalace.com/uploads/football-icon-256-1281892144.png">
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
@@ -200,7 +200,6 @@ export default function SignInSide() {
                                     </Link>
                                 </Grid>
                             </Grid>
-                            <Copyright sx={{ mt: 5 }} />
                         </Box>
                     </Box>
                 </Grid>
