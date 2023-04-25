@@ -49,7 +49,7 @@ export default function ApexChart({ history }) {
                 fill: {
                     type: "gradient",
                     gradient: {
-                        colorFrom: "#D8E3F0",
+                        colorFrom: "#1976D2",
                         colorTo: "#BED1E6",
                         stops: [0, 100],
                         opacityFrom: 0.4,
@@ -82,6 +82,7 @@ export default function ApexChart({ history }) {
             align: "center",
             style: {
                 color: "#444",
+                fontSize:"22px",
             },
         },
     });
@@ -157,8 +158,8 @@ export default function ApexChart({ history }) {
                 options={options}
                 series={series}
                 type="bar"
-                height={350}
-                width={700}
+                height={360}
+                width={1000}
             />
         </div>
     );
