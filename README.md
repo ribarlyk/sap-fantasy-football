@@ -1,22 +1,22 @@
 FA Football Fantasy Simulator
 
-This is a React-based web application that allows users to simulate their own FA football fantasy league. The application uses Sass for styling, Apex Charts for data visualization, and Material UI for UI components.
+This is a React-based web application that allows users to simulate their own FA football fantasy league. 
+The application uses Sass for styling, Apex Charts for data visualization, and Material UI for UI components.
 Features
-
-    Users can create their own fantasy football league with customized rules and regulations
-    Users can draft their own team from a pool of football players
-    Users can view their team's performance and track their progress throughout the season
-    Users can compare their team's performance to other teams in the league
-    Data visualization using Apex Charts to display league standings, player stats, and other relevant information
+Users can create their own fantasy football league with customized rules and regulations
+Users can draft their own team from a pool of football players
+Users can view their team's performance and track their progress throughout the season
+Users can compare their team's performance to other teams in the league
+Data visualization using Apex Charts to display league standings, player stats, and other relevant information
 
 Installation
 
 To run this application on your local machine, you must have Node.js installed. Follow these steps:
 
-    Clone the repository to your local machine using git clone https://github.com/username/repository.git
-    Navigate to the project directory using cd repository
-    Install dependencies using npm install
-    Start the development server using npm start
+Clone the repository to your local machine using git clone https://github.com/username/repository.git
+Navigate to the project directory using cd repository
+Install dependencies using npm install
+Start the development server using npm start
 
 Usage
 
